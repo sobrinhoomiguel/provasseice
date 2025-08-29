@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Provas Seice | Sistema de Provas</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body{
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        
+        .header-container{
+            width: 100%;
+            min-height: 90px;
+            max-height: 95px;
+            background-color: white;
+        }
+
+        .seice-logo{
+            position: absolute;
+            width: 220px;
+            height: 90px;
+            left: 50%;
+            transform: translate(-50%);
+        }
+
+        .hero-section {
+            position: relative;
+            width: 100%;
+            height: 90vh; 
+            background: url("../img/hero-img2.JPG") no-repeat center center;
+            background-size: cover; 
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: #fff;
+            text-align: center;
+            padding: 0 20px; 
+            z-index: -1;
+            box-shadow: 10px 10px 30px rgba(0,0,0,0.3);
+        }
+        
+        .hero-section::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background-color: rgba(0, 0, 0, 0.5);; 
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .hero-section > * {
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-h2, .hero-p{
+            position: absolute;
+            font-size: 2.5rem;
+            font-weight: 600;
+            color: #fff;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.6);
+            letter-spacing: 1px;
+        }
+
+        .hero-section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        .hero-section p {
+            font-size: 1.2rem;
+            max-width: 600px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            margin-top: 70px;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+            
+        .hero-section {
+            animation: fadeIn 1.4s ease-out forwards;
+        }
+
+        .line{
+            width: 100%;
+            height: auto;
+            background-color: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 70px;
+        }
+        
+        .recursos-titulo{
+            text-align: center;
+            margin-top: 45px;
+            font-size: 35px;
+            margin-bottom: 45px;
+        }
+
+        .features {
+            display: flex;
+            justify-content: center;
+            align-items: stretch;
+            gap: 40px;  
+            padding: 40px 20px;
+            flex-wrap: wrap;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .feature {
+            background: linear-gradient(145deg, #f2cb05af 30%, #F29F05 90%);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            flex: 1 1 300px;
+            max-width: 350px;
+            text-align: center;
+        }
+
+        .feature h3 {
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #333;
+        }
+
+        .feature p {
+            font-size: 1rem;
+            color: #1b1b1b;
+        }
+
+        
+    </style>
+</head>
+<body>
+    <div class="header-container">
+        <header>
+            <img src="../img/image.png" alt="Logo SEICE" class="seice-logo">
+        </header>
+    </div>
+<div class="main-container">
+    <main>
+        <div class="hero-section">
+            <h2 class="hero-h2">Bem-vindo ao Sistema de Provas</h2>
+            <p class="hero-p">Este sistema permite que você crie, gerencie e acesse provas de forma eficiente.</p>
+        </div>
+            <h1 class="recursos-titulo">Recursos</h1>
+            <div class="line">
+                <div class="features">
+                    <div class="feature">
+                        <h3>Para Alunos</h3>
+                        <p>Acesse suas provas, veja seus resultados e acompanhe seu progresso.</p>
+                    </div>
+                    <div class="feature">
+                        <h3>Para Professores</h3>
+                        <p>Crie, edite e gerencie provas para seus alunos de maneira fácil.</p>
+                </div>
+                    <div class="feature">
+                        <h3>Para Administradores</h3>
+                        <p>Gerencie usuários, provas e configurações do sistema.</p>
+                    </div>
+                </div>
+            </div>
+        <div class="sections">
+            <h1 class="h1-section">Selecione sua área</h1>
+            <div class="cards">
+                <div class="card">
+                    <h2>Aluno</h2>
+                    <p>Acesse suas provas e resultados.</p>
+                    <a href="login.html">Entrar como Aluno</a>
+                </div>
+                <div class="card">
+                    <h2>Professor</h2>
+                    <p>Crie e gerencie provas para seus alunos.</p>
+                    <a href="login.html">Entrar como Professor</a>
+                </div>
+                <div class="card">
+                    <h2>Administrador</h2>
+                    <p>Gerencie o sistema e os usuários.</p>
+                    <a href="login.html">Entrar como Administrador</a>
+                </div>
+        </div>
+    </main>
+</div>
+</body>
+</html>

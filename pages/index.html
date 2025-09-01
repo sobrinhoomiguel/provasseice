@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css">
     <title>Provas Seice | Sistema de Provas</title>
     <style>
         *{
@@ -13,22 +14,23 @@
 
         body{
             font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
+            background-color: #ffffff;
             color: #333;
         }
         
         .header-container{
             width: 100%;
-            min-height: 90px;
-            max-height: 95px;
+            min-height: 110px;
+            max-height: 115px;
             background-color: white;
         }
 
         .seice-logo{
             position: absolute;
-            width: 220px;
-            height: 90px;
+            width: 225px;
+            height: 100px;
             left: 50%;
+            top: 6px;
             transform: translate(-50%);
         }
 
@@ -73,19 +75,19 @@
         }
 
         .hero-section h2 {
-            font-size: 2.5rem;
-            margin-bottom: 15px;
+            font-size: 2.8rem;
+            margin-bottom: 35px;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
         }
         .hero-section p {
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             max-width: 600px;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            margin-top: 70px;
+            margin-top: 90px;
         }
 
         @keyframes fadeIn {
@@ -100,8 +102,9 @@
         .line{
             width: 100%;
             height: auto;
-            background-color: white;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 25px 0;
+            background-color: rgba(206, 206, 206, 0.562);
+            box-shadow: 2px 0 4px 2px rgba(0, 0, 0, 0.1);
             margin-bottom: 70px;
         }
         
@@ -116,7 +119,7 @@
             display: flex;
             justify-content: center;
             align-items: stretch;
-            gap: 40px;  
+            gap: 100px;  
             padding: 40px 20px;
             flex-wrap: wrap;
             max-width: 1200px;
@@ -124,17 +127,21 @@
         }
 
         .feature {
-            background: linear-gradient(145deg, #f2cb05af 30%, #F29F05 90%);
+            background: linear-gradient(145deg, #f2cb05a2 30%, #f29f05de 90%);
             padding: 20px;
             border-radius: 10px;
             box-shadow: 0 4px 10px rgba(0,0,0,0.1);
             flex: 1 1 300px;
-            max-width: 350px;
+            min-width: 270px;
+            max-width: 280px;
+            min-height: 10vh;
+            max-height: 35vh;
             text-align: center;
         }
 
         .feature h3 {
-            margin-bottom: 15px;
+            margin-top: 25px;
+            margin-bottom: 10px;
             font-size: 1.5rem;
             font-weight: 700;
             color: #333;
@@ -149,6 +156,84 @@
             transform: translateY(-5px);
             box-shadow: 0 8px 20px rgba(0,0,0,0.15);
             transition: all 0.3s ease;
+        }
+
+        .fa-gear{
+            font-size: 50px;
+            color: #333;
+            margin-top: 0px;
+        }
+
+        .fa-file{
+            font-size: 50px;
+            color: #333;
+            margin-top: 0px;
+        }
+
+        .fa-list-check{
+            font-size: 50px;
+            color: #333;
+            margin-top: 0px;
+        }
+
+        .h1-section{
+            text-align: center;
+            font-size: 35px;
+            margin-bottom: 45px;
+        }
+
+        .cards {
+            display: flex;
+            flex-direction: column; 
+            gap: 40px;
+            padding: 20px;
+            min-width: 540px;
+            max-width: 550px;
+            margin: 60px auto 70px auto;
+            background: rgba(206, 206, 206, 0.562);
+            box-shadow: 1px 0 2px 1px rgba(0, 0, 0, 0.1);
+        }
+
+        .card {
+            background: linear-gradient(145deg, #f2cb05a2 30%, #f29f05de 90%);
+            padding: 35px 30px;   
+            border-radius: 8px;  
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            padding-top: 0;
+        }
+
+        .card h2 {
+            font-size: 1.8rem;
+            margin: 0;             
+            color: #333;
+            box-sizing: border-box;
+            background-color: white;
+            padding: 5px 15px;    
+            margin-left: -30px;
+            width: 510px;           
+            border-radius: 8px 8px 0 0;  
+        }
+        
+        .card p {
+            font-size: 1.1rem;
+            margin: 15px -14px;
+            font-weight: 500;
+            color: #1b1b1b;
+        }
+
+        .card a {
+            position: relative;
+            display: inline-block;
+            margin-top: 10px;
+            margin-left: -14px;
+            padding: 15px 20px;
+            background: linear-gradient(145deg, #ffffff 30%, #e2e2e2 70%);
+            color: #333;
+            font-weight: 600;
+            font-size: 1em;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
         }
     </style>
 </head>
@@ -168,22 +253,25 @@
             <div class="line">
                 <div class="features">
                     <div class="feature">
-                        <h3>Para Alunos</h3>
+                        <i class="fa-solid fa-list-check"></i>
+                        <h3>Controle</h3>
                         <p>Acesse suas provas, veja seus resultados e acompanhe seu progresso.</p>
                     </div>
                     <div class="feature">
-                        <h3>Para Professores</h3>
+                        <i class="fa-solid fa-file"></i>
+                        <h3>Produção</h3>
                         <p>Crie, edite e gerencie provas para seus alunos de maneira fácil.</p>
                 </div>
                     <div class="feature">
-                        <h3>Para Administradores</h3>
-                        <p>Gerencie usuários, provas e configurações do sistema.</p>
+                        <i class="fa-solid fa-gear"></i>
+                        <h3>Gerenciamento</h3>
+                        <p>Organize usuários, provas e configurações do sistema.</p>
                     </div>
                 </div>
             </div>
         <div class="sections">
             <h1 class="h1-section">Selecione sua área</h1>
-            <div class="cards">
+            <div class="cards"> 
                 <div class="card">
                     <h2>Aluno</h2>
                     <p>Acesse suas provas e resultados.</p>
@@ -202,5 +290,10 @@
         </div>
     </main>
 </div>
+    <div class="footer-container">
+        <footer>
+            <p style="text-align: center; padding: 20px 0; background-color: #f2f2f2; box-shadow: 0 -2px 4px rgba(0,0,0,0.1);">© 2025 Sistema de Provas SEICE. Todos os direitos reservados.</p>
+        </footer>
+    </div>
 </body>
 </html>

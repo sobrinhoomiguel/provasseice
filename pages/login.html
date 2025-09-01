@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Provas Seice | Gestão de Ensino</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 50%, #2c3e50 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .login-container {
+            background: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+            overflow: hidden;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            min-height: 600px;
+        }
+
+        .login-left {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            padding: 60px 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: white;
+            position: relative;
+        }
+
+        .login-left::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #f39c12 0%, #f1c40f 100%);
+        }
+
+        .logo {
+            font-size: 2.2rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #ffffff;
+            letter-spacing: -0.5px;
+        }
+
+        .logo-accent {
+            color: #f39c12;
+        }
+
+        .login-subtitle {
+            font-size: 1rem;
+            margin-bottom: 40px;
+            opacity: 0.85;
+            font-weight: 400;
+            line-height: 1.5;
+        }
+
+        .features {
+            list-style: none;
+            text-align: left;
+            max-width: 280px;
+        }
+
+        .features li {
+            margin: 12px 0;
+            padding-left: 25px;
+            position: relative;
+            font-size: 0.95rem;
+            color: #ecf0f1;
+        }
+
+        .features li::before {
+            content: "▪";
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+            color: #f39c12;
+            font-size: 1.2rem;
+        }
+
+        .login-right {
+            padding: 60px 50px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            background: #ffffff;
+        }
+
+        .login-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .login-header h2 {
+            color: #2c3e50;
+            font-size: 1.8rem;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .login-header p {
+            color: #7f8c8d;
+            font-size: 0.95rem;
+            font-weight: 400;
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+            position: relative;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 6px;
+            color: #2c3e50;
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 14px 16px;
+            border: 2px solid #bdc3c7;
+            border-radius: 4px;
+            font-size: 15px;
+            transition: all 0.2s ease;
+            background: #ffffff;
+            color: #2c3e50;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #f39c12;
+            box-shadow: 0 0 0 3px rgba(243, 156, 18, 0.1);
+        }
+
+        .form-group input::placeholder {
+            color: #95a5a6;
+        }
+
+        .remember-forgot {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            font-size: 0.9rem;
+        }
+
+        .remember {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #7f8c8d;
+        }
+
+        .remember input[type="checkbox"] {
+            width: 16px;
+            height: 16px;
+        }
+
+        .forgot-password {
+            color: #f39c12;
+            text-decoration: none;
+            transition: color 0.2s;
+            font-weight: 500;
+        }
+
+        .forgot-password:hover {
+            color: #e67e22;
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 14px;
+            background: #2c3e50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .login-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(243, 156, 18, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .login-btn:hover::before {
+            left: 100%;
+        }
+
+        .login-btn:hover {
+            background: #34495e;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(44, 62, 80, 0.2);
+        }
+
+        .login-btn:active {
+            transform: translateY(0);
+        }
+
+        .dashboard {
+            display: none;
+            background: #ffffff;
+            border-radius: 8px;
+            padding: 0;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+            overflow: hidden;
+        }
+
+        .dashboard-header {
+            background: #2c3e50;
+            color: white;
+            padding: 25px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 3px solid #f39c12;
+        }
+
+        .dashboard-title {
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin: 0;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .avatar {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: #f39c12;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .user-details {
+            text-align: right;
+        }
+
+        .user-name {
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .user-email {
+            color: #bdc3c7;
+            font-size: 0.85rem;
+            margin-top: 2px;
+        }
+
+        .logout-btn {
+            padding: 8px 16px;
+            background: transparent;
+            color: white;
+            border: 1px solid #7f8c8d;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .logout-btn:hover {
+            background: #7f8c8d;
+            color: white;
+        }
+
+        .dashboard-content {
+            padding: 40px;
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+            margin-bottom: 40px;
+        }
+
+        .dashboard-card {
+            background: #ffffff;
+            border: 1px solid #ecf0f1;
+            border-left: 4px solid #f39c12;
+            padding: 28px 24px;
+            border-radius: 4px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            transition: all 0.2s ease;
+        }
+
+        .dashboard-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-title {
+            font-size: 0.9rem;
+            margin-bottom: 12px;
+            font-weight: 600;
+            color: #7f8c8d;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .card-value {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: #2c3e50;
+        }
+
+        .card-description {
+            color: #95a5a6;
+            font-size: 0.85rem;
+            font-weight: 400;
+        }
+
+        .recent-activities {
+            background: #f8f9fa;
+            border: 1px solid #ecf0f1;
+            border-radius: 4px;
+            padding: 30px;
+            margin-top: 30px;
+        }
+
+        .activities-title {
+            color: #2c3e50;
+            margin-bottom: 24px;
+            font-size: 1.3rem;
+            font-weight: 600;
+            padding-bottom: 12px;
+            border-bottom: 2px solid #f39c12;
+            display: inline-block;
+        }
+
+        .activity-item {
+            padding: 16px 0;
+            border-bottom: 1px solid #e9ecef;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .activity-item:last-child {
+            border-bottom: none;
+        }
+
+        .activity-text {
+            color: #2c3e50;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        .activity-time {
+            color: #7f8c8d;
+            font-size: 0.8rem;
+            white-space: nowrap;
+            margin-left: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .login-container {
+                grid-template-columns: 1fr;
+                margin: 20px;
+            }
+            
+            .login-left {
+                padding: 40px 30px;
+            }
+            
+            .login-right {
+                padding: 40px 30px;
+            }
+            
+            .dashboard {
+                margin: 20px;
+            }
+
+            .dashboard-header {
+                padding: 20px;
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+
+            .dashboard-content {
+                padding: 30px 20px;
+            }
+        }
+
+        .error-message {
+            color: #e74c3c;
+            font-size: 0.85rem;
+            margin-top: 8px;
+            display: none;
+            padding: 8px 12px;
+            background: #fdf2f2;
+            border: 1px solid #f5c6c6;
+            border-radius: 4px;
+        }
+
+        .success-message {
+            color: #27ae60;
+            font-size: 0.85rem;
+            margin-top: 8px;
+            display: none;
+            padding: 8px 12px;
+            background: #f0f9f0;
+            border: 1px solid #c3e6c3;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+       
+        <div class="login-container" id="loginContainer">
+            <div class="login-left">
+                <div class="logo"> PROVAS <span class="logo-accent">SEICE</span></div>
+                <div class="login-subtitle">Plataforma de Gestão de Ensino</div>
+                <ul class="features">
+                    <li>Gestão Completa de Treinamentos</li>
+                    <li>Controle de Certificações</li>
+                    <li>Relatórios Executivos</li>
+                    <li>Dashboard Analítico</li>
+                    <li>Compliance Corporativo</li>
+                    <li>Suporte Técnico Especializado</li>
+                </ul>
+            </div>
+            <div class="login-right">
+                <div class="login-header">
+                    <h2>Acesso Corporativo</h2>
+                    <p>Autenticação segura para gestores empresariais</p>
+                </div>
+                <form id="loginForm">
+                    <div class="form-group">
+                        <label for="email">E-mail Corporativo</label>
+                        <input type="email" id="email" name="email" placeholder="seu.email@empresa.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Senha de Acesso</label>
+                        <input type="password" id="password" name="password" placeholder="Digite sua senha" required>
+                    </div>
+                    <div class="remember-forgot">
+                        <label class="remember">
+                            <input type="checkbox" id="remember"> Manter conectado
+                        </label>
+                        <a href="#" class="forgot-password">Recuperar senha</a>
+                    </div>
+                    <button type="submit" class="login-btn">Acessar Sistema</button>
+                    <div class="error-message" id="errorMessage">Credenciais de acesso inválidas</div>
+                    <div class="success-message" id="successMessage">Autenticação realizada com sucesso</div>
+                </form>
+            </div>
+        </div>
+
+      
+        <div class="dashboard" id="dashboard">
+            <div class="dashboard-header">
+                <h1 class="dashboard-title">Painel de Controle Executivo</h1>
+                <div class="user-info">
+                    <div class="avatar" id="userAvatar">E</div>
+                    <div class="user-details">
+                        <div class="user-name" id="userName">Administrador</div>
+                        <div class="user-email" id="userEmail">admin@empresa.com</div>
+                    </div>
+                    <button class="logout-btn" onclick="logout()">Sair</button>
+                </div>
+            </div>
+
+            <div class="dashboard-content">
+                <div class="dashboard-grid">
+                    <div class="dashboard-card">
+                        <div class="card-title">Colaboradores Ativos</div>
+                        <div class="card-value">247</div>
+                        <div class="card-description">Funcionários em programas de capacitação</div>
+                    </div>
+                    <div class="dashboard-card">
+                        <div class="card-title">Programas de Treinamento</div>
+                        <div class="card-value">18</div>
+                        <div class="card-description">Cursos corporativos disponíveis</div>
+                    </div>
+                    <div class="dashboard-card">
+                        <div class="card-title">Certificações Emitidas</div>
+                        <div class="card-value">156</div>
+                        <div class="card-description">Concluídas no período atual</div>
+                    </div>
+                    <div class="dashboard-card">
+                        <div class="card-title">Taxa de Aproveitamento</div>
+                        <div class="card-value">87%</div>
+                        <div class="card-description">Índice médio de conclusão</div>
+                    </div>
+                </div>
+
+                <div class="recent-activities">
+                    <h3 class="activities-title">Atividades Recentes</h3>
+                    <div class="activity-item">
+                        <div class="activity-text">João Silva concluiu certificação em "Segurança do Trabalho"</div>
+                        <div class="activity-time">2h atrás</div>
+                    </div>
+                    <div class="activity-item">
+                        <div class="activity-text">Programa "Liderança Estratégica" adicionado ao catálogo</div>
+                        <div class="activity-time">5h atrás</div>
+                    </div>
+                    <div class="activity-item">
+                        <div class="activity-text">Maria Santos iniciou treinamento "Excelência em Atendimento"</div>
+                        <div class="activity-time">1 dia atrás</div>
+                    </div>
+                    <div class="activity-item">
+                        <div class="activity-text">Relatório de performance mensal disponível</div>
+                        <div class="activity-time">2 dias atrás</div>
+                    </div>
+                    <div class="activity-item">
+                        <div class="activity-text">15 novos colaboradores cadastrados no sistema</div>
+                        <div class="activity-time">3 dias atrás</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        
+        const validCredentials = {
+            'admin@empresa.com': { password: '123456', name: 'Administrador Corporativo' },
+            'gestor@empresa.com': { password: 'gestor123', name: 'Gestor de RH' },
+            'diretor@empresa.com': { password: 'diretor123', name: 'Diretor Executivo' }
+        };
+
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const errorMessage = document.getElementById('errorMessage');
+            const successMessage = document.getElementById('successMessage');
+            
+            // Reset mensagens
+            errorMessage.style.display = 'none';
+            successMessage.style.display = 'none';
+            
+            // Validação de credenciais
+            if (validCredentials[email] && validCredentials[email].password === password) {
+                successMessage.style.display = 'block';
+                successMessage.textContent = 'Autenticação realizada com sucesso. Carregando painel...';
+                
+                // Carregar dashboard
+                setTimeout(() => {
+                    showDashboard(email, validCredentials[email].name);
+                }, 1500);
+            } else {
+                errorMessage.style.display = 'block';
+                errorMessage.textContent = 'E-mail ou senha incorretos. Verifique suas credenciais.';
+            }
+        });
+
+        function showDashboard(email, name) {
+            document.getElementById('loginContainer').style.display = 'none';
+            document.getElementById('dashboard').style.display = 'block';
+            
+            // Atualizar dados do usuário
+            document.getElementById('userName').textContent = name;
+            document.getElementById('userEmail').textContent = email;
+            document.getElementById('userAvatar').textContent = name.charAt(0).toUpperCase();
+        }
+
+        function logout() {
+            document.getElementById('loginContainer').style.display = 'grid';
+            document.getElementById('dashboard').style.display = 'none';
+            
+            // Limpar formulário
+            document.getElementById('email').value = '';
+            document.getElementById('password').value = '';
+            document.getElementById('remember').checked = false;
+            document.getElementById('errorMessage').style.display = 'none';
+            document.getElementById('successMessage').style.display = 'none';
+        }
+
+       
+        document.addEventListener('DOMContentLoaded', function() {
+            const loginContainer = document.querySelector('.login-container');
+            loginContainer.style.opacity = '0';
+            loginContainer.style.transform = 'translateY(10px)';
+            
+            setTimeout(() => {
+                loginContainer.style.transition = 'all 0.4s ease';
+                loginContainer.style.opacity = '1';
+                loginContainer.style.transform = 'translateY(0)';
+            }, 100);
+        });
+
+   
+        document.querySelector('.forgot-password').addEventListener('click', function(e) {
+            e.preventDefault();
+            alert('Funcionalidade de recuperação de senha em desenvolvimento.\n\nCredenciais para teste:\n• admin@empresa.com / 123456\n• gestor@empresa.com / gestor123\n• diretor@empresa.com / diretor123');
+        });
+
+        document.getElementById('remember').addEventListener('change', function() {
+            if (this.checked) {
+                alert('Função "Manter conectado" ativada. Esta funcionalidade está em desenvolvimento.');
+            }
+        });
+
+    </script>
+</body>
+</html>

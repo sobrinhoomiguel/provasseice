@@ -579,16 +579,16 @@
             const errorMessage = document.getElementById('errorMessage');
             const successMessage = document.getElementById('successMessage');
             
-            // Reset mensagens
+           
             errorMessage.style.display = 'none';
             successMessage.style.display = 'none';
             
-            // Validação de credenciais
+            
             if (validCredentials[email] && validCredentials[email].password === password) {
                 successMessage.style.display = 'block';
                 successMessage.textContent = 'Autenticação realizada com sucesso. Carregando painel...';
                 
-                // Carregar dashboard
+                
                 setTimeout(() => {
                     showDashboard(email, validCredentials[email].name);
                 }, 1500);
@@ -602,7 +602,7 @@
             document.getElementById('loginContainer').style.display = 'none';
             document.getElementById('dashboard').style.display = 'block';
             
-            // Atualizar dados do usuário
+           
             document.getElementById('userName').textContent = name;
             document.getElementById('userEmail').textContent = email;
             document.getElementById('userAvatar').textContent = name.charAt(0).toUpperCase();
@@ -612,7 +612,8 @@
             document.getElementById('loginContainer').style.display = 'grid';
             document.getElementById('dashboard').style.display = 'none';
             
-            // Limpar formulário
+          
+        
             document.getElementById('email').value = '';
             document.getElementById('password').value = '';
             document.getElementById('remember').checked = false;

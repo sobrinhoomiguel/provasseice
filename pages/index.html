@@ -25,13 +25,36 @@
             background-color: white;
         }
 
+        .navbar-section{
+            position: absolute;
+            top: 35px;
+            right: 50px;                                            
+            z-index: 10;
+        }
+
+        .navbar1, .navbar2 {
+            list-style: none;
+            display: flex;
+            gap: 30px;
+            align-items: center;
+            justify-content: center;
+            padding: 0;
+            margin: 15px 0 0 0;
+        }
+
+        .navbar1 li a, .navbar2 li a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: color 0.3s ease;
+        }   
+
         .seice-logo{
             position: absolute;
             width: 225px;
             height: 100px;
-            left: 50%;
             top: 6px;
-            transform: translate(-50%);
         }
 
         .hero-section {
@@ -127,7 +150,7 @@
         }
 
         .feature {
-            background: linear-gradient(145deg, #f2cb05a2 30%, #f29f05de 90%);
+            background: linear-gradient(135deg, #2D4B73 20%, #253C59 80%);
             padding: 20px;
             border-radius: 10px;
             box-shadow: 0 4px 10px rgba(0,0,0,0.1);
@@ -143,13 +166,13 @@
             margin-top: 25px;
             margin-bottom: 10px;
             font-size: 1.5rem;
-            font-weight: 700;
-            color: #333;
+            font-weight: 6500;
+            color: #ffffffe8;
         }
 
         .feature p {
             font-size: 1rem;
-            color: #1b1b1b;
+            color: #ffffffe8;
         }
 
         .feature:hover {
@@ -160,19 +183,19 @@
 
         .fa-gear{
             font-size: 50px;
-            color: #333;
+            color: #ffffff;
             margin-top: 0px;
         }
 
         .fa-file{
             font-size: 50px;
-            color: #333;
+            color: #ffffff;
             margin-top: 0px;
         }
 
         .fa-list-check{
             font-size: 50px;
-            color: #333;
+            color: #ffffff;
             margin-top: 0px;
         }
 
@@ -195,7 +218,7 @@
         }
 
         .card {
-            background: linear-gradient(145deg, #f2cb05a2 30%, #f29f05de 90%);
+            background: linear-gradient(135deg, #e7c209d8 10%, #fabb0fcc 90%);
             padding: 35px 30px;   
             border-radius: 8px;  
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
@@ -241,6 +264,17 @@
     <div class="header-container">
         <header>
             <img src="../img/image.png" alt="Logo SEICE" class="seice-logo">
+            <nav class="navbar-section">
+                <ul class="navbar1">
+                    <li><a href="index.html">Início</a></li>
+                    <li><a href="login.html">Recursos</a></li>
+                    <li><a href="#recursos">Contato</a></li>
+                </ul>
+                <ul class="navbar2">
+                    <li><a href="#contato">Login</a></li>
+                    <li><a href="cadastro.html">Cadastro</a></li>
+                </ul>
+            </nav>
         </header>
     </div>
 <div class="main-container">

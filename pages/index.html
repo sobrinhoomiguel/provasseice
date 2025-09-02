@@ -3,33 +3,71 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css">
-    <title>Provas Seice | Sistema de Provas</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>Provas SEICE | Sistema de Provas</title>
     <style>
-        *{
+        :root {
+            --primary-blue: #2D4B73;
+            --secondary-blue: #3A5F87;
+            --light-blue: #4A6FA5;
+            --dark-blue: #253C59;
+            --white: #ffffff;
+            --light-gray: #f8f9fa;
+            --medium-gray: #e9ecef;
+            --text-dark: #333333;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --shadow-hover: 0 8px 25px rgba(0, 0, 0, 0.15);
+            --transition: all 0.3s ease;
+        }
+
+        * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
-        body{
-            font-family: Arial, sans-serif;
-            background-color: #ffffff;
-            color: #333;
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background-color: var(--white);
         }
         
-        .header-container{
+        
+        .header-container {
             width: 100%;
-            min-height: 110px;
-            max-height: 115px;
-            background-color: white;
+            height: 80px;
+            background-color: var(--white);
+            box-shadow: var(--shadow);
+            position: fixed;
+            top: 0;
+            z-index: 1000;
+            transition: var(--transition);
         }
 
-        .navbar-section{
-            position: absolute;
-            top: 35px;
-            right: 50px;                                            
-            z-index: 10;
+        .header-container.scrolled {
+            background-color: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .seice-logo {
+            height: 60px;
+            width: auto;
+        }
+
+        .navbar-section {
+            display: flex;
+            gap: 40px;
         }
 
         .navbar1, .navbar2 {
@@ -37,297 +75,607 @@
             display: flex;
             gap: 30px;
             align-items: center;
-            justify-content: center;
+            margin: 0;
             padding: 0;
-            margin: 15px 0 0 0;
         }
 
         .navbar1 li a, .navbar2 li a {
             text-decoration: none;
-            color: #333;
-            font-weight: 600;
-            font-size: 1.1rem;
-            transition: color 0.3s ease;
-        }   
-
-        .seice-logo{
-            position: absolute;
-            width: 225px;
-            height: 100px;
-            top: 6px;
+            color: var(--text-dark);
+            font-weight: 500;
+            font-size: 16px;
+            padding: 8px 16px;
+            border-radius: 25px;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
         }
 
+        .navbar1 li a:hover {
+            color: var(--primary-blue);
+            background-color: rgba(45, 75, 115, 0.1);
+        }
+
+        .navbar2 li a {
+            background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue));
+            color: var(--white);
+            font-weight: 600;
+            box-shadow: var(--shadow);
+        }
+
+        .navbar2 li a:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-hover);
+            background: linear-gradient(135deg, var(--secondary-blue), var(--light-blue));
+        }
+
+       
+        .mobile-menu-toggle {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            padding: 5px;
+        }
+
+        .mobile-menu-toggle span {
+            width: 25px;
+            height: 3px;
+            background-color: var(--primary-blue);
+            margin: 3px 0;
+            transition: var(--transition);
+        }
+
+      
         .hero-section {
             position: relative;
             width: 100%;
-            height: 90vh; 
-            background: url("../img/hero-img2.JPG") no-repeat center center;
-            background-size: cover; 
+            height: 100vh;
+            background: linear-gradient(135deg, rgba(45, 75, 115, 0.8), rgba(58, 95, 135, 0.8)), 
+                        url("../img/hero-img2.JPG") no-repeat center center;
+            background-size: cover;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            color: #fff;
+            color: var(--white);
             text-align: center;
-            padding: 0 20px; 
-            z-index: -1;
-            box-shadow: 10px 10px 30px rgba(0,0,0,0.3);
-        }
-        
-        .hero-section::before {
-            content: "";
-            position: absolute;
-            inset: 0;
-            background-color: rgba(0, 0, 0, 0.5);; 
-            z-index: 1;
-            pointer-events: none;
+            padding: 0 20px;
+            margin-top: 80px;
         }
 
-        .hero-section > * {
-            position: relative;
-            z-index: 2;
+        .hero-content {
+            max-width: 800px;
+            animation: fadeInUp 1s ease-out;
         }
 
-        .hero-h2, .hero-p{
-            position: absolute;
-            font-size: 2.5rem;
-            font-weight: 600;
-            color: #fff;
-            text-shadow: 1px 1px 3px rgba(0,0,0,0.6);
-            letter-spacing: 1px;
+        .hero-section h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            line-height: 1.2;
         }
 
-        .hero-section h2 {
-            font-size: 2.8rem;
-            margin-bottom: 35px;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-        }
         .hero-section p {
-            font-size: 1.3rem;
+            font-size: 1.4rem;
+            margin-bottom: 30px;
+            opacity: 0.95;
             max-width: 600px;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            margin-top: 90px;
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-            
-        .hero-section {
-            animation: fadeIn 1.4s ease-out forwards;
+        .hero-cta {
+            display: inline-block;
+            padding: 15px 35px;
+            background: linear-gradient(135deg, var(--white), var(--light-gray));
+            color: var(--primary-blue);
+            font-weight: 600;
+            font-size: 18px;
+            text-decoration: none;
+            border-radius: 50px;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            margin-top: 20px;
         }
 
-        .line{
-            width: 100%;
-            height: auto;
-            padding: 25px 0;
-            background-color: rgba(206, 206, 206, 0.562);
-            box-shadow: 2px 0 4px 2px rgba(0, 0, 0, 0.1);
-            margin-bottom: 70px;
+        .hero-cta:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-hover);
+            color: var(--dark-blue);
         }
+
         
-        .recursos-titulo{
+        .recursos-section {
+            padding: 100px 20px;
+            background-color: var(--light-gray);
+        }
+
+        .recursos-titulo {
             text-align: center;
-            margin-top: 45px;
-            font-size: 35px;
-            margin-bottom: 45px;
+            font-size: 2.8rem;
+            font-weight: 700;
+            color: var(--primary-blue);
+            margin-bottom: 60px;
+            position: relative;
+        }
+
+        .recursos-titulo::after {
+            content: '';
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue));
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 2px;
         }
 
         .features {
-            display: flex;
-            justify-content: center;
-            align-items: stretch;
-            gap: 100px;  
-            padding: 40px 20px;
-            flex-wrap: wrap;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
             max-width: 1200px;
             margin: 0 auto;
         }
 
         .feature {
-            background: linear-gradient(135deg, #2D4B73 20%, #253C59 80%);
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-            flex: 1 1 300px;
-            min-width: 270px;
-            max-width: 280px;
-            min-height: 10vh;
-            max-height: 35vh;
+            background: var(--white);
+            padding: 40px 30px;
+            border-radius: 15px;
+            box-shadow: var(--shadow);
             text-align: center;
+            transition: var(--transition);
+            border: 2px solid transparent;
+            position: relative;
+            overflow: hidden;
         }
 
-        .feature h3 {
-            margin-top: 25px;
-            margin-bottom: 10px;
-            font-size: 1.5rem;
-            font-weight: 6500;
-            color: #ffffffe8;
+        .feature::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(45, 75, 115, 0.1), transparent);
+            transition: left 0.5s;
         }
 
-        .feature p {
-            font-size: 1rem;
-            color: #ffffffe8;
+        .feature:hover::before {
+            left: 100%;
         }
 
         .feature:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-            transition: all 0.3s ease;
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-hover);
+            border-color: var(--primary-blue);
         }
 
-        .fa-gear{
-            font-size: 50px;
-            color: #ffffff;
-            margin-top: 0px;
+        .feature-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 25px;
+            box-shadow: var(--shadow);
         }
 
-        .fa-file{
-            font-size: 50px;
-            color: #ffffff;
-            margin-top: 0px;
-        }
-
-        .fa-list-check{
-            font-size: 50px;
-            color: #ffffff;
-            margin-top: 0px;
-        }
-
-        .h1-section{
-            text-align: center;
+        .feature-icon i {
             font-size: 35px;
-            margin-bottom: 45px;
+            color: var(--white);
+        }
+
+        .feature h3 {
+            font-size: 1.6rem;
+            font-weight: 600;
+            color: var(--primary-blue);
+            margin-bottom: 15px;
+        }
+
+        .feature p {
+            font-size: 1.1rem;
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+
+        
+        .sections {
+            padding: 100px 20px;
+            background-color: var(--white);
+        }
+
+        .h1-section {
+            text-align: center;
+            font-size: 2.8rem;
+            font-weight: 700;
+            color: var(--primary-blue);
+            margin-bottom: 60px;
+            position: relative;
+        }
+
+        .h1-section::after {
+            content: '';
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue));
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 2px;
         }
 
         .cards {
-            display: flex;
-            flex-direction: column; 
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
             gap: 40px;
-            padding: 20px;
-            min-width: 540px;
-            max-width: 550px;
-            margin: 60px auto 70px auto;
-            background: rgba(206, 206, 206, 0.562);
-            box-shadow: 1px 0 2px 1px rgba(0, 0, 0, 0.1);
+            max-width: 1200px;
+            margin: 0 auto;
         }
 
         .card {
-            background: linear-gradient(135deg, #e7c209d8 10%, #fabb0fcc 90%);
-            padding: 35px 30px;   
-            border-radius: 8px;  
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            padding-top: 0;
+            background: var(--white);
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            transition: var(--transition);
+            border: 2px solid transparent;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-hover);
+            border-color: var(--primary-blue);
+        }
+
+        .card-header {
+            background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue));
+            color: var(--white);
+            padding: 25px 30px;
+            position: relative;
+        }
+
+        .card-header::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 100%;
+            height: 20px;
+            background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue));
+            clip-path: polygon(0 0, 100% 0, 95% 100%, 5% 100%);
         }
 
         .card h2 {
             font-size: 1.8rem;
-            margin: 0;             
-            color: #333;
-            box-sizing: border-box;
-            background-color: white;
-            padding: 5px 15px;    
-            margin-left: -30px;
-            width: 510px;           
-            border-radius: 8px 8px 0 0;  
-        }
-        
-        .card p {
-            font-size: 1.1rem;
-            margin: 15px -14px;
-            font-weight: 500;
-            color: #1b1b1b;
+            font-weight: 600;
+            margin: 0;
         }
 
-        .card a {
-            position: relative;
+        .card-content {
+            padding: 40px 30px 30px;
+        }
+
+        .card p {
+            font-size: 1.1rem;
+            margin-bottom: 25px;
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+
+        .card-button {
             display: inline-block;
-            margin-top: 10px;
-            margin-left: -14px;
-            padding: 15px 20px;
-            background: linear-gradient(145deg, #ffffff 30%, #e2e2e2 70%);
-            color: #333;
+            padding: 12px 25px;
+            background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue));
+            color: var(--white);
             font-weight: 600;
-            font-size: 1em;
+            font-size: 16px;
             text-decoration: none;
-            border-radius: 5px;
-            transition: background-color 0.3s ease;
+            border-radius: 25px;
+            transition: var(--transition);
+            box-shadow: var(--shadow);
+        }
+
+        .card-button:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-hover);
+            background: linear-gradient(135deg, var(--secondary-blue), var(--light-blue));
+        }
+
+        
+        .footer-container {
+            background: linear-gradient(135deg, var(--dark-blue), var(--primary-blue));
+            color: var(--white);
+            padding: 60px 20px 30px;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 30px;
+        }
+
+        .footer-section h3 {
+            font-size: 1.4rem;
+            margin-bottom: 20px;
+            color: var(--white);
+        }
+
+        .footer-section p, .footer-section a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            line-height: 1.8;
+        }
+
+        .footer-section a:hover {
+            color: var(--white);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            padding-top: 30px;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+       
+        @media (max-width: 768px) {
+            .navbar-section {
+                display: none;
+            }
+
+            .mobile-menu-toggle {
+                display: flex;
+            }
+
+            .hero-section h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero-section p {
+                font-size: 1.2rem;
+            }
+
+            .recursos-titulo, .h1-section {
+                font-size: 2.2rem;
+            }
+
+            .features, .cards {
+                grid-template-columns: 1fr;
+            }
+
+            .card-content {
+                padding: 30px 20px 20px;
+            }
+        }
+
+      
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
         }
     </style>
 </head>
 <body>
-    <div class="header-container">
+    <div class="header-container" id="header">
         <header>
             <img src="../img/image.png" alt="Logo SEICE" class="seice-logo">
-            <nav class="navbar-section">
+            <div class="mobile-menu-toggle" id="mobileToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <nav class="navbar-section" id="navbar">
                 <ul class="navbar1">
-                    <li><a href="index.html">Início</a></li>
-                    <li><a href="login.html">Recursos</a></li>
-                    <li><a href="#recursos">Contato</a></li>
+                    <li><a href="#inicio"><i class="fas fa-home"></i> Início</a></li>
+                    <li><a href="#recursos"><i class="fas fa-cog"></i> Recursos</a></li>
+                    <li><a href="#contato"><i class="fas fa-envelope"></i> Contato</a></li>
                 </ul>
                 <ul class="navbar2">
-                    <li><a href="#contato">Login</a></li>
-                    <li><a href="cadastro.html">Cadastro</a></li>
+                    <li><a href="login.html"><i class="fas fa-sign-in-alt"></i> Login</a></li>
+                    <li><a href="cadastro.html"><i class="fas fa-user-plus"></i> Cadastro</a></li>
                 </ul>
             </nav>
         </header>
     </div>
-<div class="main-container">
+
     <main>
-        <div class="hero-section">
-            <h2 class="hero-h2">Bem-vindo ao Sistema de Provas</h2>
-            <p class="hero-p">Este sistema permite que você crie, gerencie e acesse provas de forma eficiente.</p>
-        </div>
-            <h1 class="recursos-titulo">Recursos</h1>
-            <div class="line">
-                <div class="features">
-                    <div class="feature">
-                        <i class="fa-solid fa-list-check"></i>
-                        <h3>Controle</h3>
-                        <p>Acesse suas provas, veja seus resultados e acompanhe seu progresso.</p>
+        <section class="hero-section" id="inicio">
+            <div class="hero-content">
+                <h1>Sistema de Provas SEICE</h1>
+                <p>Plataforma completa para criação, gerenciamento e aplicação de provas educacionais com tecnologia avançada e interface intuitiva.</p>
+                <a href="#areas" class="hero-cta">
+                    <i class="fas fa-rocket"></i> Começar Agora
+                </a>
+            </div>
+        </section>
+
+        <section class="recursos-section" id="recursos">
+            <h2 class="recursos-titulo fade-in">Nossos Recursos</h2>
+            <div class="features">
+                <div class="feature fade-in">
+                    <div class="feature-icon">
+                        <i class="fas fa-tasks"></i>
                     </div>
-                    <div class="feature">
-                        <i class="fa-solid fa-file"></i>
-                        <h3>Produção</h3>
-                        <p>Crie, edite e gerencie provas para seus alunos de maneira fácil.</p>
+                    <h3>Controle Total</h3>
+                    <p>Acompanhe o progresso dos alunos, visualize resultados detalhados e tenha controle completo sobre todas as avaliações em tempo real.</p>
                 </div>
-                    <div class="feature">
-                        <i class="fa-solid fa-gear"></i>
-                        <h3>Gerenciamento</h3>
-                        <p>Organize usuários, provas e configurações do sistema.</p>
+                <div class="feature fade-in">
+                    <div class="feature-icon">
+                        <i class="fas fa-file-alt"></i>
+                    </div>
+                    <h3>Produção Eficiente</h3>
+                    <p>Crie provas personalizadas com diversos tipos de questões, banco de dados integrado e ferramentas avançadas de edição.</p>
+                </div>
+                <div class="feature fade-in">
+                    <div class="feature-icon">
+                        <i class="fas fa-cogs"></i>
+                    </div>
+                    <h3>Gerenciamento Inteligente</h3>
+                    <p>Sistema completo de gestão de usuários, configurações avançadas e relatórios detalhados para administração eficaz.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="sections" id="areas">
+            <h1 class="h1-section fade-in">Selecione seu Perfil</h1>
+            <div class="cards">
+                <div class="card fade-in">
+                    <div class="card-header">
+                        <h2><i class="fas fa-user-graduate"></i> Estudante</h2>
+                    </div>
+                    <div class="card-content">
+                        <p>Acesse suas avaliações, visualize resultados detalhados e acompanhe seu desenvolvimento acadêmico de forma prática e intuitiva.</p>
+                        <a href="login.html" class="card-button">
+                            <i class="fas fa-sign-in-alt"></i> Entrar como Estudante
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="card fade-in">
+                    <div class="card-header">
+                        <h2><i class="fas fa-chalkboard-teacher"></i> Professor</h2>
+                    </div>
+                    <div class="card-content">
+                        <p>Crie avaliações personalizadas, gerencie turmas e monitore o desempenho dos seus alunos com ferramentas profissionais.</p>
+                        <a href="login.html" class="card-button">
+                            <i class="fas fa-sign-in-alt"></i> Entrar como Professor
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="card fade-in">
+                    <div class="card-header">
+                        <h2><i class="fas fa-user-shield"></i> Administrador</h2>
+                    </div>
+                    <div class="card-content">
+                        <p>Tenha controle total do sistema, gerencie usuários, configurações avançadas e acesse relatórios completos da plataforma.</p>
+                        <a href="login.html" class="card-button">
+                            <i class="fas fa-sign-in-alt"></i> Entrar como Administrador
+                        </a>
                     </div>
                 </div>
             </div>
-        <div class="sections">
-            <h1 class="h1-section">Selecione sua área</h1>
-            <div class="cards"> 
-                <div class="card">
-                    <h2>Aluno</h2>
-                    <p>Acesse suas provas e resultados.</p>
-                    <a href="login.html">Entrar como Aluno</a>
-                </div>
-                <div class="card">
-                    <h2>Professor</h2>
-                    <p>Crie e gerencie provas para seus alunos.</p>
-                    <a href="login.html">Entrar como Professor</a>
-                </div>
-                <div class="card">
-                    <h2>Administrador</h2>
-                    <p>Gerencie o sistema e os usuários.</p>
-                    <a href="login.html">Entrar como Administrador</a>
-                </div>
-        </div>
+        </section>
     </main>
-</div>
-    <div class="footer-container">
-        <footer>
-            <p style="text-align: center; padding: 20px 0; background-color: #f2f2f2; box-shadow: 0 -2px 4px rgba(0,0,0,0.1);">© 2025 Sistema de Provas SEICE. Todos os direitos reservados.</p>
-        </footer>
+
+    <div class="footer-container" id="contato">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Sistema SEICE</h3>
+                <p>Plataforma educacional completa para gestão de avaliações e provas, desenvolvida com tecnologia de ponta para instituições de ensino.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Links Úteis</h3>
+                <p><a href="#inicio">Início</a></p>
+                <p><a href="#recursos">Recursos</a></p>
+                <p><a href="login.html">Login</a></p>
+                <p><a href="cadastro.html">Cadastro</a></p>
+            </div>
+            <div class="footer-section">
+                <h3>Contato</h3>
+                <p><i class="fas fa-envelope"></i> contato@seice.edu.br</p>
+                <p><i class="fas fa-phone"></i> (21) 2773-7723 / 2776-3039 / 3903-7162</p>
+                <p><i class="fas fa-map-marker-alt"></i> Av. São Paulo - Campos Eliseos | Brasil</p>
+            </div>
+            <div class="footer-section">
+                <h3>Suporte</h3>
+                <p><a href="#">Central de Ajuda</a></p>
+                <p><a href="#">Documentação</a></p>
+                <p><a href="#">FAQ</a></p>
+                <p><a href="#">Termos de Uso</a></p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Sistema de Provas SEICE. Todos os direitos reservados.</p>
+        </div>
     </div>
+
+    <script>
+      
+        window.addEventListener('scroll', function() {
+            const header = document.getElementById('header');
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    const headerHeight = document.getElementById('header').offsetHeight;
+                    const targetPosition = target.offsetTop - headerHeight;
+                    window.scrollTo({
+                        top: targetPosition,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+       
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in').forEach(el => {
+            observer.observe(el);
+        });
+
+      
+        const mobileToggle = document.getElementById('mobileToggle');
+        const navbar = document.getElementById('navbar');
+
+        mobileToggle.addEventListener('click', function() {
+            navbar.classList.toggle('active');
+            this.classList.toggle('active');
+        });
+
+       
+        document.querySelectorAll('.navbar1 a, .navbar2 a').forEach(link => {
+            link.addEventListener('click', function() {
+                navbar.classList.remove('active');
+                mobileToggle.classList.remove('active');
+            });
+        });
+    </script>
 </body>
 </html>

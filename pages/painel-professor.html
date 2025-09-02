@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>Painel Professor | Provas SEICE</title>
+    <style>
+        :root {
+            --primary-blue: #2D4B73;
+            --secondary-blue: #3A5F87;
+            --light-blue: #4A6FA5;
+            --dark-blue: #253C59;
+            --white: #ffffff;
+            --light-gray: #f8f9fa;
+            --medium-gray: #e9ecef;
+            --text-dark: #333333;
+            --error-color: #dc3545;
+            --success-color: #28a745;
+            --warning-color: #ffc107;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --shadow-hover: 0 8px 25px rgba(0, 0, 0, 0.15);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background: linear-gradient(135deg, var(--light-gray) 0%, var(--medium-gray) 100%);
+            min-height: 100vh;
+        }
+
+        .header-container {
+            background-color: var(--light-gray);
+            color: var(--white);
+            padding: 1.8rem;
+            width: 85vw;
+            margin-left: auto;
+            box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .left-block{
+            width: 15vw;
+            height: 100vh;
+            background-color: var(--primary-blue);
+            color: var(--white);
+            position: fixed;
+            top: 0;
+            left: 0;
+            display: flex;
+            flex-direction: column;
+            padding: 2rem 1rem;
+            box-shadow: var(--shadow);
+        }
+
+        .logo {
+            flex-shrink: 0;
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+
+        .seice-logo{
+            display: block;     
+            margin: -30px auto 1rem auto;  
+            width: 80%;            
+            height: auto;
+        }
+
+        .left-block .sections ul {
+            list-style: none;
+            margin-top: -290px;
+            margin-left: -20px;
+            padding: 0;
+            
+        }
+
+        .left-block .sections ul a {
+            text-decoration: none;
+            color: var(--white);
+            display: block;
+            padding: 1rem 0;
+            border-radius: 5px;
+            transition: var(--transition);
+        }
+
+        .menu-item {
+            margin-bottom: 1rem;
+        }
+
+        .menu-btn {
+            width: 100%;
+            background: none;
+            border: none;
+            color: var(--white);
+            font-size: .8rem;
+            text-align: left;
+            padding: 0.8rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: var(--transition);
+        }
+
+        .menu-btn:hover {
+            background-color: var(--secondary-blue);
+            border-radius: 5px;
+        }
+
+        .submenu {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            padding-left: 1rem;
+        }
+
+        .submenu a {
+            text-decoration: none;
+            color: var(--white);
+            font-size: 0.8rem;
+            padding: 0.5rem 0;
+            transition: var(--transition);
+        }
+
+        .submenu a:hover {
+            color: var(--success-color);
+        }
+
+        .menu-item.active .submenu {
+            max-height: 400px;
+        }
+
+        .menu-item.active .arrow {
+            transform: rotate(180deg);
+        }
+
+        .main-container {
+            margin-left: 15vw;
+            padding: 2rem;
+            width: 85vw;
+        }
+    </style>
+</head>
+<body>
+    <div class="header-container">
+        <header>
+            <!--Ícones de reduzir a aba lateral e para início - E na direita, nome da conta conectada-->
+        </header>
+    </div>
+    <main>
+        <div class="left-block">
+            <div class="logo">
+                <img src="../img/image.png" alt="logo SEICE" class="seice-logo">
+            </div>
+            <div class="sections">
+                <ul>
+                    <li class="menu-item">
+            <button class="menu-btn">
+                <i class="fa fa-plus"></i> AVALIAÇÕES
+                <i class="fa fa-chevron-down arrow"></i>
+            </button>
+            <div class="submenu">
+                <a href="avaliacoes.html">➤ Criar Avaliação</a>
+                <a href="importar.html">➤ Importar Alunos</a>
+                <a href="aplicar.html">➤ Aplicar</a>
+                <a href="corrigir.html">➤ Corrigir</a>
+            </div>
+        </li>
+        <li class="menu-item">
+            <button class="menu-btn">
+                <i class="fa fa-chart-bar"></i> RESULTADOS
+                <i class="fa fa-chevron-down arrow"></i>
+            </button>
+            <div class="submenu">
+                <a href="resultados.html">➤ Notas dos alunos</a>
+                <a href="estatisticas.html">➤ Estatísticas</a>
+            </div>
+        </li>
+          <li class="menu-item">
+            <button class="menu-btn">
+                <i class="fa fa-cog"></i> CONFIGURAÇÃO
+                <i class="fa fa-chevron-down arrow"></i>
+            </button>
+            <div class="submenu">
+                <a href="perfil.html">➤ Meu Perfil</a>
+                <a href="senha.html">➤ Alterar Senha</a>
+            </div>
+        </li>
+                </ul>
+            </div>
+        <p>&copy Provas SEICE - Versão 1.0.0</p>
+        </div>
+            <div class="main-container">
+                <div class="cards">
+                    <div class="card">
+                        <h2>Importar Alunos</h2>
+                        <p>Ver todos</p>
+                    </div>
+                    <div class="card">
+                        <h2>Criar Avaliação</h2>
+                        <p>Ver todas</p>
+                    </div>
+                    <div class="card">
+                        <h2>Aplicar</h2>
+                        <p>Ver todas</p>
+                    </div>
+                    <div class="card">
+                        <h2>Corrigir</h2>
+                        <p>Ver todas</p>
+                    </div>
+                </div>
+            </div>
+    </main>
+    <script>
+    document.querySelectorAll('.menu-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const item = btn.parentElement;
+            item.classList.toggle('active');
+        });
+    });
+
+     document.querySelectorAll('.menu-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const item = btn.parentElement;
+
+            document.querySelectorAll('.menu-item').forEach(i => {
+                if (i !== item) {
+                    i.classList.remove('active');
+                }
+            });
+
+            item.classList.toggle('active');
+        });
+    });
+</script>
+</body>
+</html>

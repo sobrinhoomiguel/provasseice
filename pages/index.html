@@ -130,7 +130,7 @@
             position: relative;
             width: 100%;
             height: 100vh;
-            background: linear-gradient(135deg, rgba(45, 75, 115, 0.8), rgba(58, 95, 135, 0.8)), 
+            background: linear-gradient(135deg, rgba(45, 75, 115, 0.801), rgba(58, 95, 135, 0.637)), 
                         url("../img/hero-img2.JPG") no-repeat center center;
             background-size: cover;
             display: flex;
@@ -439,8 +439,28 @@
        
         @media (max-width: 768px) {
             .navbar-section {
-                display: none;
+            opacity: 0;
+            transform: translateY(-20px);
+            pointer-events: none;     
+            transition: opacity 0.4s ease, transform 0.4s ease;
+            flex-direction: column;
+            gap: 20px;
+            background-color: var(--white);
+            position: absolute;
+            top: 80px;
+            left: 0;
+            width: 100%;
+            padding: 20px;
+            box-shadow: var(--shadow);
+            z-index: 1000;
             }
+
+            .navbar-section.active {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+            }
+
 
             .mobile-menu-toggle {
                 display: flex;
@@ -483,7 +503,9 @@
 <body>
     <div class="header-container" id="header">
         <header>
-            <img src="../img/image.png" alt="Logo SEICE" class="seice-logo">
+            <a href="index.html">
+                <img src="../img/image.png" alt="Logo SEICE" class="seice-logo">
+            </a>
             <div class="mobile-menu-toggle" id="mobileToggle">
                 <span></span>
                 <span></span>
@@ -664,10 +686,18 @@
         const mobileToggle = document.getElementById('mobileToggle');
         const navbar = document.getElementById('navbar');
 
-        mobileToggle.addEventListener('click', function() {
+        mobileToggle.addEventListener('click', () => {
             navbar.classList.toggle('active');
-            this.classList.toggle('active');
         });
+
+        const links = navbar.querySelectorAll('a');
+        links.forEach(link => {
+            link.addEventListener('click', () => {
+            navbar.classList.remove('active');
+            });
+        });
+
+
 
        
         document.querySelectorAll('.navbar1 a, .navbar2 a').forEach(link => {
@@ -676,6 +706,7 @@
                 mobileToggle.classList.remove('active');
             });
         });
+        
     </script>
 </body>
 </html>

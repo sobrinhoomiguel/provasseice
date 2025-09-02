@@ -187,7 +187,7 @@ CREATE TABLE categorias_questao (
 CREATE TABLE questoes (
     id_questao INT PRIMARY KEY AUTO_INCREMENT,
     id_disciplina INT NOT NULL,
-    id_categoria INT,
+    id_categoria INT, 
     id_professor_autor INT NOT NULL,
     titulo VARCHAR(500),
     enunciado TEXT NOT NULL,

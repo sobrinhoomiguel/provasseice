@@ -5,6 +5,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Provas Seice | Gestão de Ensino</title>
     <style>
+
+        :root {
+            --primary-blue: #2D4B73;
+            --secondary-blue: #3A5F87;
+            --light-blue: #4A6FA5;
+            --dark-blue: #253C59;
+            --white: #ffffff;
+            --light-gray: #f8f9fa;
+            --medium-gray: #e9ecef;
+            --text-dark: #333333;
+            --error-color: #dc3545;
+            --success-color: #28a745;
+            --warning-color: #ffc107;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --shadow-hover: 0 8px 25px rgba(0, 0, 0, 0.15);
+            --transition: all 0.3s ease;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -13,7 +31,7 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #2c3e50d3 0%, #34495ec2 50%, #2c3e50a2 100%);
+            background: linear-gradient(135deg, #9da0a3d3 0%, #8b9cadc2 50%, #586674a2 100%);
             min-height: 100vh;
             display: flex;
             align-items: center;
@@ -38,7 +56,7 @@
         }
 
         .login-left {
-            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            background: linear-gradient(135deg, var(--dark-blue), var(--secondary-blue));
             padding: 60px 40px;
             display: flex;
             flex-direction: column;
@@ -68,7 +86,7 @@
         }
 
         .logo-accent {
-            color: #f39c12;
+            color: #fcd810;
         }
 
         .login-subtitle {

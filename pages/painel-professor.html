@@ -21,6 +21,7 @@
             --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             --shadow-hover: 0 8px 25px rgba(0, 0, 0, 0.15);
             --transition: all 0.3s ease;
+            --gradient-bg: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
         }
 
         * {
@@ -33,23 +34,65 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             line-height: 1.6;
             color: var(--text-dark);
-            background: linear-gradient(135deg, var(--light-gray) 0%, var(--medium-gray) 100%);
+            background: var(--gradient-bg);
             min-height: 100vh;
+            overflow-x: hidden;
         }
 
         .header-container {
-            background-color: var(--light-gray);
-            color: var(--white);
-            padding: 1.8rem;
+            background: linear-gradient(90deg, var(--white) 0%, rgba(255,255,255,0.95) 100%);
+            backdrop-filter: blur(10px);
+            color: var(--text-dark);
+            padding: 1.2rem 2rem;
             width: 85vw;
-            margin-left: auto;
-            box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1);
+            margin-left: 15vw;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.08);
+            position: fixed;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid rgba(45, 75, 115, 0.1);
         }
 
-        .left-block{
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--primary-blue);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            color: var(--primary-blue);
+            font-weight: 500;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--primary-blue), var(--light-blue));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            box-shadow: 0 3px 10px rgba(45, 75, 115, 0.3);
+        }
+
+        .left-block {
             width: 15vw;
             height: 100vh;
-            background-color: var(--primary-blue);
+            background: linear-gradient(180deg, var(--primary-blue) 0%, var(--dark-blue) 100%);
             color: var(--white);
             position: fixed;
             top: 0;
@@ -58,35 +101,40 @@
             flex-direction: column;
             justify-content: space-between;
             padding: 2rem 1rem;
-            box-shadow: var(--shadow);
+            box-shadow: 4px 0 20px rgba(0, 0, 0, 0.15);
+            z-index: 200;
         }
 
-        .seice-logo{
+        .seice-logo {
             display: block;     
-            margin: -30px auto 1rem auto;  
+            margin: -10px auto 2rem auto;  
             width: 80%;            
             height: auto;
+            filter: brightness(0) invert(1);
+            opacity: 0.9;
+        }
+
+        .logo-text {
+            text-align: center;
+            font-size: 0.9rem;
+            font-weight: 300;
+            opacity: 0.8;
+            margin-bottom: 2rem;
+            letter-spacing: 1px;
+        }
+
+        .left-block .sections {
+            flex: 1;
         }
 
         .left-block .sections ul {
             list-style: none;
-            margin-top: -290px;
-            margin-left: -20px;
             padding: 0;
-            
-        }
-
-        .left-block .sections ul a {
-            text-decoration: none;
-            color: var(--white);
-            display: block;
-            padding: 1rem 0;
-            border-radius: 5px;
-            transition: var(--transition);
+            margin: 0;
         }
 
         .menu-item {
-            margin-bottom: 1rem;
+            margin-bottom: 0.5rem;
         }
 
         .menu-btn {
@@ -94,151 +142,470 @@
             background: none;
             border: none;
             color: var(--white);
-            font-size: .8rem;
+            font-size: 0.9rem;
             text-align: left;
-            padding: 0.8rem;
+            padding: 1rem;
             cursor: pointer;
             display: flex;
             justify-content: space-between;
             align-items: center;
             transition: var(--transition);
+            border-radius: 10px;
+            font-weight: 500;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .menu-btn:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+            transition: var(--transition);
         }
 
         .menu-btn:hover {
-            background-color: var(--secondary-blue);
-            border-radius: 5px;
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateX(5px);
+        }
+
+        .menu-btn:hover:before {
+            left: 100%;
+        }
+
+        .menu-btn i:first-child {
+            margin-right: 0.8rem;
+            width: 20px;
+            text-align: center;
         }
 
         .submenu {
             max-height: 0;
             overflow: hidden;
-            transition: max-height 0.3s ease;
-            display: flex;
-            flex-direction: column;
-            padding-left: 1rem;
+            transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            background: rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            margin-top: 0.5rem;
         }
 
         .submenu a {
             text-decoration: none;
             color: var(--white);
-            font-size: 0.8rem;
-            padding: 0.5rem 0;
+            font-size: 0.85rem;
+            padding: 0.8rem 1.2rem;
             transition: var(--transition);
+            display: flex;
+            align-items: center;
+            opacity: 0.9;
+            border-radius: 6px;
+            margin: 0.2rem;
         }
 
         .submenu a:hover {
-            color: var(--success-color);
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--white);
+            opacity: 1;
+            transform: translateX(5px);
         }
 
         .menu-item.active .submenu {
-            max-height: 400px;
+            max-height: 300px;
+            padding: 0.5rem 0;
         }
 
         .menu-item.active .arrow {
             transform: rotate(180deg);
         }
 
+        .arrow {
+            transition: transform 0.3s ease;
+        }
+
+        .footer-info {
+            text-align: center;
+            font-size: 0.75rem;
+            opacity: 0.6;
+            padding: 1rem 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            margin-top: 1rem;
+        }
+
         .main-container {
             margin-left: 15vw;
-            padding: 2rem;
+            padding: 6rem 2rem 2rem 2rem;
             width: 85vw;
+            min-height: 100vh;
+        }
+
+        .welcome-section {
+            margin-bottom: 3rem;
+        }
+
+        .welcome-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary-blue);
+            margin-bottom: 0.5rem;
+        }
+
+        .welcome-subtitle {
+            color: var(--secondary-blue);
+            font-size: 1.1rem;
+            opacity: 0.8;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, var(--white) 0%, rgba(255,255,255,0.9) 100%);
+            border-radius: 16px;
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: 0 8px 32px rgba(45, 75, 115, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-blue), var(--light-blue));
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(45, 75, 115, 0.15);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary-blue);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: var(--secondary-blue);
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.9rem;
         }
 
         .cards {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1.5rem;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
         }
 
         .card {
-            background-color: var(--white);
-            border-radius: 10px;
-            box-shadow: var(--shadow);
-            padding: 1.5rem;
+            background: linear-gradient(135deg, var(--white) 0%, rgba(255,255,255,0.95) 100%);
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(45, 75, 115, 0.1);
+            padding: 2rem;
             text-align: center;
             transition: var(--transition);
             cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .card:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(45, 75, 115, 0.05), transparent);
+            transition: var(--transition);
+        }
+
+        .card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 20px 60px rgba(45, 75, 115, 0.15);
+        }
+
+        .card:hover:before {
+            left: 100%;
+        }
+
+        .card-icon {
+            width: 70px;
+            height: 70px;
+            margin: 0 auto 1.5rem auto;
+            background: linear-gradient(135deg, var(--primary-blue), var(--light-blue));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.8rem;
+            box-shadow: 0 8px 25px rgba(45, 75, 115, 0.3);
+        }
+
+        .card h2 {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: var(--primary-blue);
+            margin-bottom: 0.8rem;
+        }
+
+        .card p {
+            color: var(--secondary-blue);
+            font-size: 1rem;
+            opacity: 0.8;
+        }
+
+        .quick-actions {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            z-index: 100;
+        }
+
+        .fab {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--primary-blue), var(--light-blue));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            box-shadow: 0 8px 25px rgba(45, 75, 115, 0.4);
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+        }
+
+        .fab:hover {
+            transform: scale(1.1);
+            box-shadow: 0 12px 35px rgba(45, 75, 115, 0.5);
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .card, .stat-card {
+            animation: fadeInUp 0.6s ease forwards;
+        }
+
+        .card:nth-child(1) { animation-delay: 0.1s; }
+        .card:nth-child(2) { animation-delay: 0.2s; }
+        .card:nth-child(3) { animation-delay: 0.3s; }
+        .card:nth-child(4) { animation-delay: 0.4s; }
+
+        @media (max-width: 768px) {
+            .left-block {
+                width: 100vw;
+                height: auto;
+                position: relative;
+            }
+            
+            .header-container,
+            .main-container {
+                width: 100vw;
+                margin-left: 0;
+            }
+            
+            .cards {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
 <body>
     <div class="header-container">
-        <header>
-            <!--Ícones de reduzir a aba lateral e para início - E na direita, nome da conta conectada-->
-        </header>
+        <div class="header-content">
+            <div class="header-title">
+                <i class="fas fa-tachometer-alt"></i>
+                Painel do Professor
+            </div>
+            <div class="user-info">
+                <span>Prof. João Pedro Santos</span>
+                <div class="user-avatar">JS</div>
+            </div>
+        </div>
     </div>
+
     <main>
         <div class="left-block">
             <div class="logo">
-                <img src="../img/image.png" alt="logo SEICE" class="seice-logo">
+                <div class="seice-logo">SEICE</div>
+                <div class="logo-text">Sistema de Avaliação</div>
             </div>
+            
             <div class="sections">
                 <ul>
                     <li class="menu-item">
-            <button class="menu-btn">
-                <i class="fa fa-plus"></i> AVALIAÇÕES
-                <i class="fa fa-chevron-down arrow"></i>
-            </button>
-            <div class="submenu">
-                <a href="avaliacoes.html">➤ Criar Avaliação</a>
-                <a href="importar.html">➤ Importar Alunos</a>
-                <a href="aplicar.html">➤ Aplicar</a>
-                <a href="corrigir.html">➤ Corrigir</a>
-            </div>
-        </li>
-        <li class="menu-item">
-            <button class="menu-btn">
-                <i class="fa fa-chart-bar"></i> RESULTADOS
-                <i class="fa fa-chevron-down arrow"></i>
-            </button>
-            <div class="submenu">
-                <a href="resultados.html">➤ Notas dos alunos</a>
-                <a href="estatisticas.html">➤ Estatísticas</a>
-            </div>
-        </li>
-          <li class="menu-item">
-            <button class="menu-btn">
-                <i class="fa fa-cog"></i> CONFIGURAÇÃO
-                <i class="fa fa-chevron-down arrow"></i>
-            </button>
-            <div class="submenu">
-                <a href="perfil.html">➤ Meu Perfil</a>
-                <a href="senha.html">➤ Alterar Senha</a>
-            </div>
-        </li>
+                        <button class="menu-btn">
+                            <span><i class="fas fa-clipboard-list"></i> AVALIAÇÕES</span>
+                            <i class="fas fa-chevron-down arrow"></i>
+                        </button>
+                        <div class="submenu">
+                            <a href="avaliacoes.html"><i class="fas fa-plus"></i> Criar Avaliação</a>
+                            <a href="importar.html"><i class="fas fa-upload"></i> Importar Alunos</a>
+                            <a href="aplicar.html"><i class="fas fa-play"></i> Aplicar</a>
+                            <a href="corrigir.html"><i class="fas fa-check"></i> Corrigir</a>
+                        </div>
+                    </li>
+                    <li class="menu-item">
+                        <button class="menu-btn">
+                            <span><i class="fas fa-chart-bar"></i> RESULTADOS</span>
+                            <i class="fas fa-chevron-down arrow"></i>
+                        </button>
+                        <div class="submenu">
+                            <a href="resultados.html"><i class="fas fa-graduation-cap"></i> Notas dos alunos</a>
+                            <a href="estatisticas.html"><i class="fas fa-analytics"></i> Estatísticas</a>
+                        </div>
+                    </li>
+                    <li class="menu-item">
+                        <button class="menu-btn">
+                            <span><i class="fas fa-cog"></i> CONFIGURAÇÃO</span>
+                            <i class="fas fa-chevron-down arrow"></i>
+                        </button>
+                        <div class="submenu">
+                            <a href="perfil.html"><i class="fas fa-user"></i> Meu Perfil</a>
+                            <a href="senha.html"><i class="fas fa-lock"></i> Alterar Senha</a>
+                        </div>
+                    </li>
                 </ul>
             </div>
-        <p>&copy Provas SEICE - Versão 1.0.0</p>
+            
+            <div class="footer-info">
+                <p>&copy; Provas SEICE<br>Versão 1.0.0</p>
+            </div>
         </div>
-            <div class="main-container">
-                <div class="cards">
-                    <div class="card">
-                        <i class="fa-solid fa-plus"></i>
-                        <h2>Importar Alunos</h2>
-                        <p>Ver todos</p>
-                    </div>
-                    <div class="card">
-                        <h2>Criar Avaliação</h2>
-                        <p>Ver todas</p>
-                    </div>
-                    <div class="card">
-                        <h2>Aplicar</h2>
-                        <p>Ver todas</p>
-                    </div>
-                    <div class="card">
-                        <h2>Corrigir</h2>
-                        <p>Ver todas</p>
-                    </div>
+
+        <div class="main-container">
+            <div class="welcome-section">
+                <h1 class="welcome-title">Bem-vindo de volta!</h1>
+                <p class="welcome-subtitle">Gerencie suas avaliações e acompanhe o progresso dos alunos</p>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number">0</div>
+                    <div class="stat-label">Avaliações Criadas</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">0</div>
+                    <div class="stat-label">Alunos Cadastrados</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">100%</div>
+                    <div class="stat-label">Taxa de Aprovação</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">0</div>
+                    <div class="stat-label">Pendentes</div>
                 </div>
             </div>
+
+            <div class="cards">
+                <div class="card" onclick="location.href='importar.html'">
+                    <div class="card-icon">
+                        <i class="fas fa-upload"></i>
+                    </div>
+                    <h2>Importar Alunos</h2>
+                    <p>Importe listas de alunos via planilha CSV ou Excel</p>
+                </div>
+                
+                <div class="card" onclick="location.href='avaliacoes.html'">
+                    <div class="card-icon">
+                        <i class="fas fa-plus"></i>
+                    </div>
+                    <h2>Criar Avaliação</h2>
+                    <p>Crie novas avaliações personalizadas para suas turmas</p>
+                </div>
+                
+                <div class="card" onclick="location.href='aplicar.html'">
+                    <div class="card-icon">
+                        <i class="fas fa-play"></i>
+                    </div>
+                    <h2>Aplicar Prova</h2>
+                    <p>Inicie sessões de avaliação para seus alunos</p>
+                </div>
+                
+                <div class="card" onclick="location.href='corrigir.html'">
+                    <div class="card-icon">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <h2>Corrigir</h2>
+                    <p>Revise e corrija as avaliações dos alunos</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="quick-actions">
+            <button class="fab" title="Ação rápida">
+                <i class="fas fa-plus"></i>
+            </button>
+        </div>
     </main>
+
     <script>
-    document.querySelectorAll('.menu-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
-            const item = btn.parentElement;
-            item.classList.toggle('active');
+        document.querySelectorAll('.menu-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const item = btn.parentElement;
+                
+             
+                document.querySelectorAll('.menu-item').forEach(otherItem => {
+                    if (otherItem !== item) {
+                        otherItem.classList.remove('active');
+                    }
+                });
+                
+                item.classList.toggle('active');
+            });
         });
-    });
-</script>
+
+       
+        document.querySelectorAll('.card').forEach(card => {
+            card.addEventListener('mouseenter', function(e) {
+                this.style.transform = 'translateY(-8px) scale(1.02)';
+            });
+            
+            card.addEventListener('mouseleave', function(e) {
+                this.style.transform = 'translateY(0) scale(1)';
+            });
+        });
+
+       
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
 </body>
 </html>

@@ -7,10 +7,10 @@
     <title>Meu Perfil | Provas SEICE</title>
     <style>
         :root {
-            --primary-blue: #1e3a8a;
+            --primary-blue: #26418d;
             --secondary-blue: #3b82f6;
             --light-blue: #60a5fa;
-            --dark-blue: #1e40af;
+            --dark-blue: #1b2f6e;
             --accent-blue: #2563eb;
             --white: #ffffff;
             --light-gray: #f8fafc;
@@ -66,6 +66,14 @@
             justify-content: space-between;
         }
 
+        .seice-logo {
+            width: 60px;
+            height: 60px;
+            display: flex;
+            justify-content: center;
+            margin: -20px auto 1rem auto;
+        }
+
         .header-left h1 {
             font-size: 1.5rem;
             font-weight: 600;
@@ -114,7 +122,8 @@
             left: 0;
             width: 240px;
             height: 100vh;
-            background: var(--white);
+            background: linear-gradient(180deg, var(--primary-blue) 0%, var(--dark-blue) 100%);
+            box-shadow: 4px 0 20px rgba(0, 0, 0, 0.15);
             border-right: 1px solid var(--border-gray);
             z-index: 100;
             overflow-y: auto;
@@ -135,7 +144,7 @@
 
         .logo-subtitle {
             font-size: 0.75rem;
-            color: var(--text-light);
+            color: white;
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
@@ -151,7 +160,7 @@
         .nav-group-title {
             font-size: 0.75rem;
             font-weight: 600;
-            color: var(--text-light);
+            color: white;
             text-transform: uppercase;
             letter-spacing: 0.5px;
             padding: 0 1rem;
@@ -167,7 +176,7 @@
             align-items: center;
             gap: 0.75rem;
             padding: 0.75rem;
-            color: var(--text-medium);
+            color: rgba(255, 255, 255, 0.836);
             text-decoration: none;
             border-radius: var(--radius-sm);
             transition: var(--transition);
@@ -633,7 +642,7 @@
     
     <aside class="sidebar">
         <div class="logo-section">
-            <div class="logo">SEICE</div>
+            <div class="seice-logo"><img src="../img/image.png" alt="Logo SEICE"></div>
             <div class="logo-subtitle">Sistema de Avaliação</div>
         </div>
 

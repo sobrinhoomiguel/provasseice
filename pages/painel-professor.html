@@ -7,10 +7,10 @@
     <title>Painel Professor | Provas SEICE</title>
     <style>
         :root {
-            --primary-blue: #2D4B73;
+            --primary-blue: #28548d;
             --secondary-blue: #3A5F87;
             --light-blue: #4A6FA5;
-            --dark-blue: #253C59;
+            --dark-blue: #17365c;
             --white: #ffffff;
             --light-gray: #f8f9fa;
             --medium-gray: #e9ecef;
@@ -34,7 +34,7 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             line-height: 1.6;
             color: var(--text-dark);
-            background: var(--gradient-bg);
+            background: linear-gradient(135deg, var(--light-gray) 10%, var(--medium-gray) 100%);
             min-height: 100vh;
             overflow-x: hidden;
         }
@@ -106,12 +106,11 @@
         }
 
         .seice-logo {
-            display: block;     
-            margin: -10px auto 2rem auto;  
-            width: 80%;            
-            height: auto;
-            filter: brightness(0) invert(1);
-            opacity: 0.9;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            justify-content: center;
+            margin: -20px auto 1rem auto;
         }
 
         .logo-text {
@@ -457,7 +456,7 @@
     <main>
         <div class="left-block">
             <div class="logo">
-                <div class="seice-logo">SEICE</div>
+                <div class="seice-logo"><img src="../img/image.png" alt="Logo SEICE"></div>
                 <div class="logo-text">Sistema de Avaliação</div>
             </div>
             

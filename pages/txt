@@ -1,0 +1,25 @@
+Sistema GED – Gerenciamento Eletrônico de Documentos
+
+O sistema tem como objetivo facilitar o gerenciamento de arquivos e documentos digitais de forma segura e organizada. Ele permitirá que os usuários acessem, leiam e supervisionem os documentos disponíveis, com um controle que evita que dois usuários editem o mesmo arquivo ao mesmo tempo. Se uma pessoa estiver utilizando um documento, outra não poderá alterá-lo até que ele seja liberado.
+
+Para acessar o sistema, será necessário fazer um cadastro com as seguintes informações: nome completo, setor, cargo, e-mail e senha. Após o cadastro, o usuário será direcionado para o dashboard, onde terá acesso às principais funcionalidades.
+
+O dashboard será dividido em várias áreas:
+
+Tela Inicial: mostra um resumo com o total de documentos, documentos bloqueados, usuários ativos, funcionários conectados e uploads feitos no dia.
+
+Documentos: exibe a lista de arquivos armazenados e permite buscar e abrir os documentos.
+
+Uploads: onde o usuário pode enviar novos arquivos para o sistema.
+
+Recentes: mostra os documentos acessados recentemente.
+
+Usuários: permite visualizar e gerenciar os cadastros dos usuários do sistema.
+
+Relatórios: gera relatórios sobre o uso e movimentação de documentos.
+
+Segurança: gerencia permissões, acessos e configurações relacionadas à proteção dos dados.
+
+Configurações: permite personalizar preferências gerais do sistema.
+
+Por fim, o sistema contará com a opção de logout, para que o usuário possa sair da conta com segurança sempre que quiser.

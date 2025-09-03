@@ -1,0 +1,1204 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>Meu Perfil | Provas SEICE</title>
+    <style>
+        :root {
+            --primary-blue: #1e3a8a;
+            --secondary-blue: #3b82f6;
+            --light-blue: #60a5fa;
+            --dark-blue: #1e40af;
+            --accent-blue: #2563eb;
+            --white: #ffffff;
+            --light-gray: #f8fafc;
+            --medium-gray: #e2e8f0;
+            --border-gray: #cbd5e1;
+            --text-dark: #1e293b;
+            --text-medium: #475569;
+            --text-light: #64748b;
+            --error-color: #ef4444;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+            --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+            --transition: all 0.2s ease-in-out;
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --radius-xl: 20px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.5;
+            color: var(--text-dark);
+            background: var(--light-gray);
+            min-height: 100vh;
+            font-weight: 400;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+      
+        .header-container {
+            background: var(--white);
+            border-bottom: 1px solid var(--border-gray);
+            padding: 1rem 2rem;
+            position: fixed;
+            top: 0;
+            left: 240px;
+            right: 0;
+            z-index: 50;
+            height: 64px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .header-left h1 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 2px;
+        }
+
+        .breadcrumb {
+            font-size: 0.875rem;
+            color: var(--text-light);
+        }
+
+        .breadcrumb a {
+            color: var(--text-light);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .breadcrumb a:hover {
+            color: var(--primary-blue);
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .user-avatar {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 240px;
+            height: 100vh;
+            background: var(--white);
+            border-right: 1px solid var(--border-gray);
+            z-index: 100;
+            overflow-y: auto;
+        }
+
+        .logo-section {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--border-gray);
+            text-align: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-blue);
+            margin-bottom: 0.25rem;
+        }
+
+        .logo-subtitle {
+            font-size: 0.75rem;
+            color: var(--text-light);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .nav-section {
+            padding: 1rem 0;
+        }
+
+        .nav-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .nav-group-title {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--text-light);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            padding: 0 1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .nav-item {
+            margin: 0 0.75rem;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem;
+            color: var(--text-medium);
+            text-decoration: none;
+            border-radius: var(--radius-sm);
+            transition: var(--transition);
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        .nav-link:hover {
+            background: var(--light-gray);
+            color: var(--text-dark);
+        }
+
+        .nav-link.active {
+            background: var(--primary-blue);
+            color: white;
+        }
+
+        .nav-link i {
+            width: 20px;
+            text-align: center;
+            font-size: 1rem;
+        }
+
+     
+        .main-content {
+            margin-left: 240px;
+            padding-top: 64px;
+            min-height: 100vh;
+        }
+
+        .content-wrapper {
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+       
+        .profile-layout {
+            display: grid;
+            grid-template-columns: 320px 1fr;
+            gap: 2rem;
+            align-items: start;
+        }
+
+      
+        .profile-card {
+            background: var(--white);
+            border: 1px solid var(--border-gray);
+            border-radius: var(--radius-xl);
+            overflow: hidden;
+            position: sticky;
+            top: 80px;
+        }
+
+        .profile-header {
+            background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue));
+            padding: 2rem;
+            text-align: center;
+            color: white;
+            position: relative;
+        }
+
+        .profile-avatar-large {
+            width: 80px;
+            height: 80px;
+            background: rgba(255, 255, 255, 0.2);
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            font-weight: 700;
+            margin: 0 auto 1rem auto;
+            backdrop-filter: blur(10px);
+        }
+
+        .profile-name {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .profile-role {
+            font-size: 0.875rem;
+            opacity: 0.9;
+        }
+
+        .profile-body {
+            padding: 1.5rem;
+        }
+
+        .profile-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 1rem;
+            background: var(--light-gray);
+            border-radius: var(--radius-md);
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-blue);
+            margin-bottom: 0.25rem;
+        }
+
+        .stat-label {
+            font-size: 0.75rem;
+            color: var(--text-light);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .profile-info {
+            space-y: 1rem;
+        }
+
+        .info-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid var(--border-gray);
+            font-size: 0.875rem;
+        }
+
+        .info-item:last-child {
+            border-bottom: none;
+        }
+
+        .info-icon {
+            width: 32px;
+            height: 32px;
+            background: var(--light-gray);
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-medium);
+            flex-shrink: 0;
+        }
+
+        .info-content {
+            flex: 1;
+        }
+
+        .info-label {
+            font-size: 0.75rem;
+            color: var(--text-light);
+            margin-bottom: 0.125rem;
+        }
+
+        .info-value {
+            color: var(--text-dark);
+            font-weight: 500;
+        }
+
+      
+        .form-section {
+            background: var(--white);
+            border: 1px solid var(--border-gray);
+            border-radius: var(--radius-xl);
+            overflow: hidden;
+        }
+
+        .form-header {
+            padding: 1.5rem 2rem;
+            border-bottom: 1px solid var(--border-gray);
+            background: var(--white);
+        }
+
+        .form-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 0.25rem;
+        }
+
+        .form-subtitle {
+            font-size: 0.875rem;
+            color: var(--text-light);
+        }
+
+        .form-body {
+            padding: 2rem;
+        }
+
+        .form-tabs {
+            display: flex;
+            margin-bottom: 2rem;
+            border-bottom: 1px solid var(--border-gray);
+        }
+
+        .form-tab {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            background: none;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--text-medium);
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            transition: var(--transition);
+        }
+
+        .form-tab:hover {
+            color: var(--text-dark);
+            background: var(--light-gray);
+        }
+
+        .form-tab.active {
+            color: var(--primary-blue);
+            border-bottom-color: var(--primary-blue);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+
+        .form-label {
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--text-dark);
+            margin-bottom: 0.5rem;
+        }
+
+        .form-input,
+        .form-select,
+        .form-textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--border-gray);
+            border-radius: var(--radius-md);
+            font-size: 0.875rem;
+            background: var(--white);
+            color: var(--text-dark);
+            transition: var(--transition);
+        }
+
+        .form-input:focus,
+        .form-select:focus,
+        .form-textarea:focus {
+            outline: none;
+            border-color: var(--primary-blue);
+            box-shadow: 0 0 0 3px rgba(30, 58, 138, 0.1);
+        }
+
+        .form-textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .form-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+            padding: 1.5rem 2rem;
+            border-top: 1px solid var(--border-gray);
+            background: var(--light-gray);
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            border: 1px solid transparent;
+            border-radius: var(--radius-md);
+            font-size: 0.875rem;
+            font-weight: 500;
+            text-decoration: none;
+            cursor: pointer;
+            transition: var(--transition);
+            white-space: nowrap;
+        }
+
+        .btn-primary {
+            background: var(--primary-blue);
+            color: white;
+            border-color: var(--primary-blue);
+        }
+
+        .btn-primary:hover {
+            background: var(--dark-blue);
+            border-color: var(--dark-blue);
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .btn-secondary {
+            background: var(--white);
+            color: var(--text-medium);
+            border-color: var(--border-gray);
+        }
+
+        .btn-secondary:hover {
+            background: var(--light-gray);
+            color: var(--text-dark);
+        }
+
+        
+        .alert {
+            display: none;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1rem 1.5rem;
+            margin-bottom: 1.5rem;
+            border-radius: var(--radius-md);
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        .alert.success {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success-color);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+        }
+
+        .alert.error {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--error-color);
+            border: 1px solid rgba(239, 68, 68, 0.2);
+        }
+
+        
+        @media (max-width: 1024px) {
+            .profile-layout {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .profile-card {
+                position: relative;
+                top: 0;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform 0.3s ease;
+            }
+
+            .sidebar.open {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+
+            .header-container {
+                left: 0;
+            }
+
+            .content-wrapper {
+                padding: 1rem;
+            }
+
+            .form-tabs {
+                overflow-x: auto;
+                white-space: nowrap;
+            }
+
+            .form-actions {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+
+       
+        .loading {
+            opacity: 0.6;
+            pointer-events: none;
+        }
+
+        .spinner {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+     
+        .form-input.valid {
+            border-color: var(--success-color);
+        }
+
+        .form-input.invalid {
+            border-color: var(--error-color);
+        }
+
+        .form-input.valid:focus {
+            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+        }
+
+        .form-input.invalid:focus {
+            box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+        }
+    </style>
+</head>
+<body>
+    
+    <header class="header-container">
+        <div class="header-left">
+            <h1>Meu Perfil</h1>
+            <nav class="breadcrumb">
+                <a href="index.html">Dashboard</a>
+                <i class="fas fa-chevron-right" style="font-size: 0.75rem; margin: 0 0.5rem;"></i>
+                <span>Meu Perfil</span>
+            </nav>
+        </div>
+        <div class="user-info">
+            <span style="font-size: 0.875rem; font-weight: 500;">Prof. João Pedro Santos</span>
+            <div class="user-avatar">JS</div>
+        </div>
+    </header>
+
+    
+    <aside class="sidebar">
+        <div class="logo-section">
+            <div class="logo">SEICE</div>
+            <div class="logo-subtitle">Sistema de Avaliação</div>
+        </div>
+
+        <nav class="nav-section">
+            <div class="nav-group">
+                <div class="nav-group-title">Principal</div>
+                <div class="nav-item">
+                    <a href="index.html" class="nav-link">
+                        <i class="fas fa-home"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </div>
+            </div>
+
+            <div class="nav-group">
+                <div class="nav-group-title">Avaliações</div>
+                <div class="nav-item">
+                    <a href="avaliacoes.html" class="nav-link">
+                        <i class="fas fa-plus-circle"></i>
+                        <span>Criar Avaliação</span>
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="importar.html" class="nav-link">
+                        <i class="fas fa-upload"></i>
+                        <span>Importar Alunos</span>
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="aplicar.html" class="nav-link">
+                        <i class="fas fa-play-circle"></i>
+                        <span>Aplicar Prova</span>
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="corrigir.html" class="nav-link">
+                        <i class="fas fa-check-circle"></i>
+                        <span>Corrigir</span>
+                    </a>
+                </div>
+            </div>
+
+            <div class="nav-group">
+                <div class="nav-group-title">Resultados</div>
+                <div class="nav-item">
+                    <a href="resultados.html" class="nav-link">
+                        <i class="fas fa-chart-bar"></i>
+                        <span>Notas dos Alunos</span>
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="estatisticas.html" class="nav-link">
+                        <i class="fas fa-analytics"></i>
+                        <span>Estatísticas</span>
+                    </a>
+                </div>
+            </div>
+
+            <div class="nav-group">
+                <div class="nav-group-title">Configurações</div>
+                <div class="nav-item">
+                    <a href="perfil.html" class="nav-link active">
+                        <i class="fas fa-user-circle"></i>
+                        <span>Meu Perfil</span>
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="senha.html" class="nav-link">
+                        <i class="fas fa-lock"></i>
+                        <span>Alterar Senha</span>
+                    </a>
+                </div>
+            </div>
+        </nav>
+    </aside>
+
+    
+    <main class="main-content">
+        <div class="content-wrapper">
+           
+            <div class="alert success" id="successAlert">
+                <i class="fas fa-check-circle"></i>
+                <span>Perfil atualizado com sucesso!</span>
+            </div>
+
+            <div class="alert error" id="errorAlert">
+                <i class="fas fa-exclamation-triangle"></i>
+                <span>Erro ao atualizar perfil. Tente novamente.</span>
+            </div>
+
+            <div class="profile-layout">
+              
+                <div class="profile-card">
+                    <div class="profile-header">
+                        <div class="profile-avatar-large" id="profileAvatar">JS</div>
+                        <div class="profile-name" id="profileDisplayName">João Pedro Santos</div>
+                        <div class="profile-role">Professor</div>
+                    </div>
+
+                    <div class="profile-body">
+                        <div class="profile-stats">
+                            <div class="stat-item">
+                                <div class="stat-value">0</div>
+                                <div class="stat-label">Avaliações</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-value">0</div>
+                                <div class="stat-label">Alunos</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-value">0</div>
+                                <div class="stat-label">Turmas</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-value">2024</div>
+                                <div class="stat-label">Membro</div>
+                            </div>
+                        </div>
+
+                        <div class="profile-info">
+                            <div class="info-item">
+                                <div class="info-icon">
+                                    <i class="fas fa-envelope"></i>
+                                </div>
+                                <div class="info-content">
+                                    <div class="info-label">Email</div>
+                                    <div class="info-value" id="displayEmail">Não informado</div>
+                                </div>
+                            </div>
+
+                            <div class="info-item">
+                                <div class="info-icon">
+                                    <i class="fas fa-phone"></i>
+                                </div>
+                                <div class="info-content">
+                                    <div class="info-label">Telefone</div>
+                                    <div class="info-value" id="displayPhone">Não informado</div>
+                                </div>
+                            </div>
+
+                            <div class="info-item">
+                                <div class="info-icon">
+                                    <i class="fas fa-building"></i>
+                                </div>
+                                <div class="info-content">
+                                    <div class="info-label">Instituição</div>
+                                    <div class="info-value" id="displayInstitution">Não informado</div>
+                                </div>
+                            </div>
+
+                            <div class="info-item">
+                                <div class="info-icon">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                </div>
+                                <div class="info-content">
+                                    <div class="info-label">Localização</div>
+                                    <div class="info-value" id="displayLocation">Não informado</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            
+                <div class="form-section">
+                    <div class="form-header">
+                        <h2 class="form-title">Editar Perfil</h2>
+                        <p class="form-subtitle">Mantenha suas informações sempre atualizadas</p>
+                    </div>
+
+                    <form id="profileForm">
+                        <div class="form-body">
+                            <div class="form-tabs">
+                                <button type="button" class="form-tab active" data-tab="personal">
+                                    <i class="fas fa-user"></i>
+                                    Pessoal
+                                </button>
+                                <button type="button" class="form-tab" data-tab="professional">
+                                    <i class="fas fa-briefcase"></i>
+                                    Profissional
+                                </button>
+                                <button type="button" class="form-tab" data-tab="contact">
+                                    <i class="fas fa-address-book"></i>
+                                    Contato
+                                </button>
+                            </div>
+
+                           
+                            <div class="tab-content active" data-content="personal">
+                                <div class="form-grid">
+                                    <div class="form-group">
+                                        <label class="form-label" for="firstName">Nome *</label>
+                                        <input type="text" id="firstName" class="form-input" placeholder="Digite seu nome" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label" for="lastName">Sobrenome *</label>
+                                        <input type="text" id="lastName" class="form-input" placeholder="Digite seu sobrenome" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label" for="cpf">CPF</label>
+                                        <input type="text" id="cpf" class="form-input" placeholder="000.000.000-00" maxlength="14">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label" for="birthDate">Data de Nascimento</label>
+                                        <input type="date" id="birthDate" class="form-input">
+                                    </div>
+                                    <div class="form-group full-width">
+                                        <label class="form-label" for="bio">Biografia</label>
+                                        <textarea id="bio" class="form-textarea" placeholder="Conte um pouco sobre sua trajetória profissional..."></textarea>
+                                    </div>
+                                </div>
+                            </div>
+
+                          
+                            <div class="tab-content" data-content="professional">
+                                <div class="form-grid">
+                                    <div class="form-group">
+                                        <label class="form-label" for="institution">Instituição</label>
+                                        <input type="text" id="institution" class="form-input" placeholder="Nome da instituição">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label" for="department">Departamento</label>
+                                        <input type="text" id="department" class="form-input" placeholder="Departamento/Área">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label" for="position">Cargo</label>
+                                        <select id="position" class="form-select">
+                                            <option value="">Selecione o cargo</option>
+                                            <option value="professor">Professor</option>
+                                            <option value="coordenador">Coordenador</option>
+                                            <option value="diretor">Diretor</option>
+                                            <option value="supervisor">Supervisor</option>
+                                            <option value="outro">Outro</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label" for="experience">Experiência (anos)</label>
+                                        <input type="number" id="experience" class="form-input" placeholder="0" min="0" max="50">
+                                    </div>
+                                    <div class="form-group full-width">
+                                        <label class="form-label" for="specialties">Especialidades/Matérias</label>
+                                        <input type="text" id="specialties" class="form-input" placeholder="Ex: Matemática, Física, Química">
+                                    </div>
+                                </div>
+                            </div>
+
+                           
+                            <div class="tab-content" data-content="contact">
+                                <div class="form-grid">
+                                    <div class="form-group">
+                                        <label class="form-label" for="email">Email *</label>
+                                        <input type="email" id="email" class="form-input" placeholder="seu.email@exemplo.com" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label" for="phone">Telefone</label>
+                                        <input type="tel" id="phone" class="form-input" placeholder="(21) 99999-9999">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label" for="city">Cidade</label>
+                                        <input type="text" id="city" class="form-input" placeholder="Digite sua cidade">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label" for="state">Estado</label>
+                                        <select id="state" class="form-select">
+                                            <option value="">Selecione o estado</option>
+                                            <option value="AC">Acre</option>
+                                            <option value="AL">Alagoas</option>
+                                            <option value="AP">Amapá</option>
+                                            <option value="AM">Amazonas</option>
+                                            <option value="BA">Bahia</option>
+                                            <option value="CE">Ceará</option>
+                                            <option value="DF">Distrito Federal</option>
+                                            <option value="ES">Espírito Santo</option>
+                                            <option value="GO">Goiás</option>
+                                            <option value="MA">Maranhão</option>
+                                            <option value="MT">Mato Grosso</option>
+                                            <option value="MS">Mato Grosso do Sul</option>
+                                            <option value="MG">Minas Gerais</option>
+                                            <option value="PA">Pará</option>
+                                            <option value="PB">Paraíba</option>
+                                            <option value="PR">Paraná</option>
+                                            <option value="PE">Pernambuco</option>
+                                            <option value="PI">Piauí</option>
+                                            <option value="RJ">Rio de Janeiro</option>
+                                            <option value="RN">Rio Grande do Norte</option>
+                                            <option value="RS">Rio Grande do Sul</option>
+                                            <option value="RO">Rondônia</option>
+                                            <option value="RR">Roraima</option>
+                                            <option value="SC">Santa Catarina</option>
+                                            <option value="SP">São Paulo</option>
+                                            <option value="SE">Sergipe</option>
+                                            <option value="TO">Tocantins</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group full-width">
+                                        <label class="form-label" for="address">Endereço Completo</label>
+                                        <textarea id="address" class="form-textarea" placeholder="Digite seu endereço completo..." style="min-height: 80px;"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="button" class="btn btn-secondary" onclick="resetForm()">
+                                <i class="fas fa-undo"></i>
+                                Cancelar
+                            </button>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save"></i>
+                                Salvar Perfil
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+       
+        let profileData = {
+            firstName: 'João Pedro',
+            lastName: 'Santos',
+            email: '',
+            phone: '',
+            cpf: '',
+            birthDate: '',
+            bio: '',
+            institution: '',
+            department: '',
+            position: '',
+            experience: '',
+            specialties: '',
+            city: '',
+            state: '',
+            address: ''
+        };
+
+      
+        document.querySelectorAll('.form-tab').forEach(tab => {
+            tab.addEventListener('click', function() {
+                const tabName = this.dataset.tab;
+                
+                
+                document.querySelectorAll('.form-tab').forEach(t => t.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                
+              
+                this.classList.add('active');
+                document.querySelector(`[data-content="${tabName}"]`).classList.add('active');
+            });
+        });
+
+       
+        function validateField(field) {
+            const value = field.value.trim();
+            const isRequired = field.hasAttribute('required');
+            
+            if (isRequired && !value) {
+                field.classList.add('invalid');
+                field.classList.remove('valid');
+                return false;
+            } else if (field.type === 'email' && value) {
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailRegex.test(value)) {
+                    field.classList.add('invalid');
+                    field.classList.remove('valid');
+                    return false;
+                }
+            }
+            
+            if (value || !isRequired) {
+                field.classList.add('valid');
+                field.classList.remove('valid');
+            }
+            
+            return true;
+        }
+
+        
+        document.querySelectorAll('.form-input, .form-select, .form-textarea').forEach(field => {
+            field.addEventListener('blur', () => validateField(field));
+            field.addEventListener('input', () => {
+                if (field.classList.contains('invalid')) {
+                    validateField(field);
+                }
+            });
+        });
+
+        
+        document.getElementById('cpf').addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, '');
+            value = value.replace(/(\d{3})(\d)/, '$1.$2');
+            value = value.replace(/(\d{3})(\d)/, '$1.$2');
+            value = value.replace(/(\d{3})(\d{1,2})$/, '$1-$2');
+            e.target.value = value;
+        });
+
+        
+        document.getElementById('phone').addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, '');
+            value = value.replace(/(\d{2})(\d)/, '($1) $2');
+            value = value.replace(/(\d)(\d{4})$/, '$1-$2');
+            e.target.value = value;
+        });
+
+        
+        function loadProfile() {
+            document.getElementById('firstName').value = profileData.firstName;
+            document.getElementById('lastName').value = profileData.lastName;
+            document.getElementById('email').value = profileData.email;
+            document.getElementById('phone').value = profileData.phone;
+            document.getElementById('cpf').value = profileData.cpf;
+            document.getElementById('birthDate').value = profileData.birthDate;
+            document.getElementById('bio').value = profileData.bio;
+            document.getElementById('institution').value = profileData.institution;
+            document.getElementById('department').value = profileData.department;
+            document.getElementById('position').value = profileData.position;
+            document.getElementById('experience').value = profileData.experience;
+            document.getElementById('specialties').value = profileData.specialties;
+            document.getElementById('city').value = profileData.city;
+            document.getElementById('state').value = profileData.state;
+            document.getElementById('address').value = profileData.address;
+
+            updateDisplayInfo();
+        }
+
+       
+        function updateDisplayInfo() {
+            const fullName = `${profileData.firstName} ${profileData.lastName}`.trim();
+            document.getElementById('profileDisplayName').textContent = fullName || 'Nome não informado';
+            
+          
+            const initials = fullName.split(' ').map(name => name[0]).join('').substring(0, 2).toUpperCase();
+            document.getElementById('profileAvatar').textContent = initials || 'JS';
+            
+           
+            document.getElementById('displayEmail').textContent = profileData.email || 'Não informado';
+            document.getElementById('displayPhone').textContent = profileData.phone || 'Não informado';
+            document.getElementById('displayInstitution').textContent = profileData.institution || 'Não informado';
+            
+            const location = [profileData.city, profileData.state].filter(Boolean).join(', ');
+            document.getElementById('displayLocation').textContent = location || 'Não informado';
+        }
+
+
+        function resetForm() {
+            loadProfile();
+            document.querySelectorAll('.form-input, .form-select, .form-textarea').forEach(field => {
+                field.classList.remove('valid', 'invalid');
+            });
+            hideAlerts();
+        }
+
+        
+        function showAlert(type, message) {
+            hideAlerts();
+            const alert = document.getElementById(type + 'Alert');
+            if (alert) {
+                if (message) {
+                    alert.querySelector('span').textContent = message;
+                }
+                alert.style.display = 'flex';
+                setTimeout(() => {
+                    alert.style.display = 'none';
+                }, 5000);
+            }
+        }
+
+        
+        function hideAlerts() {
+            document.querySelectorAll('.alert').forEach(alert => {
+                alert.style.display = 'none';
+            });
+        }
+
+    
+        document.getElementById('profileForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            
+            const fields = document.querySelectorAll('.form-input[required], .form-select[required], .form-textarea[required]');
+            let isValid = true;
+            
+            fields.forEach(field => {
+                if (!validateField(field)) {
+                    isValid = false;
+                }
+            });
+            
+            if (!isValid) {
+                showAlert('error', 'Por favor, preencha todos os campos obrigatórios.');
+                return;
+            }
+            
+            
+            const submitBtn = document.querySelector('.btn-primary');
+            const originalText = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<div class="spinner"></div> Salvando...';
+            submitBtn.disabled = true;
+            document.querySelector('.form-section').classList.add('loading');
+            
+           
+            setTimeout(() => {
+                
+                profileData.firstName = document.getElementById('firstName').value;
+                profileData.lastName = document.getElementById('lastName').value;
+                profileData.email = document.getElementById('email').value;
+                profileData.phone = document.getElementById('phone').value;
+                profileData.cpf = document.getElementById('cpf').value;
+                profileData.birthDate = document.getElementById('birthDate').value;
+                profileData.bio = document.getElementById('bio').value;
+                profileData.institution = document.getElementById('institution').value;
+                profileData.department = document.getElementById('department').value;
+                profileData.position = document.getElementById('position').value;
+                profileData.experience = document.getElementById('experience').value;
+                profileData.specialties = document.getElementById('specialties').value;
+                profileData.city = document.getElementById('city').value;
+                profileData.state = document.getElementById('state').value;
+                profileData.address = document.getElementById('address').value;
+                
+                updateDisplayInfo();
+                
+               
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+                document.querySelector('.form-section').classList.remove('loading');
+                
+                showAlert('success');
+                
+                
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+                
+            }, 1500);
+        });
+
+        
+        function toggleSidebar() {
+            document.querySelector('.sidebar').classList.toggle('open');
+        }
+
+        
+        if (window.innerWidth <= 768) {
+            const headerLeft = document.querySelector('.header-left');
+            const menuBtn = document.createElement('button');
+            menuBtn.innerHTML = '<i class="fas fa-bars"></i>';
+            menuBtn.style.cssText = 'background: none; border: none; font-size: 1.2rem; margin-right: 1rem; cursor: pointer;';
+            menuBtn.onclick = toggleSidebar;
+            headerLeft.insertBefore(menuBtn, headerLeft.firstChild);
+        }
+
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            loadProfile();
+        });
+
+       
+        window.addEventListener('resize', function() {
+            if (window.innerWidth > 768) {
+                document.querySelector('.sidebar').classList.remove('open');
+            }
+        });
+    </script>
+</body>
+</html>

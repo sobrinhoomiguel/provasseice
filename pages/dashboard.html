@@ -6,6 +6,33 @@
     <title>Provas Seice - Sistema de Provas</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
     <style>
+         :root {
+                --primary-blue: #26418d;
+                --secondary-blue: #3b82f6;
+                --light-blue: #60a5fa;
+                --dark-blue: #1b2f6e;
+                --accent-blue: #2563eb;
+                --white: #ffffff;
+                --light-gray: #f8fafc;
+                --medium-gray: #e2e8f0;
+                --border-gray: #cbd5e1;
+                --text-dark: #1e293b;
+                --text-medium: #475569;
+                --text-light: #64748b;
+                --error-color: #ef4444;
+                --success-color: #10b981;
+                --warning-color: #f59e0b;
+                --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+                --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+                --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+                --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+                --transition: all 0.2s ease-in-out;
+                --radius-sm: 8px;
+                --radius-md: 12px;
+                --radius-lg: 16px;
+                --radius-xl: 20px;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -19,41 +46,32 @@
         }
 
         .sidebar {
-            position: fixed;
-            left: 0;
-            top: 0;
+            width: 15vw;
             height: 100vh;
-            width: 250px;
-            background: linear-gradient(135deg, #2D4B73 0%, #1a3048 100%);
-            color: white;
-            z-index: 1000;
-            overflow-y: auto;
+            background: linear-gradient(180deg, var(--primary-blue) 0%, var(--dark-blue) 100%);
+            color: var(--white);
+            position: fixed;
+            top: 0;
+            left: 0;
             display: flex;
             flex-direction: column;
+            justify-content: space-between;
+            padding: 2rem 1rem;
+            box-shadow: 4px 0 20px rgba(0, 0, 0, 0.15);
+            z-index: 200;
         }
 
         .logo {
             padding: 20px;
             border-bottom: 1px solid rgba(255,255,255,0.1);
         }
-
-        .logo h1 {
-            font-size: 20px;
-            font-weight: 700;
+        
+        .seice-logo {
+            width: 60px;
+            height: 60px;
             display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .logo-icon {
-            width: 24px;
-            height: 24px;
-            background: #00d4aa;
-            border-radius: 4px;
-            display: flex;
-            align-items: center;
             justify-content: center;
-            font-size: 12px;
+            margin: -20px auto 1rem auto;
         }
 
         .nav-menu {
@@ -71,7 +89,7 @@
             border-left: 3px solid transparent;
             cursor: pointer;
             font-size: 13px;
-            font-weight: 500;
+            font-weight: 500;   
         }
 
         .nav-item:hover, .nav-item.active {
@@ -140,13 +158,13 @@
         }
 
         .main-content {
-            margin-left: 250px;
+            margin-left: 15vw;
             min-height: 100vh;
         }
 
         .top-header {
             background: white;
-            padding: 12px 25px;
+            padding: 18px 25px;
             border-bottom: 1px solid #e1e5e9;
             display: flex;
             justify-content: space-between;
@@ -176,6 +194,7 @@
             display: flex;
             align-items: center;
             gap: 15px;
+            width: 100%;
             font-size: 14px;
         }
 
@@ -198,8 +217,8 @@
         }
 
         .alert-banner {
-            background: #fff3cd;
-            border: 1px solid #ffeaa7;
+            background: #c7c7c76b;
+            border: 1px solid #00000011;
             border-radius: 8px;
             padding: 15px;
             margin-bottom: 25px;
@@ -208,7 +227,7 @@
 
         .alert-title {
             font-weight: 600;
-            color: #d63384;
+            color: #d63333;
             margin-bottom: 5px;
         }
 
@@ -412,7 +431,7 @@
         }
 
         .btn-primary {
-            background: #2D4B73;
+            background: #174177;
             color: white;
         }
 
@@ -423,16 +442,16 @@
         }
 
         .btn-success {
-            background: #00d4aa;
+            background: #09b342;
             color: white;
         }
 
         .btn-success:hover {
-            background: #00b89a;
+            background: #089135;
         }
 
         .btn-secondary {
-            background: #6c757d;
+            background: #7d7f81;
             color: white;
         }
 
@@ -632,8 +651,7 @@
     <nav class="sidebar">
         <div class="logo">
             <h1>
-                <div class="logo-icon">≡</div>
-                PROVAS SEICE
+                 <div class="seice-logo"><img src="../img/image.png" alt="Logo SEICE"></div>
             </h1>
         </div>
         
@@ -670,6 +688,7 @@
             </a>
         </div>
 
+        <!--
         <div class="solutions-section">
             <div class="solutions-title">SOLUÇÕES ATIVAS:</div>
             <div class="solution-item">
@@ -681,6 +700,8 @@
                 AVALIAÇÕES REGULARES
             </div>
         </div>
+        -->
+        
 
         <div class="version-info">
             <span>© Provas Seice - Versão 1.0.0</span>
@@ -693,14 +714,16 @@
     <main class="main-content">
         <header class="top-header">
             <div class="header-nav">
+                <!--
                 <button class="header-nav-item">☰</button>
                 <button class="header-nav-item">🏠</button>
                 <button class="header-nav-item">📋</button>
                 <div class="notification-badge">6</div>
             </div>
+            -->
             <div class="header-right">
-                <span>Unidades: <strong>demo</strong> ▼</span>
-                <span style="margin-left: 20px;">daniel ▼</span>
+                <span>Unidades: <strong>Unidade I (Campos Elíseos)</strong> ▼</span>
+                <span style="margin-left: 20px;">Prof. Daniel ▼</span>
             </div>
         </header>
 
@@ -916,7 +939,7 @@
             
             <div id="banco-questoes" class="tab-content">
                 <div style="display: flex; justify-content: between; align-items: center; margin-bottom: 20px;">
-                    <h3 style="color: #2D4B73;">Banco de Questões</h3>
+                    <h3 style="color: #184580;">Banco de Questões</h3>
                     <button class="btn btn-primary" onclick="switchTab('criar-questao')">
                         + Nova Questão
                     </button>

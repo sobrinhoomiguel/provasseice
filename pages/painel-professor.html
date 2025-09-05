@@ -72,6 +72,7 @@ body {
 
 .logo-text p {
     font-size: 0.875rem;
+    margin-left: 35px;
     color: #93c5fd;
 }
 
@@ -104,6 +105,13 @@ body {
     color: #93c5fd;
 }
 
+.seice-logo {
+    width: 60px;
+    height: 60px;
+    display: flex;
+    justify-content: center;
+    margin: 0 65px;
+}
 
 .sidebar-nav {
     flex: 1;
@@ -418,12 +426,9 @@ body {
         <aside class="sidebar">
           
             <div class="sidebar-header">
-                <div class="logo-container">
-                    <div class="logo-icon">
-                        <i data-lucide="book-open"></i>
-                    </div>
+                <div class="logo-container">                  
                     <div class="logo-text">
-                        <h2>SEICE</h2>
+                        <div class="seice-logo"><img src="../img/image.png" alt="Logo SEICE"></div>
                         <p>Sistema de Avaliação</p>
                     </div>
                 </div>
@@ -481,7 +486,7 @@ body {
                         <li>
                             <button class="nav-item" data-page="configuracoes">
                                 <i data-lucide="settings"></i>
-                                <span>Configurações</span>
+                                <a href="perfil.html" style="color: #dbeafece; text-decoration: none;"><span>Configurações</span></a>
                             </button>
                         </li>
                         <li>

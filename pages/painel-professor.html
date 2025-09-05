@@ -3,617 +3,834 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <title>Painel Professor | Provas SEICE</title>
+    <title>SEICE - Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/lucide/0.263.1/lucide.min.css" rel="stylesheet">
     <style>
-    :root {
-                --primary-blue: #26418d;
-                --secondary-blue: #3b82f6;
-                --light-blue: #60a5fa;
-                --dark-blue: #1b2f6e;
-                --accent-blue: #2563eb;
-                --white: #ffffff;
-                --light-gray: #f8fafc;
-                --medium-gray: #e2e8f0;
-                --border-gray: #cbd5e1;
-                --text-dark: #1e293b;
-                --text-medium: #475569;
-                --text-light: #64748b;
-                --error-color: #ef4444;
-                --success-color: #10b981;
-                --warning-color: #f59e0b;
-                --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-                --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-                --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
-                --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
-                --transition: all 0.2s ease-in-out;
-                --radius-sm: 8px;
-                --radius-md: 12px;
-                --radius-lg: 16px;
-                --radius-xl: 20px;
-        }
-
         * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6;
-            color: var(--text-dark);
-            background: linear-gradient(135deg, var(--light-gray) 10%, var(--medium-gray) 100%);
-            min-height: 100vh;
-            overflow-x: hidden;
-        }
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-size: 16px;
+    line-height: 1.5;
+    color: #374151;
+    background-color: #f9fafb;
+}
 
-        .header-container {
-            background: linear-gradient(90deg, var(--white) 0%, rgba(255,255,255,0.95) 100%);
-            backdrop-filter: blur(10px);
-            color: var(--text-dark);
-            padding: 1.2rem 2rem;
-            width: 85vw;
-            margin-left: 15vw;
-            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.08);
-            position: fixed;
-            top: 0;
-            z-index: 100;
-            border-bottom: 1px solid rgba(45, 75, 115, 0.1);
-        }
+.dashboard {
+    display: flex;
+    height: 100vh;
+    overflow: hidden;
+}
 
-        .header-content {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
 
-        .header-title {
-            font-size: 1.5rem;
-            font-weight: 600;
-            color: var(--primary-blue);
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
+.sidebar {
+    width: 256px;
+    background-color: #1e3a8a;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
 
-        .user-info {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            color: var(--primary-blue);
-            font-weight: 500;
-        }
+.sidebar-header {
+    padding: 1.5rem;
+    border-bottom: 1px solid #1e40af;
+}
 
-        .user-avatar {
-            width: 40px;
-            height: 40px;
-            background: linear-gradient(135deg, var(--primary-blue), var(--light-blue));
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: bold;
-            box-shadow: 0 3px 10px rgba(45, 75, 115, 0.3);
-        }
+.logo-container {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
 
-        .left-block {
-            width: 15vw;
-            height: 100vh;
-            background: linear-gradient(180deg, var(--primary-blue) 0%, var(--dark-blue) 100%);
-            color: var(--white);
-            position: fixed;
-            top: 0;
-            left: 0;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            padding: 2rem 1rem;
-            box-shadow: 4px 0 20px rgba(0, 0, 0, 0.15);
-            z-index: 200;
-        }
+.logo-icon {
+    width: 2rem;
+    height: 2rem;
+    background-color: white;
+    border-radius: 0.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 
-        .seice-logo {
-            width: 60px;
-            height: 60px;
-            display: flex;
-            justify-content: center;
-            margin: -20px auto 1rem auto;
-        }
+.logo-icon i {
+    width: 1.25rem;
+    height: 1.25rem;
+    color: #1e3a8a;
+}
 
-        .logo-text {
-            text-align: center;
-            font-size: 0.9rem;
-            font-weight: 300;
-            opacity: 0.8;
-            margin-bottom: 2rem;
-            letter-spacing: 1px;
-        }
+.logo-text h2 {
+    font-size: 1.125rem;
+    font-weight: 600;
+    margin-bottom: 0.125rem;
+}
 
-        .left-block .sections {
-            flex: 1;
-        }
+.logo-text p {
+    font-size: 0.875rem;
+    color: #93c5fd;
+}
 
-        .left-block .sections ul {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
+.user-info {
+    padding: 1.5rem;
+    border-bottom: 1px solid #1e40af;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
 
-        .menu-item {
-            margin-bottom: 0.5rem;
-        }
+.user-avatar {
+    width: 2.5rem;
+    height: 2.5rem;
+    background-color: #1d4ed8;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+}
 
-        .menu-btn {
-            width: 100%;
-            background: none;
-            border: none;
-            color: var(--white);
-            font-size: 0.9rem;
-            text-align: left;
-            padding: 1rem;
-            cursor: pointer;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            transition: var(--transition);
-            border-radius: 10px;
-            font-weight: 500;
-            position: relative;
-            overflow: hidden;
-        }
+.user-name {
+    font-weight: 500;
+    margin-bottom: 0.125rem;
+}
 
-        .menu-btn:before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
-            transition: var(--transition);
-        }
+.user-role {
+    font-size: 0.875rem;
+    color: #93c5fd;
+}
 
-        .menu-btn:hover {
-            background: rgba(255, 255, 255, 0.1);
-            transform: translateX(5px);
-        }
 
-        .menu-btn:hover:before {
-            left: 100%;
-        }
+.sidebar-nav {
+    flex: 1;
+    padding: 1rem 0;
+}
 
-        .menu-btn i:first-child {
-            margin-right: 0.8rem;
-            width: 20px;
-            text-align: center;
-        }
+.nav-menu {
+    list-style: none;
+    padding: 0 0.75rem;
+}
 
-        .submenu {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            background: rgba(0, 0, 0, 0.1);
-            border-radius: 8px;
-            margin-top: 0.5rem;
-        }
+.nav-menu li {
+    margin-bottom: 0.25rem;
+}
 
-        .submenu a {
-            text-decoration: none;
-            color: var(--white);
-            font-size: 0.85rem;
-            padding: 0.8rem 1.2rem;
-            transition: var(--transition);
-            display: flex;
-            align-items: center;
-            opacity: 0.9;
-            border-radius: 6px;
-            margin: 0.2rem;
-        }
+.nav-item {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.5rem 0.75rem;
+    background: none;
+    border: none;
+    color: #bfdbfe;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 0.875rem;
+}
 
-        .submenu a:hover {
-            background: rgba(255, 255, 255, 0.1);
-            color: var(--white);
-            opacity: 1;
-            transform: translateX(5px);
-        }
+.nav-item:hover {
+    background-color: #1e40af;
+    color: white;
+}
 
-        .menu-item.active .submenu {
-            max-height: 300px;
-            padding: 0.5rem 0;
-        }
+.nav-item.active {
+    background-color: #1d4ed8;
+    color: white;
+}
 
-        .menu-item.active .arrow {
-            transform: rotate(180deg);
-        }
+.nav-item i {
+    width: 1.25rem;
+    height: 1.25rem;
+}
 
-        .arrow {
-            transition: transform 0.3s ease;
-        }
+.config-section {
+    margin-top: 2rem;
+}
 
-        .footer-info {
-            text-align: center;
-            font-size: 0.75rem;
-            opacity: 0.6;
-            padding: 1rem 0;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            margin-top: 1rem;
-        }
+.config-label {
+    padding: 0.5rem 1.5rem;
+    font-size: 0.75rem;
+    color: #93c5fd;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-weight: 600;
+}
 
-        .main-container {
-            margin-left: 15vw;
-            padding: 6rem 2rem 2rem 2rem;
-            width: 85vw;
-            min-height: 100vh;
-        }
+.config-menu {
+    list-style: none;
+    padding: 0 0.75rem;
+}
 
-        .welcome-section {
-            margin-bottom: 3rem;
-        }
+.config-menu li {
+    margin-bottom: 0.25rem;
+}
 
-        .welcome-title {
-            font-size: 2rem;
-            font-weight: 700;
-            color: var(--primary-blue);
-            margin-bottom: 0.5rem;
-        }
+.sidebar-logout {
+    padding: 0.75rem;
+    border-top: 1px solid #1e40af;
+}
 
-        .welcome-subtitle {
-            color: var(--secondary-blue);
-            font-size: 1.1rem;
-            opacity: 0.8;
-        }
+.logout-btn {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.5rem 0.75rem;
+    background: none;
+    border: none;
+    color: #bfdbfe;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 0.875rem;
+}
 
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 3rem;
-        }
+.logout-btn:hover {
+    background-color: #1e40af;
+    color: white;
+}
 
-        .stat-card {
-            background: linear-gradient(135deg, var(--white) 0%, rgba(255,255,255,0.9) 100%);
-            border-radius: 16px;
-            padding: 1.5rem;
-            text-align: center;
-            box-shadow: 0 8px 32px rgba(45, 75, 115, 0.1);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            transition: var(--transition);
-            position: relative;
-            overflow: hidden;
-        }
+.logout-btn i {
+    width: 1.25rem;
+    height: 1.25rem;
+}
 
-        .stat-card:before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: linear-gradient(90deg, var(--primary-blue), var(--light-blue));
-        }
+.sidebar-footer {
+    padding: 1rem;
+    text-align: center;
+    font-size: 0.75rem;
+    color: #93c5fd;
+}
 
-        .stat-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 12px 40px rgba(45, 75, 115, 0.15);
-        }
+.sidebar-footer p {
+    margin-bottom: 0.25rem;
+}
 
-        .stat-number {
-            font-size: 2.5rem;
-            font-weight: 700;
-            color: var(--primary-blue);
-            margin-bottom: 0.5rem;
-        }
 
-        .stat-label {
-            color: var(--secondary-blue);
-            font-weight: 500;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            font-size: 0.9rem;
-        }
+.main-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
 
-        .cards {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 2rem;
-        }
+.dashboard-header {
+    background-color: white;
+    border-bottom: 1px solid #e5e7eb;
+    padding: 1.5rem 2rem;
+}
 
-        .card {
-            background: linear-gradient(135deg, var(--white) 0%, rgba(255,255,255,0.95) 100%);
-            border-radius: 20px;
-            box-shadow: 0 10px 40px rgba(45, 75, 115, 0.1);
-            padding: 2rem;
-            text-align: center;
-            transition: var(--transition);
-            cursor: pointer;
-            position: relative;
-            overflow: hidden;
-            border: 1px solid rgba(255, 255, 255, 0.3);
-        }
+.header-title {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+}
 
-        .card:before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(45, 75, 115, 0.05), transparent);
-            transition: var(--transition);
-        }
+.title-icon {
+    width: 2rem;
+    height: 2rem;
+    background-color: #2563eb;
+    border-radius: 0.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 
-        .card:hover {
-            transform: translateY(-8px) scale(1.02);
-            box-shadow: 0 20px 60px rgba(45, 75, 115, 0.15);
-        }
+.title-icon i {
+    width: 1.25rem;
+    height: 1.25rem;
+    color: white;
+}
 
-        .card:hover:before {
-            left: 100%;
-        }
+.header-title h1 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #2563eb;
+}
 
-        .card-icon {
-            width: 70px;
-            height: 70px;
-            margin: 0 auto 1.5rem auto;
-            background: linear-gradient(135deg, var(--primary-blue), var(--light-blue));
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 1.8rem;
-            box-shadow: 0 8px 25px rgba(45, 75, 115, 0.3);
-        }
+.header-welcome h2 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #111827;
+    margin-bottom: 0.5rem;
+}
 
-        .card h2 {
-            font-size: 1.4rem;
-            font-weight: 600;
-            color: var(--primary-blue);
-            margin-bottom: 0.8rem;
-        }
+.header-welcome p {
+    color: #6b7280;
+}
 
-        .card p {
-            color: var(--secondary-blue);
-            font-size: 1rem;
-            opacity: 0.8;
-        }
 
-        .quick-actions {
-            position: fixed;
-            bottom: 2rem;
-            right: 2rem;
-            z-index: 100;
-        }
+.content-area {
+    flex: 1;
+    overflow: auto;
+}
 
-        .fab {
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(135deg, var(--primary-blue), var(--light-blue));
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 1.5rem;
-            box-shadow: 0 8px 25px rgba(45, 75, 115, 0.4);
-            cursor: pointer;
-            transition: var(--transition);
-            border: none;
-        }
 
-        .fab:hover {
-            transform: scale(1.1);
-            box-shadow: 0 12px 35px rgba(45, 75, 115, 0.5);
-        }
+.stats-section {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    padding: 1.5rem 2rem;
+}
 
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
+.stats-card {
+    background-color: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 0.5rem;
+    padding: 1.5rem;
+    text-align: center;
+}
 
-        .card, .stat-card {
-            animation: fadeInUp 0.6s ease forwards;
-        }
+.stat-value {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
 
-        .card:nth-child(1) { animation-delay: 0.1s; }
-        .card:nth-child(2) { animation-delay: 0.2s; }
-        .card:nth-child(3) { animation-delay: 0.3s; }
-        .card:nth-child(4) { animation-delay: 0.4s; }
+.stat-value.blue { color: #2563eb; }
+.stat-value.green { color: #059669; }
+.stat-value.orange { color: #ea580c; }
+.stat-value.gray { color: #6b7280; }
 
-        @media (max-width: 768px) {
-            .left-block {
-                width: 100vw;
-                height: auto;
-                position: relative;
-            }
-            
-            .header-container,
-            .main-container {
-                width: 100vw;
-                margin-left: 0;
-            }
-            
-            .cards {
-                grid-template-columns: 1fr;
-            }
-        }
+.stat-label {
+    font-size: 0.875rem;
+    color: #6b7280;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-weight: 600;
+}
+
+.actions-section {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    padding: 0 2rem 1.5rem 2rem;
+}
+
+.action-card {
+    background-color: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 0.5rem;
+    padding: 1.5rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.action-card:hover {
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    transform: translateY(-1px);
+}
+
+.action-icon {
+    width: 3rem;
+    height: 3rem;
+    background-color: #dbeafe;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1rem;
+    transition: all 0.2s;
+}
+
+.action-card:hover .action-icon {
+    background-color: #bfdbfe;
+}
+
+.action-icon i {
+    width: 1.5rem;
+    height: 1.5rem;
+    color: #2563eb;
+}
+
+.action-content h3 {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #111827;
+    margin-bottom: 0.5rem;
+}
+
+.action-content p {
+    font-size: 0.875rem;
+    color: #6b7280;
+    line-height: 1.4;
+}
+
+
+@media (max-width: 768px) {
+    .dashboard {
+        flex-direction: column;
+    }
+    
+    .sidebar {
+        width: 100%;
+        height: auto;
+        order: 2;
+    }
+    
+    .main-content {
+        order: 1;
+        height: auto;
+    }
+    
+    .stats-section {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+        padding: 1rem;
+    }
+    
+    .actions-section {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+        padding: 0 1rem 1rem 1rem;
+    }
+    
+    .dashboard-header {
+        padding: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .stats-section {
+        grid-template-columns: 1fr;
+    }
+    
+    .actions-section {
+        grid-template-columns: 1fr;
+    }
+}
     </style>
 </head>
 <body>
-    <div class="header-container">
-        <div class="header-content">
-            <div class="header-title">
-                <i class="fas fa-tachometer-alt"></i>
-                Painel do Professor
+    <div class="dashboard">
+       
+        <aside class="sidebar">
+          
+            <div class="sidebar-header">
+                <div class="logo-container">
+                    <div class="logo-icon">
+                        <i data-lucide="book-open"></i>
+                    </div>
+                    <div class="logo-text">
+                        <h2>SEICE</h2>
+                        <p>Sistema de Avaliação</p>
+                    </div>
+                </div>
             </div>
-            <div class="user-info">
-                <span>Prof. João Pedro Santos</span>
-                <div class="user-avatar">JS</div>
-            </div>
-        </div>
-    </div>
 
-    <main>
-        <div class="left-block">
-            <div class="logo">
-                <div class="seice-logo"><img src="../img/image.png" alt="Logo SEICE"></div>
-                <div class="logo-text">Sistema de Avaliação</div>
+           
+            <div class="user-info">
+                <div class="user-avatar">
+                    <span>J</span>
+                </div>
+                <div class="user-details">
+                    <p class="user-name">João Admin</p>
+                    <p class="user-role">Professor</p>
+                </div>
             </div>
-            
-            <div class="sections">
-                <ul>
-                    <li class="menu-item">
-                        <button class="menu-btn">
-                            <span><i class="fas fa-clipboard-list"></i> AVALIAÇÕES</span>
-                            <i class="fas fa-chevron-down arrow"></i>
+
+           
+            <nav class="sidebar-nav">
+                <ul class="nav-menu">
+                    <li>
+                        <button class="nav-item active" data-page="dashboard">
+                            <i data-lucide="layout-dashboard"></i>
+                            <span>Dashboard</span>
                         </button>
-                        <div class="submenu">
-                            <a href="avaliacoes.html"><i class="fas fa-plus"></i> Criar Avaliação</a>
-                            <a href="importar.html"><i class="fas fa-upload"></i> Importar Alunos</a>
-                            <a href="aplicar.html"><i class="fas fa-play"></i> Aplicar</a>
-                            <a href="corrigir.html"><i class="fas fa-check"></i> Corrigir</a>
-                        </div>
                     </li>
-                    <li class="menu-item">
-                        <button class="menu-btn">
-                            <span><i class="fas fa-chart-bar"></i> RESULTADOS</span>
-                            <i class="fas fa-chevron-down arrow"></i>
+                    <li>
+                        <button class="nav-item" data-page="avaliacoes">
+                            <i data-lucide="file-text"></i>
+                            <span>Avaliações</span>
                         </button>
-                        <div class="submenu">
-                            <a href="resultados.html"><i class="fas fa-graduation-cap"></i> Notas dos alunos</a>
-                            <a href="estatisticas.html"><i class="fas fa-analytics"></i> Estatísticas</a>
-                        </div>
                     </li>
-                    <li class="menu-item">
-                        <button class="menu-btn">
-                            <span><i class="fas fa-cog"></i> CONFIGURAÇÃO</span>
-                            <i class="fas fa-chevron-down arrow"></i>
+                    <li>
+                        <button class="nav-item" data-page="banco-questoes">
+                            <i data-lucide="database"></i>
+                            <span>Banco de Questões</span>
                         </button>
-                        <div class="submenu">
-                            <a href="perfil.html"><i class="fas fa-user"></i> Meu Perfil</a>
-                            <a href="senha.html"><i class="fas fa-lock"></i> Alterar Senha</a>
-                        </div>
+                    </li>
+                    <li>
+                        <button class="nav-item" data-page="alunos">
+                            <i data-lucide="users"></i>
+                            <span>Alunos</span>
+                        </button>
+                    </li>
+                    <li>
+                        <button class="nav-item" data-page="relatorios">
+                            <i data-lucide="bar-chart-3"></i>
+                            <span>Relatórios</span>
+                        </button>
                     </li>
                 </ul>
-            </div>
+
+                <div class="config-section">
+                    <p class="config-label">CONFIGURAÇÃO</p>
+                    <ul class="config-menu">
+                        <li>
+                            <button class="nav-item" data-page="configuracoes">
+                                <i data-lucide="settings"></i>
+                                <span>Configurações</span>
+                            </button>
+                        </li>
+                        <li>
+                            <button class="nav-item" data-page="alterar-senha">
+                                <i data-lucide="settings"></i>
+                                <span>Alterar Senha</span>
+                            </button>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
             
-            <div class="footer-info">
-                <p>&copy; Provas SEICE<br>Versão 1.0.0</p>
-            </div>
-        </div>
-
-        <div class="main-container">
-            <div class="welcome-section">
-                <h1 class="welcome-title">Bem-vindo de volta!</h1>
-                <p class="welcome-subtitle">Gerencie suas avaliações e acompanhe o progresso dos alunos</p>
+            <div class="sidebar-logout">
+                <button class="logout-btn">
+                    <i data-lucide="log-out"></i>
+                    <span>Sair</span>
+                </button>
             </div>
 
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-number">0</div>
-                    <div class="stat-label">Avaliações Criadas</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number">0</div>
-                    <div class="stat-label">Alunos Cadastrados</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number">100%</div>
-                    <div class="stat-label">Taxa de Aprovação</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number">0</div>
-                    <div class="stat-label">Pendentes</div>
-                </div>
+          
+            <div class="sidebar-footer">
+                <p>© Provas SEICE</p>
+                <p>Versão 1.0.0</p>
             </div>
+        </aside>
 
-            <div class="cards">
-                <div class="card" onclick="location.href='importar.html'">
-                    <div class="card-icon">
-                        <i class="fas fa-upload"></i>
+       
+        <main class="main-content">
+         
+            <header class="dashboard-header">
+                <div class="header-title">
+                    <div class="title-icon">
+                        <i data-lucide="book-open"></i>
                     </div>
-                    <h2>Importar Alunos</h2>
+                    <h1>Painel do Professor</h1>
+                </div>
+                <div class="header-welcome">
+                    <h2>Bem-vindo de volta!</h2>
+                    <p>Gerencie suas avaliações e acompanhe o progresso dos alunos</p>
+                </div>
+            </header>
+
+            
+            <div class="content-area">
+                
+                <section class="stats-section">
+                    <div class="stats-card">
+                        <div class="stat-value gray">0</div>
+                        <div class="stat-label">AVALIAÇÕES CRIADAS</div>
+                    </div>
+                    <div class="stats-card">
+                        <div class="stat-value blue">0</div>
+                        <div class="stat-label">ALUNOS CADASTRADOS</div>
+                    </div>
+                    <div class="stats-card">
+                        <div class="stat-value green">0</div>
+                        <div class="stat-label">QUESTÕES NO BANCO</div>
+                    </div>
+                    <div class="stats-card">
+                        <div class="stat-value orange">0</div>
+                        <div class="stat-label">AVALIAÇÕES ATIVAS</div>
+                    </div>
+                </section>
+
+                <!-- Action Cards -->
+                <section class="actions-section">
+                    <div class="action-card" onclick="handleAction('importar-alunos')">
+                        <div class="action-icon">
+                            <i data-lucide="upload"></i>
+                        </div>
+                        <div class="action-content">
+                            <h3>Importar Alunos</h3>
+                            <p>Importe listas de alunos via planilha CSV ou Excel</p>
+                        </div>
+                    </div>
+                    <div class="action-card" onclick="handleAction('criar-avaliacao')">
+                        <div class="action-icon">
+                            <i data-lucide="plus"></i>
+                        </div>
+                        <div class="action-content">
+                            <h3>Criar Avaliação</h3>
+                            <p>Crie novas avaliações personalizadas para suas turmas</p>
+                        </div>
+                    </div>
+                    <div class="action-card" onclick="handleAction('aplicar-prova')">
+                        <div class="action-icon">
+                            <i data-lucide="play"></i>
+                        </div>
+                        <div class="action-content">
+                            <h3>Aplicar Prova</h3>
+                            <p>Inicie sessões de avaliação para seus alunos</p>
+                        </div>
+                    </div>
+                    <div class="action-card" onclick="handleAction('corrigir')">
+                        <div class="action-icon">
+                            <i data-lucide="check-circle"></i>
+                        </div>
+                        <div class="action-content">
+                            <h3>Corrigir</h3>
+                            <p>Revise e corrija as avaliações dos alunos</p>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+  <script>
+    
+lucide.createIcons();
+
+
+document.addEventListener('DOMContentLoaded', function() {
+    const navItems = document.querySelectorAll('.nav-item');
+    
+    navItems.forEach(item => {
+        item.addEventListener('click', function() {
+            
+            navItems.forEach(nav => nav.classList.remove('active'));
+           
+            this.classList.add('active');
+            
+            
+            const page = this.getAttribute('data-page');
+            console.log('Navegando para:', page);
+            
+           
+            handleNavigation(page);
+        });
+    });
+    
+    
+    const logoutBtn = document.querySelector('.logout-btn');
+    logoutBtn.addEventListener('click', function() {
+        if (confirm('Tem certeza que deseja sair?')) {
+            console.log('Usuário deslogado');
+        
+        }
+    });
+});
+
+
+function handleNavigation(page) {
+    
+    const headerTitle = document.querySelector('.header-title h1');
+    const headerWelcome = document.querySelector('.header-welcome');
+    
+    switch(page) {
+        case 'dashboard':
+            headerTitle.textContent = 'Painel do Professor';
+            headerWelcome.innerHTML = `
+                <h2>Bem-vindo de volta!</h2>
+                <p>Gerencie suas avaliações e acompanhe o progresso dos alunos</p>
+            `;
+            showDashboardContent();
+            break;
+        case 'avaliacoes':
+            headerTitle.textContent = 'Avaliações';
+            headerWelcome.innerHTML = `
+                <h2>Gerenciar Avaliações</h2>
+                <p>Crie, edite e monitore suas avaliações</p>
+            `;
+            showPageContent('Funcionalidade de Avaliações em desenvolvimento...');
+            break;
+        case 'banco-questoes':
+            headerTitle.textContent = 'Banco de Questões';
+            headerWelcome.innerHTML = `
+                <h2>Banco de Questões</h2>
+                <p>Organize e gerencie suas questões</p>
+            `;
+            showPageContent('Funcionalidade de Banco de Questões em desenvolvimento...');
+            break;
+        case 'alunos':
+            headerTitle.textContent = 'Alunos';
+            headerWelcome.innerHTML = `
+                <h2>Gerenciar Alunos</h2>
+                <p>Cadastre e acompanhe seus alunos</p>
+            `;
+            showPageContent('Funcionalidade de Alunos em desenvolvimento...');
+            break;
+        case 'relatorios':
+            headerTitle.textContent = 'Relatórios';
+            headerWelcome.innerHTML = `
+                <h2>Relatórios</h2>
+                <p>Visualize estatísticas e relatórios detalhados</p>
+            `;
+            showPageContent('Funcionalidade de Relatórios em desenvolvimento...');
+            break;
+        case 'configuracoes':
+            headerTitle.textContent = 'Configurações';
+            headerWelcome.innerHTML = `
+                <h2>Configurações</h2>
+                <p>Ajuste as configurações do sistema</p>
+            `;
+            showPageContent('Funcionalidade de Configurações em desenvolvimento...');
+            break;
+        case 'alterar-senha':
+            headerTitle.textContent = 'Alterar Senha';
+            headerWelcome.innerHTML = `
+                <h2>Alterar Senha</h2>
+                <p>Atualize sua senha de acesso</p>
+            `;
+            showPageContent('Funcionalidade de Alterar Senha em desenvolvimento...');
+            break;
+    }
+}
+
+
+function showDashboardContent() {
+    const contentArea = document.querySelector('.content-area');
+    contentArea.innerHTML = `
+        <!-- Stats Cards -->
+        <section class="stats-section">
+            <div class="stats-card">
+                <div class="stat-value gray">0</div>
+                <div class="stat-label">AVALIAÇÕES CRIADAS</div>
+            </div>
+            <div class="stats-card">
+                <div class="stat-value blue">0</div>
+                <div class="stat-label">ALUNOS CADASTRADOS</div>
+            </div>
+            <div class="stats-card">
+                <div class="stat-value green">0</div>
+                <div class="stat-label">QUESTÕES NO BANCO</div>
+            </div>
+            <div class="stats-card">
+                <div class="stat-value orange">0</div>
+                <div class="stat-label">AVALIAÇÕES ATIVAS</div>
+            </div>
+        </section>
+
+        <!-- Action Cards -->
+        <section class="actions-section">
+            <div class="action-card" onclick="handleAction('importar-alunos')">
+                <div class="action-icon">
+                    <i data-lucide="upload"></i>
+                </div>
+                <div class="action-content">
+                    <h3>Importar Alunos</h3>
                     <p>Importe listas de alunos via planilha CSV ou Excel</p>
                 </div>
-                
-                <div class="card" onclick="location.href='avaliacoes.html'">
-                    <div class="card-icon">
-                        <i class="fas fa-plus"></i>
-                    </div>
-                    <h2>Criar Avaliação</h2>
+            </div>
+            <div class="action-card" onclick="handleAction('criar-avaliacao')">
+                <div class="action-icon">
+                    <i data-lucide="plus"></i>
+                </div>
+                <div class="action-content">
+                    <h3>Criar Avaliação</h3>
                     <p>Crie novas avaliações personalizadas para suas turmas</p>
                 </div>
-                
-                <div class="card" onclick="location.href='aplicar.html'">
-                    <div class="card-icon">
-                        <i class="fas fa-play"></i>
-                    </div>
-                    <h2>Aplicar Prova</h2>
+            </div>
+            <div class="action-card" onclick="handleAction('aplicar-prova')">
+                <div class="action-icon">
+                    <i data-lucide="play"></i>
+                </div>
+                <div class="action-content">
+                    <h3>Aplicar Prova</h3>
                     <p>Inicie sessões de avaliação para seus alunos</p>
                 </div>
-                
-                <div class="card" onclick="location.href='corrigir.html'">
-                    <div class="card-icon">
-                        <i class="fas fa-check-circle"></i>
-                    </div>
-                    <h2>Corrigir</h2>
+            </div>
+            <div class="action-card" onclick="handleAction('corrigir')">
+                <div class="action-icon">
+                    <i data-lucide="check-circle"></i>
+                </div>
+                <div class="action-content">
+                    <h3>Corrigir</h3>
                     <p>Revise e corrija as avaliações dos alunos</p>
                 </div>
             </div>
+        </section>
+    `;
+    
+   
+    lucide.createIcons();
+}
+
+
+function showPageContent(message) {
+    const contentArea = document.querySelector('.content-area');
+    contentArea.innerHTML = `
+        <div style="padding: 2rem; text-align: center;">
+            <div style="background: white; border-radius: 0.5rem; padding: 3rem; border: 1px solid #e5e7eb;">
+                <i data-lucide="construction" style="width: 3rem; height: 3rem; color: #6b7280; margin-bottom: 1rem;"></i>
+                <h3 style="color: #374151; margin-bottom: 0.5rem;">${message}</h3>
+                <p style="color: #6b7280;">Esta funcionalidade será implementada em breve.</p>
+            </div>
         </div>
+    `;
+    
+    
+    lucide.createIcons();
+}
 
-        <div class="quick-actions">
-            <button class="fab" title="Ação rápida">
-                <i class="fas fa-plus"></i>
-            </button>
-        </div>
-    </main>
 
-    <script>
-        document.querySelectorAll('.menu-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                const item = btn.parentElement;
-                
-             
-                document.querySelectorAll('.menu-item').forEach(otherItem => {
-                    if (otherItem !== item) {
-                        otherItem.classList.remove('active');
-                    }
-                });
-                
-                item.classList.toggle('active');
-            });
+function handleAction(action) {
+    const actionMessages = {
+        'importar-alunos': 'Importar Alunos',
+        'criar-avaliacao': 'Criar Avaliação',
+        'aplicar-prova': 'Aplicar Prova',
+        'corrigir': 'Corrigir Avaliações'
+    };
+    
+    const message = actionMessages[action] || action;
+    
+    alert(`Funcionalidade "${message}" será implementada em breve!`);
+    console.log('Ação executada:', action);
+}
+
+
+document.addEventListener('DOMContentLoaded', function() {
+   
+    const actionCards = document.querySelectorAll('.action-card');
+    
+    actionCards.forEach(card => {
+        card.addEventListener('mouseenter', function() {
+            this.style.transform = 'translateY(-2px)';
         });
-
-       
-        document.querySelectorAll('.card').forEach(card => {
-            card.addEventListener('mouseenter', function(e) {
-                this.style.transform = 'translateY(-8px) scale(1.02)';
-            });
-            
-            card.addEventListener('mouseleave', function(e) {
-                this.style.transform = 'translateY(0) scale(1)';
-            });
+        
+        card.addEventListener('mouseleave', function() {
+            this.style.transform = 'translateY(0)';
         });
-
-       
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
-                });
-            });
+    });
+    
+    
+    setTimeout(() => {
+        const statValues = document.querySelectorAll('.stat-value');
+        statValues.forEach((stat, index) => {
+            setTimeout(() => {
+                stat.style.transform = 'scale(1.1)';
+                setTimeout(() => {
+                    stat.style.transform = 'scale(1)';
+                }, 200);
+            }, index * 100);
         });
-    </script>
+    }, 500);
+});
+
+
+function toggleMobileMenu() {
+    const sidebar = document.querySelector('.sidebar');
+    sidebar.classList.toggle('mobile-open');
+}
+
+window.addEventListener('resize', function() {
+   
+    console.log('Window resized to:', window.innerWidth, 'x', window.innerHeight);
+});
+  </script>
 </body>
 </html>

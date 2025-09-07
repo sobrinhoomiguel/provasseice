@@ -1,0 +1,1335 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SEICE - Importar Alunos</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/lucide/0.263.1/lucide.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-size: 16px;
+            line-height: 1.5;
+            color: #374151;
+            background-color: #f9fafb;
+        }
+
+        .dashboard {
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+      
+        .sidebar {
+            width: 256px;
+            background-color: #1e3a8a;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+
+        .sidebar-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid #1e40af;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .logo-text h2 {
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin-bottom: 0.125rem;
+        }
+
+        .logo-text p {
+            font-size: 0.875rem;
+            margin-left: 35px;
+            color: #93c5fd;
+        }
+
+        .seice-logo {
+            width: 60px;
+            height: 60px;
+            display: flex;
+            justify-content: center;
+            margin: 0 65px;
+            background-color: white;
+            border-radius: 0.25rem;
+            align-items: center;
+            color: #1e3a8a;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .user-info {
+            padding: 1.5rem;
+            border-bottom: 1px solid #1e40af;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .user-avatar {
+            width: 2.5rem;
+            height: 2.5rem;
+            background-color: #1d4ed8;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+        }
+
+        .user-name {
+            font-weight: 500;
+            margin-bottom: 0.125rem;
+        }
+
+        .user-role {
+            font-size: 0.875rem;
+            color: #93c5fd;
+        }
+
+        .sidebar-nav {
+            flex: 1;
+            padding: 1rem 0;
+        }
+
+        .nav-menu {
+            list-style: none;
+            padding: 0 0.75rem;
+        }
+
+        .nav-menu li {
+            margin-bottom: 0.25rem;
+        }
+
+        .nav-item {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.5rem 0.75rem;
+            background: none;
+            border: none;
+            color: #bfdbfe;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.875rem;
+            text-decoration: none;
+        }
+
+        .nav-item:hover {
+            background-color: #1e40af;
+            color: white;
+        }
+
+        .nav-item.active {
+            background-color: #1d4ed8;
+            color: white;
+        }
+
+        .config-section {
+            margin-top: 2rem;
+        }
+
+        .config-label {
+            padding: 0.5rem 1.5rem;
+            font-size: 0.75rem;
+            color: #93c5fd;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-weight: 600;
+        }
+
+        .config-menu {
+            list-style: none;
+            padding: 0 0.75rem;
+        }
+
+        .sidebar-logout {
+            padding: 0.75rem;
+            border-top: 1px solid #1e40af;
+        }
+
+        .logout-btn {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.5rem 0.75rem;
+            background: none;
+            border: none;
+            color: #bfdbfe;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.875rem;
+        }
+
+        .logout-btn:hover {
+            background-color: #1e40af;
+            color: white;
+        }
+
+        .sidebar-footer {
+            padding: 1rem;
+            text-align: center;
+            font-size: 0.75rem;
+            color: #93c5fd;
+        }
+
+       
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .dashboard-header {
+            background-color: white;
+            border-bottom: 1px solid #e5e7eb;
+            padding: 1.5rem 2rem;
+        }
+
+        .header-title {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+
+        .title-icon {
+            width: 2rem;
+            height: 2rem;
+            background-color: #2563eb;
+            border-radius: 0.25rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .header-title h1 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #2563eb;
+        }
+
+        .header-welcome h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #111827;
+            margin-bottom: 0.5rem;
+        }
+
+        .header-welcome p {
+            color: #6b7280;
+        }
+
+        .content-area {
+            flex: 1;
+            overflow: auto;
+            padding: 2rem;
+        }
+
+        .import-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .import-steps {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 2rem;
+        }
+
+        .step {
+            display: flex;
+            align-items: center;
+            padding: 0.5rem 1rem;
+            background-color: #e5e7eb;
+            border-radius: 0.25rem;
+            margin: 0 0.25rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: #6b7280;
+        }
+
+        .step.active {
+            background-color: #2563eb;
+            color: white;
+        }
+
+        .step.completed {
+            background-color: #059669;
+            color: white;
+        }
+
+        .card {
+            background-color: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 0.5rem;
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+        }
+
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #111827;
+            margin-bottom: 1rem;
+        }
+
+        .upload-area {
+            border: 2px dashed #d1d5db;
+            border-radius: 0.5rem;
+            padding: 3rem;
+            text-align: center;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+
+        .upload-area:hover {
+            border-color: #2563eb;
+            background-color: #f8fafc;
+        }
+
+        .upload-area.dragover {
+            border-color: #2563eb;
+            background-color: #dbeafe;
+        }
+
+        .upload-icon {
+            width: 3rem;
+            height: 3rem;
+            background-color: #e5e7eb;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            color: #6b7280;
+        }
+
+        .upload-area.dragover .upload-icon {
+            background-color: #2563eb;
+            color: white;
+        }
+
+        .upload-text {
+            color: #374151;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+
+        .upload-subtext {
+            color: #6b7280;
+            font-size: 0.875rem;
+        }
+
+        .file-input {
+            display: none;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 0.25rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-primary {
+            background-color: #2563eb;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #1d4ed8;
+        }
+
+        .btn-secondary {
+            background-color: #6b7280;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background-color: #4b5563;
+        }
+
+        .btn-success {
+            background-color: #059669;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background-color: #047857;
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            color: #2563eb;
+            border: 1px solid #2563eb;
+        }
+
+        .btn-outline:hover {
+            background-color: #2563eb;
+            color: white;
+        }
+
+        .file-info {
+            background-color: #f3f4f6;
+            border-radius: 0.25rem;
+            padding: 1rem;
+            margin-top: 1rem;
+        }
+
+        .file-name {
+            font-weight: 500;
+            color: #111827;
+        }
+
+        .file-details {
+            font-size: 0.875rem;
+            color: #6b7280;
+            margin-top: 0.25rem;
+        }
+
+        .preview-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+
+        .preview-table th,
+        .preview-table td {
+            border: 1px solid #e5e7eb;
+            padding: 0.75rem;
+            text-align: left;
+        }
+
+        .preview-table th {
+            background-color: #f9fafb;
+            font-weight: 600;
+            color: #374151;
+        }
+
+        .preview-table tbody tr:nth-child(even) {
+            background-color: #f9fafb;
+        }
+
+        .validation-status {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .status-icon {
+            width: 1.25rem;
+            height: 1.25rem;
+        }
+
+        .status-success {
+            color: #059669;
+        }
+
+        .status-warning {
+            color: #ea580c;
+        }
+
+        .status-error {
+            color: #dc2626;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 0.5rem;
+            background-color: #e5e7eb;
+            border-radius: 0.25rem;
+            overflow: hidden;
+            margin-top: 1rem;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background-color: #2563eb;
+            transition: width 0.3s ease;
+        }
+
+        .alert {
+            padding: 1rem;
+            border-radius: 0.25rem;
+            margin-bottom: 1rem;
+        }
+
+        .alert-success {
+            background-color: #d1fae5;
+            border: 1px solid #a7f3d0;
+            color: #065f46;
+        }
+
+        .alert-warning {
+            background-color: #fef3c7;
+            border: 1px solid #fcd34d;
+            color: #92400e;
+        }
+
+        .alert-error {
+            background-color: #fee2e2;
+            border: 1px solid #fca5a5;
+            color: #991b1b;
+        }
+
+        .template-section {
+            border-top: 1px solid #e5e7eb;
+            padding-top: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .template-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 0.5rem;
+        }
+
+        .template-description {
+            color: #6b7280;
+            margin-bottom: 1rem;
+        }
+
+        .template-columns {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .column-item {
+            background-color: #f9fafb;
+            border: 1px solid #e5e7eb;
+            border-radius: 0.25rem;
+            padding: 0.75rem;
+        }
+
+        .column-name {
+            font-weight: 500;
+            color: #111827;
+        }
+
+        .column-description {
+            font-size: 0.875rem;
+            color: #6b7280;
+            margin-top: 0.25rem;
+        }
+
+        .required-badge {
+            display: inline-block;
+            background-color: #dc2626;
+            color: white;
+            font-size: 0.75rem;
+            padding: 0.125rem 0.25rem;
+            border-radius: 0.125rem;
+            margin-left: 0.5rem;
+        }
+
+        .optional-badge {
+            display: inline-block;
+            background-color: #6b7280;
+            color: white;
+            font-size: 0.75rem;
+            padding: 0.125rem 0.25rem;
+            border-radius: 0.125rem;
+            margin-left: 0.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .dashboard {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                width: 100%;
+                height: auto;
+            }
+            
+            .content-area {
+                padding: 1rem;
+            }
+            
+            .card {
+                padding: 1rem;
+            }
+            
+            .template-columns {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard">
+        
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo-container">                  
+                    <div class="logo-text">
+                        <div class="seice-logo">SEICE</div>
+                        <p>Sistema de Avaliação</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="user-info">
+                <div class="user-avatar">
+                    <span>J</span>
+                </div>
+                <div class="user-details">
+                    <p class="user-name">João Admin</p>
+                    <p class="user-role">Professor</p>
+                </div>
+            </div>
+
+            <nav class="sidebar-nav">
+                <ul class="nav-menu">
+                    <li>
+                        <button class="nav-item" onclick="goToDashboard()">
+                            <i data-lucide="layout-dashboard"></i>
+                            <span>Dashboard</span>
+                        </button>
+                    </li>
+                    <li>
+                        <button class="nav-item">
+                            <i data-lucide="file-text"></i>
+                            <span>Avaliações</span>
+                        </button>
+                    </li>
+                    <li>
+                        <button class="nav-item">
+                            <i data-lucide="database"></i>
+                            <span>Banco de Questões</span>
+                        </button>
+                    </li>
+                    <li>
+                        <button class="nav-item active">
+                            <i data-lucide="users"></i>
+                            <span>Alunos</span>
+                        </button>
+                    </li>
+                    <li>
+                        <button class="nav-item">
+                            <i data-lucide="bar-chart-3"></i>
+                            <span>Relatórios</span>
+                        </button>
+                    </li>
+                </ul>
+
+                <div class="config-section">
+                    <p class="config-label">CONFIGURAÇÃO</p>
+                    <ul class="config-menu">
+                        <li>
+                            <button class="nav-item">
+                                <i data-lucide="settings"></i>
+                                <span>Configurações</span>
+                            </button>
+                        </li>
+                        <li>
+                            <button class="nav-item">
+                                <i data-lucide="lock"></i>
+                                <span>Alterar Senha</span>
+                            </button>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+            <div class="sidebar-logout">
+                <button class="logout-btn">
+                    <i data-lucide="log-out"></i>
+                    <span>Sair</span>
+                </button>
+            </div>
+
+            <div class="sidebar-footer">
+                <p>© Provas SEICE</p>
+                <p>Versão 1.0.0</p>
+            </div>
+        </aside>
+
+      
+        <main class="main-content">
+            <header class="dashboard-header">
+                <div class="header-title">
+                    <div class="title-icon">
+                        <i data-lucide="upload" style="color: white; width: 1.25rem; height: 1.25rem;"></i>
+                    </div>
+                    <h1>Importar Alunos</h1>
+                </div>
+                <div class="header-welcome">
+                    <h2>Importar Lista de Alunos</h2>
+                    <p>Importe alunos através de planilhas CSV ou Excel de forma fácil e rápida</p>
+                </div>
+            </header>
+
+            <div class="content-area">
+                <div class="import-container">
+                 
+                    <div class="import-steps">
+                        <div class="step active" id="step-1">
+                            <i data-lucide="upload" style="width: 1rem; height: 1rem; margin-right: 0.5rem;"></i>
+                            1. Upload do Arquivo
+                        </div>
+                        <div class="step" id="step-2">
+                            <i data-lucide="eye" style="width: 1rem; height: 1rem; margin-right: 0.5rem;"></i>
+                            2. Visualizar Dados
+                        </div>
+                        <div class="step" id="step-3">
+                            <i data-lucide="check-circle" style="width: 1rem; height: 1rem; margin-right: 0.5rem;"></i>
+                            3. Confirmar Importação
+                        </div>
+                    </div>
+
+                   
+                    <div class="card" id="upload-section">
+                        <h3 class="card-title">
+                            <i data-lucide="upload" style="width: 1.25rem; height: 1.25rem; margin-right: 0.5rem; color: #2563eb;"></i>
+                            Selecionar Arquivo
+                        </h3>
+                        
+                        <div class="upload-area" id="upload-area">
+                            <div class="upload-icon">
+                                <i data-lucide="file-plus" style="width: 1.5rem; height: 1.5rem;"></i>
+                            </div>
+                            <p class="upload-text">Arraste e solte seu arquivo aqui</p>
+                            <p class="upload-subtext">ou clique para selecionar um arquivo</p>
+                            <p class="upload-subtext" style="margin-top: 0.5rem; font-size: 0.75rem;">Formatos aceitos: CSV, Excel (.xlsx, .xls) - Máximo 10MB</p>
+                        </div>
+                        
+                        <input type="file" id="file-input" class="file-input" accept=".csv,.xlsx,.xls" />
+                        
+                        <div id="file-info" class="file-info" style="display: none;">
+                            <div class="file-name" id="file-name"></div>
+                            <div class="file-details" id="file-details"></div>
+                        </div>
+                        
+                        <div style="margin-top: 1.5rem; text-align: center;">
+                            <button class="btn btn-primary" id="process-file" style="display: none;">
+                                <i data-lucide="play" style="width: 1rem; height: 1rem;"></i>
+                                Processar Arquivo
+                            </button>
+                        </div>
+                    </div>
+
+                    
+                    <div class="card" id="preview-section" style="display: none;">
+                        <h3 class="card-title">
+                            <i data-lucide="eye" style="width: 1.25rem; height: 1.25rem; margin-right: 0.5rem; color: #2563eb;"></i>
+                            Visualizar Dados
+                        </h3>
+                        
+                        <div id="validation-status"></div>
+                        
+                        <div style="overflow-x: auto;">
+                            <table class="preview-table" id="preview-table">
+                                <thead id="table-head"></thead>
+                                <tbody id="table-body"></tbody>
+                            </table>
+                        </div>
+                        
+                        <div style="margin-top: 1.5rem; text-align: center;">
+                            <button class="btn btn-secondary" onclick="resetImport()">
+                                <i data-lucide="arrow-left" style="width: 1rem; height: 1rem;"></i>
+                                Voltar
+                            </button>
+                            <button class="btn btn-success" id="confirm-import" style="margin-left: 1rem;">
+                                <i data-lucide="check" style="width: 1rem; height: 1rem;"></i>
+                                Confirmar Importação
+                            </button>
+                        </div>
+                    </div>
+
+                  
+                    <div class="card" id="success-section" style="display: none;">
+                        <h3 class="card-title">
+                            <i data-lucide="check-circle" style="width: 1.25rem; height: 1.25rem; margin-right: 0.5rem; color: #059669;"></i>
+                            Importação Concluída
+                        </h3>
+                        
+                        <div class="alert alert-success">
+                            <div style="display: flex; align-items: center; gap: 0.5rem;">
+                                <i data-lucide="check-circle" style="width: 1.25rem; height: 1.25rem;"></i>
+                                <span id="success-message">Alunos importados com sucesso!</span>
+                            </div>
+                        </div>
+                        
+                        <div style="margin-top: 1.5rem; text-align: center;">
+                            <button class="btn btn-primary" onclick="goToDashboard()">
+                                <i data-lucide="home" style="width: 1rem; height: 1rem;"></i>
+                                Voltar ao Dashboard
+                            </button>
+                            <button class="btn btn-outline" onclick="resetImport()" style="margin-left: 1rem;">
+                                <i data-lucide="plus" style="width: 1rem; height: 1rem;"></i>
+                                Importar Mais Alunos
+                            </button>
+                        </div>
+                    </div>
+
+                
+                    <div class="card">
+                        <div class="template-section">
+                            <h4 class="template-title">
+                                <i data-lucide="download" style="width: 1rem; height: 1rem; margin-right: 0.5rem; color: #6b7280;"></i>
+                                Modelo de Planilha
+                            </h4>
+                            <p class="template-description">
+                                Para facilitar a importação, baixe nosso modelo de planilha com o formato correto.
+                            </p>
+                            
+                            <div class="template-columns">
+                                <div class="column-item">
+                                    <div class="column-name">
+                                        Nome Completo
+                                        <span class="required-badge">Obrigatório</span>
+                                    </div>
+                                    <div class="column-description">Nome completo do aluno</div>
+                                </div>
+                                
+                                <div class="column-item">
+                                    <div class="column-name">
+                                        E-mail
+                                        <span class="required-badge">Obrigatório</span>
+                                    </div>
+                                    <div class="column-description">Endereço de e-mail válido</div>
+                                </div>
+                                
+                                <div class="column-item">
+                                    <div class="column-name">
+                                        Matrícula
+                                        <span class="optional-badge">Opcional</span>
+                                    </div>
+                                    <div class="column-description">Número de matrícula do aluno</div>
+                                </div>
+                                
+                                <div class="column-item">
+                                    <div class="column-name">
+                                        Turma
+                                        <span class="optional-badge">Opcional</span>
+                                    </div>
+                                    <div class="column-description">Turma/Classe do aluno</div>
+                                </div>
+                                
+                                <div class="column-item">
+                                    <div class="column-name">
+                                        Telefone
+                                        <span class="optional-badge">Opcional</span>
+                                    </div>
+                                    <div class="column-description">Número de telefone/celular</div>
+                                </div>
+                                
+                                <div class="column-item">
+                                    <div class="column-name">
+                                        Data de Nascimento
+                                        <span class="optional-badge">Opcional</span>
+                                    </div>
+                                    <div class="column-description">Formato: DD/MM/AAAA</div>
+                                </div>
+                            </div>
+                            
+                            <button class="btn btn-outline" onclick="downloadTemplate()">
+                                <i data-lucide="download" style="width: 1rem; height: 1rem;"></i>
+                                Baixar Modelo CSV
+                            </button>
+                            <button class="btn btn-outline" onclick="downloadTemplateExcel()" style="margin-left: 0.5rem;">
+                                <i data-lucide="download" style="width: 1rem; height: 1rem;"></i>
+                                Baixar Modelo Excel
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <script>
+        
+        lucide.createIcons();
+
+        let uploadedData = [];
+        let fileName = '';
+
+      
+        const uploadArea = document.getElementById('upload-area');
+        const fileInput = document.getElementById('file-input');
+        const fileInfo = document.getElementById('file-info');
+        const processBtn = document.getElementById('process-file');
+
+     
+        uploadArea.addEventListener('click', () => fileInput.click());
+        uploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadArea.classList.add('dragover');
+        });
+        uploadArea.addEventListener('dragleave', () => {
+            uploadArea.classList.remove('dragover');
+        });
+        uploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadArea.classList.remove('dragover');
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                handleFileSelect(files[0]);
+            }
+        });
+
+        fileInput.addEventListener('change', (e) => {
+            if (e.target.files.length > 0) {
+                handleFileSelect(e.target.files[0]);
+            }
+        });
+
+        function handleFileSelect(file) {
+          
+            if (file.size > 10 * 1024 * 1024) {
+                alert('Arquivo muito grande! O tamanho máximo é de 10MB.');
+                return;
+            }
+
+           
+            const allowedTypes = ['.csv', '.xlsx', '.xls'];
+            const fileExtension = '.' + file.name.split('.').pop().toLowerCase();
+            
+            if (!allowedTypes.includes(fileExtension)) {
+                alert('Formato de arquivo não suportado! Use apenas CSV, Excel (.xlsx) ou Excel (.xls).');
+                return;
+            }
+
+            fileName = file.name;
+            displayFileInfo(file);
+            processBtn.style.display = 'inline-flex';
+        }
+
+        function displayFileInfo(file) {
+            const fileNameEl = document.getElementById('file-name');
+            const fileDetailsEl = document.getElementById('file-details');
+            
+            fileNameEl.textContent = file.name;
+            fileDetailsEl.textContent = `Tamanho: ${formatFileSize(file.size)} | Tipo: ${file.type || 'Não identificado'}`;
+            
+            fileInfo.style.display = 'block';
+        }
+
+        function formatFileSize(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        }
+
+        processBtn.addEventListener('click', () => {
+            const file = fileInput.files[0];
+            if (!file) return;
+
+            const fileExtension = '.' + file.name.split('.').pop().toLowerCase();
+            
+            if (fileExtension === '.csv') {
+                processCSV(file);
+            } else if (fileExtension === '.xlsx' || fileExtension === '.xls') {
+                processExcel(file);
+            }
+        });
+
+        function processCSV(file) {
+            Papa.parse(file, {
+                header: true,
+                skipEmptyLines: true,
+                encoding: 'UTF-8',
+                complete: function(results) {
+                    if (results.errors.length > 0) {
+                        console.error('Erros no CSV:', results.errors);
+                        showAlert('Erro ao processar CSV. Verifique o formato do arquivo.', 'error');
+                        return;
+                    }
+                    
+                    uploadedData = results.data;
+                    showPreview();
+                },
+                error: function(error) {
+                    console.error('Erro ao processar CSV:', error);
+                    showAlert('Erro ao processar o arquivo CSV.', 'error');
+                }
+            });
+        }
+
+        function processExcel(file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const data = new Uint8Array(e.target.result);
+                    const workbook = XLSX.read(data, { type: 'array' });
+                    const sheetName = workbook.SheetNames[0];
+                    const worksheet = workbook.Sheets[sheetName];
+                    const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+                    
+                    if (jsonData.length === 0) {
+                        showAlert('O arquivo Excel está vazio.', 'error');
+                        return;
+                    }
+                    
+                   
+                    const headers = jsonData[0];
+                    const rows = jsonData.slice(1);
+                    
+                    uploadedData = rows.map(row => {
+                        const obj = {};
+                        headers.forEach((header, index) => {
+                            obj[header] = row[index] || '';
+                        });
+                        return obj;
+                    });
+                    
+                    showPreview();
+                } catch (error) {
+                    console.error('Erro ao processar Excel:', error);
+                    showAlert('Erro ao processar o arquivo Excel.', 'error');
+                }
+            };
+            reader.readAsArrayBuffer(file);
+        }
+
+        function showPreview() {
+            if (uploadedData.length === 0) {
+                showAlert('Nenhum dado encontrado no arquivo.', 'error');
+                return;
+            }
+
+            
+            updateStep(2);
+            
+            
+            document.getElementById('upload-section').style.display = 'none';
+            document.getElementById('preview-section').style.display = 'block';
+            
+           
+            const validationResult = validateData(uploadedData);
+            displayValidationStatus(validationResult);
+            
+          
+            displayPreviewTable(uploadedData);
+        }
+
+        function validateData(data) {
+            const results = {
+                total: data.length,
+                valid: 0,
+                warnings: 0,
+                errors: 0,
+                messages: []
+            };
+
+            const requiredFields = ['Nome Completo', 'E-mail'];
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+            data.forEach((row, index) => {
+                let rowValid = true;
+                let rowWarnings = 0;
+
+                requiredFields.forEach(field => {
+                    const variations = getFieldVariations(field);
+                    const fieldValue = variations.find(v => row[v] && row[v].toString().trim());
+                    
+                    if (!fieldValue) {
+                        results.messages.push({
+                            type: 'error',
+                            message: `Linha ${index + 2}: Campo obrigatório "${field}" não encontrado ou vazio.`
+                        });
+                        rowValid = false;
+                        results.errors++;
+                    }
+                });
+
+              
+                const emailField = getFieldVariations('E-mail').find(v => row[v]);
+                if (emailField && row[emailField]) {
+                    const email = row[emailField].toString().trim();
+                    if (email && !emailRegex.test(email)) {
+                        results.messages.push({
+                            type: 'warning',
+                            message: `Linha ${index + 2}: E-mail "${email}" pode não ser válido.`
+                        });
+                        rowWarnings++;
+                    }
+                }
+
+                if (rowValid) {
+                    results.valid++;
+                }
+                results.warnings += rowWarnings;
+            });
+
+            return results;
+        }
+
+        function getFieldVariations(field) {
+            const variations = {
+                'Nome Completo': ['Nome Completo', 'Nome', 'nome completo', 'nome', 'Name', 'Full Name'],
+                'E-mail': ['E-mail', 'Email', 'e-mail', 'email', 'E-Mail', 'EMAIL']
+            };
+            return variations[field] || [field];
+        }
+
+        function displayValidationStatus(results) {
+            const statusDiv = document.getElementById('validation-status');
+            let statusClass = 'status-success';
+            let statusIcon = 'check-circle';
+            let statusText = `${results.valid} de ${results.total} registros válidos`;
+
+            if (results.errors > 0) {
+                statusClass = 'status-error';
+                statusIcon = 'x-circle';
+                statusText = `${results.errors} erro(s) encontrado(s)`;
+            } else if (results.warnings > 0) {
+                statusClass = 'status-warning';
+                statusIcon = 'alert-circle';
+                statusText = `${results.warnings} aviso(s) encontrado(s)`;
+            }
+
+            statusDiv.innerHTML = `
+                <div class="validation-status">
+                    <i data-lucide="${statusIcon}" class="status-icon ${statusClass}"></i>
+                    <span class="${statusClass}">${statusText}</span>
+                </div>
+            `;
+
+            
+            if (results.messages.length > 0) {
+                const messagesDiv = document.createElement('div');
+                messagesDiv.style.marginTop = '1rem';
+                
+                results.messages.slice(0, 10).forEach(msg => {
+                    const alertDiv = document.createElement('div');
+                    alertDiv.className = `alert alert-${msg.type === 'error' ? 'error' : 'warning'}`;
+                    alertDiv.style.fontSize = '0.875rem';
+                    alertDiv.style.padding = '0.5rem';
+                    alertDiv.style.marginBottom = '0.25rem';
+                    alertDiv.textContent = msg.message;
+                    messagesDiv.appendChild(alertDiv);
+                });
+
+                if (results.messages.length > 10) {
+                    const moreDiv = document.createElement('div');
+                    moreDiv.className = 'alert alert-warning';
+                    moreDiv.style.fontSize = '0.875rem';
+                    moreDiv.style.padding = '0.5rem';
+                    moreDiv.textContent = `... e mais ${results.messages.length - 10} mensagem(ns)`;
+                    messagesDiv.appendChild(moreDiv);
+                }
+
+                statusDiv.appendChild(messagesDiv);
+            }
+
+            const confirmBtn = document.getElementById('confirm-import');
+            if (results.errors > 0) {
+                confirmBtn.disabled = true;
+                confirmBtn.style.opacity = '0.5';
+                confirmBtn.style.cursor = 'not-allowed';
+            } else {
+                confirmBtn.disabled = false;
+                confirmBtn.style.opacity = '1';
+                confirmBtn.style.cursor = 'pointer';
+            }
+
+            lucide.createIcons();
+        }
+
+        function displayPreviewTable(data) {
+            const table = document.getElementById('preview-table');
+            const thead = document.getElementById('table-head');
+            const tbody = document.getElementById('table-body');
+
+           
+            thead.innerHTML = '';
+            tbody.innerHTML = '';
+
+            if (data.length === 0) return;
+
+           
+            const headerRow = document.createElement('tr');
+            const headers = Object.keys(data[0]);
+            headers.forEach(header => {
+                const th = document.createElement('th');
+                th.textContent = header;
+                headerRow.appendChild(th);
+            });
+            thead.appendChild(headerRow);
+
+            const maxRows = Math.min(data.length, 10);
+            for (let i = 0; i < maxRows; i++) {
+                const row = document.createElement('tr');
+                headers.forEach(header => {
+                    const td = document.createElement('td');
+                    td.textContent = data[i][header] || '';
+                    row.appendChild(td);
+                });
+                tbody.appendChild(row);
+            }
+
+           
+            if (data.length > 10) {
+                const moreRow = document.createElement('tr');
+                const moreCell = document.createElement('td');
+                moreCell.colSpan = headers.length;
+                moreCell.style.textAlign = 'center';
+                moreCell.style.fontStyle = 'italic';
+                moreCell.style.color = '#6b7280';
+                moreCell.textContent = `... e mais ${data.length - 10} linha(s)`;
+                moreRow.appendChild(moreCell);
+                tbody.appendChild(moreRow);
+            }
+        }
+
+        function updateStep(stepNumber) {
+            const steps = document.querySelectorAll('.step');
+            steps.forEach((step, index) => {
+                step.classList.remove('active', 'completed');
+                if (index + 1 < stepNumber) {
+                    step.classList.add('completed');
+                } else if (index + 1 === stepNumber) {
+                    step.classList.add('active');
+                }
+            });
+        }
+
+        document.getElementById('confirm-import').addEventListener('click', () => {
+            if (uploadedData.length === 0) return;
+
+            
+            updateStep(3);
+            document.getElementById('preview-section').style.display = 'none';
+            document.getElementById('success-section').style.display = 'block';
+
+          
+            const successMsg = document.getElementById('success-message');
+            successMsg.textContent = `${uploadedData.length} aluno(s) importado(s) com sucesso!`;
+
+            
+            console.log('Dados para importar:', uploadedData);
+        });
+
+        function resetImport() {
+            uploadedData = [];
+            fileName = '';
+            
+          
+            fileInput.value = '';
+            fileInfo.style.display = 'none';
+            processBtn.style.display = 'none';
+            
+           
+            updateStep(1);
+            
+          
+            document.getElementById('upload-section').style.display = 'block';
+            document.getElementById('preview-section').style.display = 'none';
+            document.getElementById('success-section').style.display = 'none';
+        }
+
+        function goToDashboard() {
+          
+            alert('Redirecionando para o dashboard...');
+        }
+
+        function showAlert(message, type) {
+            const alertDiv = document.createElement('div');
+            alertDiv.className = `alert alert-${type}`;
+            alertDiv.textContent = message;
+            alertDiv.style.position = 'fixed';
+            alertDiv.style.top = '20px';
+            alertDiv.style.right = '20px';
+            alertDiv.style.zIndex = '9999';
+            alertDiv.style.minWidth = '300px';
+            
+            document.body.appendChild(alertDiv);
+            
+            setTimeout(() => {
+                document.body.removeChild(alertDiv);
+            }, 5000);
+        }
+
+        
+        function downloadTemplate() {
+            const headers = ['Nome Completo', 'E-mail', 'Matrícula', 'Turma', 'Telefone', 'Data de Nascimento'];
+            const sampleData = [
+                ['João Silva Santos', 'joao.silva@email.com', '2023001', '3º Ano A', '(11) 99999-9999', '15/03/2005'],
+                ['Maria Oliveira Costa', 'maria.oliveira@email.com', '2023002', '3º Ano A', '(11) 88888-8888', '22/07/2004'],
+                ['Pedro Santos Lima', 'pedro.santos@email.com', '2023003', '3º Ano B', '(11) 77777-7777', '10/12/2004']
+            ];
+            
+            const csvContent = [headers, ...sampleData]
+                .map(row => row.map(field => `"${field}"`).join(','))
+                .join('\n');
+            
+            const blob = new Blob(['\ufeff' + csvContent], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = 'modelo_importacao_alunos.csv';
+            link.click();
+        }
+
+        function downloadTemplateExcel() {
+            const headers = ['Nome Completo', 'E-mail', 'Matrícula', 'Turma', 'Telefone', 'Data de Nascimento'];
+            const sampleData = [
+                ['João Silva Santos', 'joao.silva@email.com', '2023001', '3º Ano A', '(11) 99999-9999', '15/03/2005'],
+                ['Maria Oliveira Costa', 'maria.oliveira@email.com', '2023002', '3º Ano A', '(11) 88888-8888', '22/07/2004'],
+                ['Pedro Santos Lima', 'pedro.santos@email.com', '2023003', '3º Ano B', '(11) 77777-7777', '10/12/2004']
+            ];
+            
+            const ws = XLSX.utils.aoa_to_sheet([headers, ...sampleData]);
+            const wb = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(wb, ws, 'Alunos');
+            
+           
+            const headerRange = XLSX.utils.decode_range(ws['!ref']);
+            for (let col = headerRange.s.c; col <= headerRange.e.c; col++) {
+                const cellAddress = XLSX.utils.encode_cell({ r: 0, c: col });
+                if (!ws[cellAddress]) continue;
+                ws[cellAddress].s = {
+                    font: { bold: true },
+                    fill: { fgColor: { rgb: "EEEEEE" } }
+                };
+            }
+            
+            XLSX.writeFile(wb, 'modelo_importacao_alunos.xlsx');
+        }
+
+       
+        document.addEventListener('DOMContentLoaded', function() {
+            lucide.createIcons();
+        });
+    </script>
+</body>
+</html>

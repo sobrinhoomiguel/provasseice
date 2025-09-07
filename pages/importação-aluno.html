@@ -26,7 +26,7 @@
             overflow: hidden;
         }
 
-        /* Sidebar Styles */
+       
         .sidebar {
             width: 256px;
             background-color: #1e3a8a;
@@ -192,7 +192,7 @@
             color: #93c5fd;
         }
 
-        /* Main Content Styles */
+       
         .main-content {
             flex: 1;
             display: flex;
@@ -246,7 +246,7 @@
             padding: 2rem;
         }
 
-        /* Import Page Styles */
+       
         .import-container {
             max-width: 1200px;
             margin: 0 auto;
@@ -591,7 +591,7 @@
 </head>
 <body>
     <div class="dashboard">
-        <!-- Sidebar -->
+        
         <aside class="sidebar">
             <div class="sidebar-header">
                 <div class="logo-container">                  
@@ -678,7 +678,7 @@
             </div>
         </aside>
 
-        <!-- Main Content -->
+      
         <main class="main-content">
             <header class="dashboard-header">
                 <div class="header-title">
@@ -695,7 +695,7 @@
 
             <div class="content-area">
                 <div class="import-container">
-                    <!-- Steps -->
+                    
                     <div class="import-steps">
                         <div class="step active" id="step-1">
                             <i data-lucide="upload" style="width: 1rem; height: 1rem; margin-right: 0.5rem;"></i>
@@ -711,7 +711,7 @@
                         </div>
                     </div>
 
-                    <!-- Upload Section -->
+                   
                     <div class="card" id="upload-section">
                         <h3 class="card-title">
                             <i data-lucide="upload" style="width: 1.25rem; height: 1.25rem; margin-right: 0.5rem; color: #2563eb;"></i>
@@ -742,7 +742,7 @@
                         </div>
                     </div>
 
-                    <!-- Preview Section -->
+                 
                     <div class="card" id="preview-section" style="display: none;">
                         <h3 class="card-title">
                             <i data-lucide="eye" style="width: 1.25rem; height: 1.25rem; margin-right: 0.5rem; color: #2563eb;"></i>
@@ -770,7 +770,7 @@
                         </div>
                     </div>
 
-                    <!-- Success Section -->
+                   
                     <div class="card" id="success-section" style="display: none;">
                         <h3 class="card-title">
                             <i data-lucide="check-circle" style="width: 1.25rem; height: 1.25rem; margin-right: 0.5rem; color: #059669;"></i>
@@ -796,7 +796,7 @@
                         </div>
                     </div>
 
-                    <!-- Template Section -->
+              
                     <div class="card">
                         <div class="template-section">
                             <h4 class="template-title">
@@ -1239,7 +1239,7 @@
         }
 
         function goToDashboard() {
-            alert('Redirecionando para o dashboard...');
+            window.location.href = 'dashboard.html';
         }
 
         function showAlert(message, type) {
@@ -1306,6 +1306,6 @@
         document.addEventListener('DOMContentLoaded', function() {
             lucide.createIcons();
         });
-  </script>
+    </script>
 </body>
 </html>

@@ -26,7 +26,7 @@
             overflow: hidden;
         }
 
-      
+        /* Sidebar Styles */
         .sidebar {
             width: 256px;
             background-color: #1e3a8a;
@@ -192,7 +192,7 @@
             color: #93c5fd;
         }
 
-       
+        /* Main Content Styles */
         .main-content {
             flex: 1;
             display: flex;
@@ -246,6 +246,7 @@
             padding: 2rem;
         }
 
+        /* Import Page Styles */
         .import-container {
             max-width: 1200px;
             margin: 0 auto;
@@ -590,7 +591,7 @@
 </head>
 <body>
     <div class="dashboard">
-        
+        <!-- Sidebar -->
         <aside class="sidebar">
             <div class="sidebar-header">
                 <div class="logo-container">                  
@@ -677,7 +678,7 @@
             </div>
         </aside>
 
-      
+        <!-- Main Content -->
         <main class="main-content">
             <header class="dashboard-header">
                 <div class="header-title">
@@ -694,7 +695,7 @@
 
             <div class="content-area">
                 <div class="import-container">
-                 
+                    <!-- Steps -->
                     <div class="import-steps">
                         <div class="step active" id="step-1">
                             <i data-lucide="upload" style="width: 1rem; height: 1rem; margin-right: 0.5rem;"></i>
@@ -710,7 +711,7 @@
                         </div>
                     </div>
 
-                   
+                    <!-- Upload Section -->
                     <div class="card" id="upload-section">
                         <h3 class="card-title">
                             <i data-lucide="upload" style="width: 1.25rem; height: 1.25rem; margin-right: 0.5rem; color: #2563eb;"></i>
@@ -741,7 +742,7 @@
                         </div>
                     </div>
 
-                    
+                    <!-- Preview Section -->
                     <div class="card" id="preview-section" style="display: none;">
                         <h3 class="card-title">
                             <i data-lucide="eye" style="width: 1.25rem; height: 1.25rem; margin-right: 0.5rem; color: #2563eb;"></i>
@@ -769,7 +770,7 @@
                         </div>
                     </div>
 
-                  
+                    <!-- Success Section -->
                     <div class="card" id="success-section" style="display: none;">
                         <h3 class="card-title">
                             <i data-lucide="check-circle" style="width: 1.25rem; height: 1.25rem; margin-right: 0.5rem; color: #059669;"></i>
@@ -795,7 +796,7 @@
                         </div>
                     </div>
 
-                
+                    <!-- Template Section -->
                     <div class="card">
                         <div class="template-section">
                             <h4 class="template-title">
@@ -875,19 +876,16 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <script>
-        
         lucide.createIcons();
 
         let uploadedData = [];
         let fileName = '';
 
-      
         const uploadArea = document.getElementById('upload-area');
         const fileInput = document.getElementById('file-input');
         const fileInfo = document.getElementById('file-info');
         const processBtn = document.getElementById('process-file');
 
-     
         uploadArea.addEventListener('click', () => fileInput.click());
         uploadArea.addEventListener('dragover', (e) => {
             e.preventDefault();
@@ -912,13 +910,11 @@
         });
 
         function handleFileSelect(file) {
-          
             if (file.size > 10 * 1024 * 1024) {
                 alert('Arquivo muito grande! O tamanho máximo é de 10MB.');
                 return;
             }
 
-           
             const allowedTypes = ['.csv', '.xlsx', '.xls'];
             const fileExtension = '.' + file.name.split('.').pop().toLowerCase();
             
@@ -1000,7 +996,6 @@
                         return;
                     }
                     
-                   
                     const headers = jsonData[0];
                     const rows = jsonData.slice(1);
                     
@@ -1027,18 +1022,14 @@
                 return;
             }
 
-            
             updateStep(2);
-            
             
             document.getElementById('upload-section').style.display = 'none';
             document.getElementById('preview-section').style.display = 'block';
             
-           
             const validationResult = validateData(uploadedData);
             displayValidationStatus(validationResult);
             
-          
             displayPreviewTable(uploadedData);
         }
 
@@ -1072,7 +1063,6 @@
                     }
                 });
 
-              
                 const emailField = getFieldVariations('E-mail').find(v => row[v]);
                 if (emailField && row[emailField]) {
                     const email = row[emailField].toString().trim();
@@ -1125,7 +1115,6 @@
                 </div>
             `;
 
-            
             if (results.messages.length > 0) {
                 const messagesDiv = document.createElement('div');
                 messagesDiv.style.marginTop = '1rem';
@@ -1171,13 +1160,11 @@
             const thead = document.getElementById('table-head');
             const tbody = document.getElementById('table-body');
 
-           
             thead.innerHTML = '';
             tbody.innerHTML = '';
 
             if (data.length === 0) return;
 
-           
             const headerRow = document.createElement('tr');
             const headers = Object.keys(data[0]);
             headers.forEach(header => {
@@ -1198,7 +1185,6 @@
                 tbody.appendChild(row);
             }
 
-           
             if (data.length > 10) {
                 const moreRow = document.createElement('tr');
                 const moreCell = document.createElement('td');
@@ -1227,16 +1213,13 @@
         document.getElementById('confirm-import').addEventListener('click', () => {
             if (uploadedData.length === 0) return;
 
-            
             updateStep(3);
             document.getElementById('preview-section').style.display = 'none';
             document.getElementById('success-section').style.display = 'block';
 
-          
             const successMsg = document.getElementById('success-message');
             successMsg.textContent = `${uploadedData.length} aluno(s) importado(s) com sucesso!`;
 
-            
             console.log('Dados para importar:', uploadedData);
         });
 
@@ -1244,22 +1227,18 @@
             uploadedData = [];
             fileName = '';
             
-          
             fileInput.value = '';
             fileInfo.style.display = 'none';
             processBtn.style.display = 'none';
             
-           
             updateStep(1);
             
-          
             document.getElementById('upload-section').style.display = 'block';
             document.getElementById('preview-section').style.display = 'none';
             document.getElementById('success-section').style.display = 'none';
         }
 
         function goToDashboard() {
-          
             alert('Redirecionando para o dashboard...');
         }
 
@@ -1280,7 +1259,6 @@
             }, 5000);
         }
 
-        
         function downloadTemplate() {
             const headers = ['Nome Completo', 'E-mail', 'Matrícula', 'Turma', 'Telefone', 'Data de Nascimento'];
             const sampleData = [
@@ -1312,7 +1290,6 @@
             const wb = XLSX.utils.book_new();
             XLSX.utils.book_append_sheet(wb, ws, 'Alunos');
             
-           
             const headerRange = XLSX.utils.decode_range(ws['!ref']);
             for (let col = headerRange.s.c; col <= headerRange.e.c; col++) {
                 const cellAddress = XLSX.utils.encode_cell({ r: 0, c: col });
@@ -1326,10 +1303,9 @@
             XLSX.writeFile(wb, 'modelo_importacao_alunos.xlsx');
         }
 
-       
         document.addEventListener('DOMContentLoaded', function() {
             lucide.createIcons();
         });
-    </script>
+  </script>
 </body>
 </html>

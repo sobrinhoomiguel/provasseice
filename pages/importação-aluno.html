@@ -1284,9 +1284,9 @@
         function downloadTemplate() {
             const headers = ['Nome Completo', 'E-mail', 'Matrícula', 'Turma', 'Telefone', 'Data de Nascimento'];
             const sampleData = [
-                ['João Silva Santos', 'joao.silva@email.com', '2023001', '3º Ano A', '(11) 99999-9999', '15/03/2005'],
-                ['Maria Oliveira Costa', 'maria.oliveira@email.com', '2023002', '3º Ano A', '(11) 88888-8888', '22/07/2004'],
-                ['Pedro Santos Lima', 'pedro.santos@email.com', '2023003', '3º Ano B', '(11) 77777-7777', '10/12/2004']
+                ['João Silva Santos', 'joao.silva@email.com', '2023001', '3º Ano A', '(21) 99999-9999', '15/03/2005'],
+                ['Maria Oliveira Costa', 'maria.oliveira@email.com', '2023002', '3º Ano A', '(21) 88888-8888', '22/07/2004'],
+                ['Pedro Santos Lima', 'pedro.santos@email.com', '2023003', '3º Ano B', '(21) 77777-7777', '10/12/2004']
             ];
             
             const csvContent = [headers, ...sampleData]
@@ -1303,9 +1303,9 @@
         function downloadTemplateExcel() {
             const headers = ['Nome Completo', 'E-mail', 'Matrícula', 'Turma', 'Telefone', 'Data de Nascimento'];
             const sampleData = [
-                ['João Silva Santos', 'joao.silva@email.com', '2023001', '3º Ano A', '(11) 99999-9999', '15/03/2005'],
-                ['Maria Oliveira Costa', 'maria.oliveira@email.com', '2023002', '3º Ano A', '(11) 88888-8888', '22/07/2004'],
-                ['Pedro Santos Lima', 'pedro.santos@email.com', '2023003', '3º Ano B', '(11) 77777-7777', '10/12/2004']
+                ['João Silva Santos', 'joao.silva@email.com', '2023001', '3º Ano A', '(21) 99999-9999', '15/03/2005'],
+                ['Maria Oliveira Costa', 'maria.oliveira@email.com', '2023002', '3º Ano A', '(21) 88888-8888', '22/07/2004'],
+                ['Pedro Santos Lima', 'pedro.santos@email.com', '2023003', '3º Ano B', '(21) 77777-7777', '10/12/2004']
             ];
             
             const ws = XLSX.utils.aoa_to_sheet([headers, ...sampleData]);

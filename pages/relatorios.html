@@ -1,0 +1,1187 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SEICE - Relatórios</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/lucide/0.263.1/lucide.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-size: 16px;
+            line-height: 1.5;
+            color: #374151;
+            background-color: #f9fafb;
+        }
+
+        .dashboard {
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        
+        .sidebar {
+            width: 256px;
+            background-color: #1e3a8a;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+
+        .sidebar-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid #1e40af;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .logo-text h2 {
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin-bottom: 0.125rem;
+        }
+
+        .logo-text p {
+            font-size: 0.875rem;
+            margin-left: 35px;
+            color: #93c5fd;
+        }
+
+        .user-info {
+            padding: 1.5rem;
+            border-bottom: 1px solid #1e40af;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .user-avatar {
+            width: 2.5rem;
+            height: 2.5rem;
+            background-color: #1d4ed8;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+        }
+
+        .user-name {
+            font-weight: 500;
+            margin-bottom: 0.125rem;
+        }
+
+        .user-role {
+            font-size: 0.875rem;
+            color: #93c5fd;
+        }
+
+        .seice-logo {
+            width: 60px;
+            height: 60px;
+            display: flex;
+            justify-content: center;
+            margin: 0 65px;
+            background-color: white;
+            border-radius: 0.25rem;
+            align-items: center;
+            color: #1e3a8a;
+            font-weight: bold;
+        }
+
+        .sidebar-nav {
+            flex: 1;
+            padding: 1rem 0;
+        }
+
+        .nav-menu {
+            list-style: none;
+            padding: 0 0.75rem;
+        }
+
+        .nav-menu li {
+            margin-bottom: 0.25rem;
+        }
+
+        .nav-item {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.5rem 0.75rem;
+            background: none;
+            border: none;
+            color: #bfdbfe;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.875rem;
+            text-decoration: none;
+        }
+
+        .nav-item:hover {
+            background-color: #1e40af;
+            color: white;
+        }
+
+        .nav-item.active {
+            background-color: #1d4ed8;
+            color: white;
+        }
+
+        .nav-item i {
+            width: 1.25rem;
+            height: 1.25rem;
+        }
+
+        .config-section {
+            margin-top: 2rem;
+        }
+
+        .config-label {
+            padding: 0.5rem 1.5rem;
+            font-size: 0.75rem;
+            color: #93c5fd;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-weight: 600;
+        }
+
+        .config-menu {
+            list-style: none;
+            padding: 0 0.75rem;
+        }
+
+        .config-menu li {
+            margin-bottom: 0.25rem;
+        }
+
+        .sidebar-logout {
+            padding: 0.75rem;
+            border-top: 1px solid #1e40af;
+        }
+
+        .logout-btn {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.5rem 0.75rem;
+            background: none;
+            border: none;
+            color: #bfdbfe;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.875rem;
+        }
+
+        .logout-btn:hover {
+            background-color: #1e40af;
+            color: white;
+        }
+
+        .logout-btn i {
+            width: 1.25rem;
+            height: 1.25rem;
+        }
+
+        .sidebar-footer {
+            padding: 1rem;
+            text-align: center;
+            font-size: 0.75rem;
+            color: #93c5fd;
+        }
+
+        .sidebar-footer p {
+            margin-bottom: 0.25rem;
+        }
+
+        
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .dashboard-header {
+            background-color: white;
+            border-bottom: 1px solid #e5e7eb;
+            padding: 1.5rem 2rem;
+        }
+
+        .header-title {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+
+        .title-content {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .title-icon {
+            width: 2rem;
+            height: 2rem;
+            background-color: #2563eb;
+            border-radius: 0.25rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .title-icon i {
+            width: 1.25rem;
+            height: 1.25rem;
+            color: white;
+        }
+
+        .header-title h1 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #2563eb;
+        }
+
+        .filter-controls {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .filter-select {
+            padding: 0.5rem 1rem;
+            border: 1px solid #e5e7eb;
+            border-radius: 0.375rem;
+            background-color: white;
+            color: #374151;
+            font-size: 0.875rem;
+            cursor: pointer;
+        }
+
+        .export-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background-color: #059669;
+            color: white;
+            border: none;
+            border-radius: 0.375rem;
+            cursor: pointer;
+            font-size: 0.875rem;
+            transition: background-color 0.2s;
+        }
+
+        .export-btn:hover {
+            background-color: #047857;
+        }
+
+        .header-welcome h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #111827;
+            margin-bottom: 0.5rem;
+        }
+
+        .header-welcome p {
+            color: #6b7280;
+        }
+
+        .content-area {
+            flex: 1;
+            overflow: auto;
+            padding: 1.5rem 2rem;
+        }
+
+       
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stats-card {
+            background-color: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-header {
+            display: flex;
+            align-items: center;
+            justify-content: between;
+            margin-bottom: 1rem;
+        }
+
+        .stat-icon {
+            width: 2.5rem;
+            height: 2.5rem;
+            border-radius: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+        }
+
+        .stat-icon.blue { background-color: #dbeafe; }
+        .stat-icon.green { background-color: #dcfce7; }
+        .stat-icon.orange { background-color: #fed7aa; }
+        .stat-icon.purple { background-color: #e9d5ff; }
+
+        .stat-icon i {
+            width: 1.25rem;
+            height: 1.25rem;
+        }
+
+        .stat-icon.blue i { color: #2563eb; }
+        .stat-icon.green i { color: #059669; }
+        .stat-icon.orange i { color: #ea580c; }
+        .stat-icon.purple i { color: #7c3aed; }
+
+        .stat-content {
+            flex: 1;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+
+        .stat-value.blue { color: #2563eb; }
+        .stat-value.green { color: #059669; }
+        .stat-value.orange { color: #ea580c; }
+        .stat-value.purple { color: #7c3aed; }
+
+        .stat-label {
+            font-size: 0.875rem;
+            color: #6b7280;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-weight: 600;
+        }
+
+        .stat-trend {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+            font-size: 0.75rem;
+            margin-top: 0.5rem;
+        }
+
+        .stat-trend.positive {
+            color: #059669;
+        }
+
+        .stat-trend.negative {
+            color: #dc2626;
+        }
+
+        
+        .charts-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .chart-card {
+            background-color: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .chart-header {
+            display: flex;
+            align-items: center;
+            justify-content: between;
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid #e5e7eb;
+            padding-bottom: 1rem;
+        }
+
+        .chart-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: #111827;
+        }
+
+        .chart-container {
+            position: relative;
+            height: 300px;
+        }
+
+        
+        .table-section {
+            background-color: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .table-header {
+            display: flex;
+            align-items: center;
+            justify-content: between;
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid #e5e7eb;
+            padding-bottom: 1rem;
+        }
+
+        .table-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: #111827;
+        }
+
+        .search-box {
+            padding: 0.5rem 1rem;
+            border: 1px solid #e5e7eb;
+            border-radius: 0.375rem;
+            width: 300px;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+
+        .data-table th,
+        .data-table td {
+            padding: 0.75rem;
+            text-align: left;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .data-table th {
+            background-color: #f9fafb;
+            font-weight: 600;
+            color: #374151;
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .data-table tr:hover {
+            background-color: #f9fafb;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .status-badge.active {
+            background-color: #dcfce7;
+            color: #166534;
+        }
+
+        .status-badge.completed {
+            background-color: #dbeafe;
+            color: #1e40af;
+        }
+
+        .status-badge.pending {
+            background-color: #fed7aa;
+            color: #c2410c;
+        }
+
+        
+        @media (max-width: 1024px) {
+            .charts-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .dashboard {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                width: 100%;
+                height: auto;
+                order: 2;
+            }
+            
+            .main-content {
+                order: 1;
+                height: auto;
+            }
+            
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1rem;
+            }
+            
+            .dashboard-header {
+                padding: 1rem;
+            }
+
+            .content-area {
+                padding: 1rem;
+            }
+
+            .filter-controls {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 0.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard">
+       
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo-container">                  
+                    <div class="logo-text">
+                        <div class="seice-logo">SEICE</div>
+                        <p>Sistema de Avaliação</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="user-info">
+                <div class="user-avatar">
+                    <span>J</span>
+                </div>
+                <div class="user-details">
+                    <p class="user-name">João Admin</p>
+                    <p class="user-role">Professor</p>
+                </div>
+            </div>
+
+            <nav class="sidebar-nav">
+                <ul class="nav-menu">
+                    <li>
+                        <a href="painel-professor.html" class="nav-item" data-page="dashboard">
+                            <i data-lucide="layout-dashboard"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="avaliacoes.html" class="nav-item" data-page="avaliacoes">
+                            <i data-lucide="file-text"></i>
+                            <span>Avaliações</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="banco-questoes.html" class="nav-item" data-page="banco-questoes">
+                            <i data-lucide="database"></i>
+                            <span>Banco de Questões</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="importação-aluno.html" class="nav-item" data-page="alunos">
+                            <i data-lucide="users"></i>
+                            <span>Alunos</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="relatorios.html" class="nav-item active" data-page="relatorios">
+                            <i data-lucide="bar-chart-3"></i>
+                            <span>Relatórios</span>
+                        </a>
+                    </li>
+                </ul>
+
+                <div class="config-section">
+                    <p class="config-label">CONFIGURAÇÃO</p>
+                    <ul class="config-menu">
+                        <li>
+                            <a href="perfil.html" class="nav-item" data-page="configuracoes">
+                                <i data-lucide="settings"></i>
+                                <span>Configurações</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="alterar-senha.html" class="nav-item" data-page="alterar-senha">
+                                <i data-lucide="key"></i>
+                                <span>Alterar Senha</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+            <div class="sidebar-logout">
+                <button class="logout-btn">
+                    <i data-lucide="log-out"></i>
+                    <span>Sair</span>
+                </button>
+            </div>
+
+            <div class="sidebar-footer">
+                <p>© Provas SEICE</p>
+                <p>Versão 1.0.0</p>
+            </div>
+        </aside>
+
+    
+        <main class="main-content">
+            <header class="dashboard-header">
+                <div class="header-title">
+                    <div class="title-content">
+                        <div class="title-icon">
+                            <i data-lucide="bar-chart-3"></i>
+                        </div>
+                        <h1>Relatórios</h1>
+                    </div>
+                    <div class="filter-controls">
+                        <select class="filter-select" id="periodFilter">
+                            <option value="30">Últimos 30 dias</option>
+                            <option value="90">Últimos 3 meses</option>
+                            <option value="365">Último ano</option>
+                            <option value="all">Todo período</option>
+                        </select>
+                        <select class="filter-select" id="turmaFilter">
+                            <option value="all">Todas as turmas</option>
+                            <option value="turma1">Turma A</option>
+                            <option value="turma2">Turma B</option>
+                            <option value="turma3">Turma C</option>
+                        </select>
+                        <button class="export-btn" onclick="exportReport()">
+                            <i data-lucide="download"></i>
+                            Exportar
+                        </button>
+                    </div>
+                </div>
+                <div class="header-welcome">
+                    <h2>Análise de Desempenho</h2>
+                    <p>Acompanhe métricas detalhadas e insights sobre as avaliações</p>
+                </div>
+            </header>
+
+            <div class="content-area">
+               
+                <section class="stats-grid">
+                    <div class="stats-card">
+                        <div class="stat-header">
+                            <div class="stat-icon blue">
+                                <i data-lucide="users"></i>
+                            </div>
+                            <div class="stat-content">
+                                <div class="stat-value blue">248</div>
+                                <div class="stat-label">Total de Alunos</div>
+                                <div class="stat-trend positive">
+                                    <i data-lucide="trending-up"></i>
+                                    +12% este mês
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="stats-card">
+                        <div class="stat-header">
+                            <div class="stat-icon green">
+                                <i data-lucide="file-check"></i>
+                            </div>
+                            <div class="stat-content">
+                                <div class="stat-value green">1,432</div>
+                                <div class="stat-label">Avaliações Realizadas</div>
+                                <div class="stat-trend positive">
+                                    <i data-lucide="trending-up"></i>
+                                    +25% este mês
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="stats-card">
+                        <div class="stat-header">
+                            <div class="stat-icon orange">
+                                <i data-lucide="target"></i>
+                            </div>
+                            <div class="stat-content">
+                                <div class="stat-value orange">7.8</div>
+                                <div class="stat-label">Média Geral</div>
+                                <div class="stat-trend positive">
+                                    <i data-lucide="trending-up"></i>
+                                    +0.3 pontos
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="stats-card">
+                        <div class="stat-header">
+                            <div class="stat-icon purple">
+                                <i data-lucide="clock"></i>
+                            </div>
+                            <div class="stat-content">
+                                <div class="stat-value purple">24min</div>
+                                <div class="stat-label">Tempo Médio</div>
+                                <div class="stat-trend negative">
+                                    <i data-lucide="trending-down"></i>
+                                    -3min reduzido
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                
+                <section class="charts-grid">
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <h3 class="chart-title">Desempenho por Mês</h3>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="performanceChart"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <h3 class="chart-title">Distribuição de Notas</h3>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="gradesChart"></canvas>
+                        </div>
+                    </div>
+                </section>
+
+                
+                <section class="table-section">
+                    <div class="table-header">
+                        <h3 class="table-title">Avaliações Recentes</h3>
+                        <input type="text" class="search-box" placeholder="Buscar avaliação..." id="searchInput">
+                    </div>
+                    
+                    <table class="data-table" id="evaluationsTable">
+                        <thead>
+                            <tr>
+                                <th>Avaliação</th>
+                                <th>Turma</th>
+                                <th>Data</th>
+                                <th>Participantes</th>
+                                <th>Média</th>
+                                <th>Status</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Matemática - Álgebra Linear</td>
+                                <td>Turma A</td>
+                                <td>15/08/2025</td>
+                                <td>32/35</td>
+                                <td>8.2</td>
+                                <td><span class="status-badge completed">Concluída</span></td>
+                                <td>
+                                    <button onclick="viewDetails(1)" style="background: none; border: none; color: #2563eb; cursor: pointer;">
+                                        <i data-lucide="eye"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>História - Segunda Guerra Mundial</td>
+                                <td>Turma B</td>
+                                <td>14/08/2025</td>
+                                <td>28/30</td>
+                                <td>7.5</td>
+                                <td><span class="status-badge completed">Concluída</span></td>
+                                <td>
+                                    <button onclick="viewDetails(2)" style="background: none; border: none; color: #2563eb; cursor: pointer;">
+                                        <i data-lucide="eye"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Física - Mecânica Quântica</td>
+                                <td>Turma C</td>
+                                <td>13/08/2025</td>
+                                <td>25/27</td>
+                                <td>6.8</td>
+                                <td><span class="status-badge completed">Concluída</span></td>
+                                <td>
+                                    <button onclick="viewDetails(3)" style="background: none; border: none; color: #2563eb; cursor: pointer;">
+                                        <i data-lucide="eye"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Português - Literatura Brasileira</td>
+                                <td>Turma A</td>
+                                <td>12/08/2025</td>
+                                <td>30/35</td>
+                                <td>8.7</td>
+                                <td><span class="status-badge completed">Concluída</span></td>
+                                <td>
+                                    <button onclick="viewDetails(4)" style="background: none; border: none; color: #2563eb; cursor: pointer;">
+                                        <i data-lucide="eye"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Química - Orgânica Avançada</td>
+                                <td>Turma B</td>
+                                <td>10/08/2025</td>
+                                <td>15/30</td>
+                                <td>-</td>
+                                <td><span class="status-badge active">Em andamento</span></td>
+                                <td>
+                                    <button onclick="viewDetails(5)" style="background: none; border: none; color: #2563eb; cursor: pointer;">
+                                        <i data-lucide="eye"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <script>
+       
+        lucide.createIcons();
+
+               
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeCharts();
+            setupEventListeners();
+        });
+
+        function initializeCharts() {
+            
+            const performanceCtx = document.getElementById('performanceChart').getContext('2d');
+            new Chart(performanceCtx, {
+                type: 'line',
+                data: {
+                    labels: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago'],
+                    datasets: [{
+                        label: 'Média Geral',
+                        data: [7.2, 7.5, 7.8, 7.4, 8.1, 7.9, 8.3, 7.8],
+                        borderColor: '#2563eb',
+                        backgroundColor: 'rgba(37, 99, 235, 0.1)',
+                        borderWidth: 2,
+                        fill: true,
+                        tension: 0.4
+                    }, {
+                        label: 'Meta',
+                        data: [8.0, 8.0, 8.0, 8.0, 8.0, 8.0, 8.0, 8.0],
+                        borderColor: '#059669',
+                        backgroundColor: 'transparent',
+                        borderWidth: 2,
+                        borderDash: [5, 5],
+                        pointStyle: false
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: false,
+                            min: 6,
+                            max: 10
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            position: 'top'
+                        }
+                    }
+                }
+            });
+
+            
+            const gradesCtx = document.getElementById('gradesChart').getContext('2d');
+            new Chart(gradesCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['0-4', '4-6', '6-8', '8-10'],
+                    datasets: [{
+                        data: [8, 25, 45, 22],
+                        backgroundColor: [
+                            '#dc2626',
+                            '#ea580c',
+                            '#2563eb',
+                            '#059669'
+                        ],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom'
+                        }
+                    }
+                }
+            });
+        }
+
+        function setupEventListeners() {
+          
+            document.getElementById('periodFilter').addEventListener('change', updateReports);
+            document.getElementById('turmaFilter').addEventListener('change', updateReports);
+            
+         
+            document.getElementById('searchInput').addEventListener('input', filterTable);
+            
+           
+            const navItems = document.querySelectorAll('.nav-item');
+            navItems.forEach(item => {
+                item.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    navItems.forEach(nav => nav.classList.remove('active'));
+                    this.classList.add('active');
+                    const page = this.getAttribute('data-page');
+                    console.log('Navegando para:', page);
+                });
+            });
+            
+            
+            document.querySelector('.logout-btn').addEventListener('click', function() {
+                if (confirm('Tem certeza que deseja sair?')) {
+                    console.log('Usuário deslogado');
+                }
+            });
+        }
+
+        function updateReports() {
+            const period = document.getElementById('periodFilter').value;
+            const turma = document.getElementById('turmaFilter').value;
+            
+            console.log('Atualizando relatórios:', { period, turma });
+            
+            
+            const statsCards = document.querySelectorAll('.stats-card');
+            statsCards.forEach(card => {
+                card.style.opacity = '0.5';
+                setTimeout(() => {
+                    card.style.opacity = '1';
+                }, 500);
+            });
+            
+           
+        }
+
+        function filterTable() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const tableRows = document.querySelectorAll('#evaluationsTable tbody tr');
+            
+            tableRows.forEach(row => {
+                const text = row.textContent.toLowerCase();
+                if (text.includes(searchTerm)) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        }
+
+        function exportReport() {
+            const period = document.getElementById('periodFilter').value;
+            const turma = document.getElementById('turmaFilter').value;
+            
+            
+            const exportBtn = document.querySelector('.export-btn');
+            const originalText = exportBtn.innerHTML;
+            
+            exportBtn.innerHTML = '<i data-lucide="loader"></i> Exportando...';
+            exportBtn.disabled = true;
+            
+            setTimeout(() => {
+                exportBtn.innerHTML = '<i data-lucide="check"></i> Exportado!';
+                setTimeout(() => {
+                    exportBtn.innerHTML = originalText;
+                    exportBtn.disabled = false;
+                    lucide.createIcons();
+                }, 1000);
+                
+                
+                console.log('Exportando relatório:', { period, turma });
+                alert('Relatório exportado com sucesso!\n\nArquivo: relatorio_' + new Date().toISOString().split('T')[0] + '.pdf');
+            }, 2000);
+            
+            lucide.createIcons();
+        }
+
+        function viewDetails(id) {
+            console.log('Visualizando detalhes da avaliação:', id);
+            
+            
+            const overlay = document.createElement('div');
+            overlay.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.5);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                z-index: 1000;
+            `;
+            
+            const modal = document.createElement('div');
+            modal.style.cssText = `
+                background: white;
+                border-radius: 0.5rem;
+                padding: 2rem;
+                max-width: 500px;
+                width: 90%;
+                box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+            `;
+            
+            modal.innerHTML = `
+                <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem;">
+                    <div style="width: 2rem; height: 2rem; background: #dbeafe; border-radius: 0.25rem; display: flex; align-items: center; justify-content: center;">
+                        <i data-lucide="file-text" style="width: 1.25rem; height: 1.25rem; color: #2563eb;"></i>
+                    </div>
+                    <h3 style="font-size: 1.25rem; font-weight: 600; color: #111827;">Detalhes da Avaliação #${id}</h3>
+                </div>
+                <div style="margin-bottom: 1.5rem;">
+                    <p style="color: #6b7280; margin-bottom: 1rem;">Esta funcionalidade permite visualizar informações detalhadas sobre a avaliação, incluindo:</p>
+                    <ul style="color: #6b7280; padding-left: 1.5rem;">
+                        <li>Estatísticas por questão</li>
+                        <li>Desempenho individual dos alunos</li>
+                        <li>Análise de dificuldade das questões</li>
+                        <li>Tempo médio por questão</li>
+                        <li>Relatório detalhado em PDF</li>
+                    </ul>
+                </div>
+                <div style="display: flex; gap: 1rem; justify-content: flex-end;">
+                    <button onclick="this.closest('.modal-overlay').remove()" style="padding: 0.5rem 1rem; border: 1px solid #e5e7eb; background: white; color: #374151; border-radius: 0.375rem; cursor: pointer;">
+                        Fechar
+                    </button>
+                    <button style="padding: 0.5rem 1rem; background: #2563eb; color: white; border: none; border-radius: 0.375rem; cursor: pointer;">
+                        Ver Relatório Completo
+                    </button>
+                </div>
+            `;
+            
+            overlay.className = 'modal-overlay';
+            overlay.appendChild(modal);
+            document.body.appendChild(overlay);
+            
+            
+            overlay.addEventListener('click', function(e) {
+                if (e.target === overlay) {
+                    overlay.remove();
+                }
+            });
+            
+            lucide.createIcons();
+        }
+
+        
+        window.addEventListener('load', function() {
+            setTimeout(() => {
+                const statValues = document.querySelectorAll('.stat-value');
+                statValues.forEach((stat, index) => {
+                    setTimeout(() => {
+                        stat.style.transform = 'scale(1.05)';
+                        setTimeout(() => {
+                            stat.style.transform = 'scale(1)';
+                        }, 200);
+                    }, index * 100);
+                });
+            }, 500);
+        });
+
+       
+        function toggleMobileMenu() {
+            const sidebar = document.querySelector('.sidebar');
+            sidebar.classList.toggle('mobile-open');
+        }
+
+       
+        setInterval(() => {
+            console.log('Auto-refreshing report data...');
+            
+        }, 300000); 
+
+       
+        document.addEventListener('DOMContentLoaded', function() {
+            const style = document.createElement('style');
+            style.textContent = `
+                .stats-card, .chart-card, .table-section {
+                    transition: all 0.3s ease;
+                }
+                
+                .stats-card:hover, .chart-card:hover {
+                    transform: translateY(-2px);
+                    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+                }
+                
+                .data-table tbody tr {
+                    transition: background-color 0.2s ease;
+                }
+                
+                .stat-value {
+                    transition: transform 0.2s ease;
+                }
+                
+                @keyframes fadeInUp {
+                    from {
+                        opacity: 0;
+                        transform: translateY(20px);
+                    }
+                    to {
+                        opacity: 1;
+                        transform: translateY(0);
+                    }
+                }
+                
+                .stats-grid > *, .charts-grid > *, .table-section {
+                    animation: fadeInUp 0.6s ease forwards;
+                }
+                
+                .stats-grid > *:nth-child(2) { animation-delay: 0.1s; }
+                .stats-grid > *:nth-child(3) { animation-delay: 0.2s; }
+                .stats-grid > *:nth-child(4) { animation-delay: 0.3s; }
+                .charts-grid > *:nth-child(1) { animation-delay: 0.4s; }
+                .charts-grid > *:nth-child(2) { animation-delay: 0.5s; }
+                .table-section { animation-delay: 0.6s; }
+            `;
+            document.head.appendChild(style);
+        });
+    </script>
+</body>
+</html>

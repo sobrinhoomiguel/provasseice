@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SEICE - Aplicação de Simulado</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+       /*faz o css aqui*/
+    </style>
+</head>
+<body>
+    <aside class="sidebar" id="sidebar">
+        <button class="toggle-btn" onclick="toggleSidebar()">
+            <i class="fas fa-chevron-left" id="toggleIcon"></i>
+        </button>
+        <div class="sidebar-header">
+            <div class="logo">S</div>
+            <div class="logo-text">
+                <h1>SEICE</h1>
+                <p>Sistema de Ensino</p>
+            </div>
+        </div>
+        <nav class="nav-menu">
+            <div class="nav-section">
+                <h3>Principal</h3>
+                <a href="/inicio" class="nav-item" data-tooltip="Início">
+                    <i class="fas fa-home"></i>
+                    <span>Início</span>
+                </a>
+            </div>
+            <div class="nav-section">
+                <h3>Avaliações</h3>
+                <a href="#" class="nav-item expandable" onclick="toggleSubMenu(this); return false;" data-tooltip="Avaliações">
+                    <i class="fas fa-clipboard-list"></i>
+                    <span>AVALIAÇÕES</span>
+                    <i class="fas fa-chevron-right chevron"></i>
+                </a>
+                <div class="sub-menu">
+                    <a href="/banco-questoes" class="nav-item" data-tooltip="Banco de Questões">
+                        <i class="fas fa-database"></i>
+                        <span>Banco de Questões</span>
+                    </a>
+                    <a href="/avaliacao" class="nav-item" data-tooltip="Avaliação">
+                        <i class="fas fa-edit"></i>
+                        <span>Avaliação</span>
+                    </a>
+                    <a href="/aplicacao" class="nav-item active" data-tooltip="Aplicação">
+                        <i class="fas fa-play"></i>
+                        <span>Aplicação</span>
+                    </a>
+                    <a href="/correcao" class="nav-item" data-tooltip="Correção">
+                        <i class="fas fa-check"></i>
+                        <span>Correção</span>
+                    </a>
+                    <a href="enviar-imagens.html" class="nav-item" data-tooltip="Enviar Imagens">
+                        <i class="fas fa-images"></i>
+                        <span>Enviar Imagens</span>
+                    </a>
+                </div>
+            </div>
+            <div class="nav-section">
+                <h3>Relatórios</h3>
+                <a href="#" class="nav-item expandable" onclick="toggleSubMenu(this); return false;" data-tooltip="Resultados">
+                    <i class="fas fa-chart-bar"></i>
+                    <span>RESULTADOS</span>
+                    <i class="fas fa-chevron-right chevron"></i>
+                </a>
+                <div class="sub-menu">
+                    <a href="/relatorios-gerais" class="nav-item" data-tooltip="Relatórios Gerais">
+                        <i class="fas fa-file-alt"></i>
+                        <span>Relatórios Gerais</span>
+                    </a>
+                </div>
+            </div>
+            <div class="nav-section">
+                <h3>Configurações</h3>
+                <a href="#" class="nav-item expandable" onclick="toggleSubMenu(this); return false;" data-tooltip="Configuração">
+                    <i class="fas fa-cog"></i>
+                    <span>CONFIGURAÇÃO</span>
+                    <i class="fas fa-chevron-right chevron"></i>
+                </a>
+                <div class="sub-menu">
+                    <a href="/serie" class="nav-item" data-tooltip="Série">
+                        <i class="fas fa-graduation-cap"></i>
+                        <span>Série</span>
+                    </a>
+                    <a href="turmas.html" class="nav-item" data-tooltip="Turma">
+                        <i class="fas fa-users"></i>
+                        <span>Turma</span>
+                    </a>
+                    <a href="/alunos" class="nav-item" data-tooltip="Alunos">
+                        <i class="fas fa-user-graduate"></i>
+                        <span>Alunos</span>
+                    </a>
+                    <a href="/importar-alunos" class="nav-item" data-tooltip="Importar Alunos">
+                        <i class="fas fa-upload"></i>
+                        <span>Importar Alunos</span>
+                    </a>
+                    <a href="/usuarios" class="nav-item" data-tooltip="Usuários">
+                        <i class="fas fa-user-cog"></i>
+                        <span>Usuários</span>
+                    </a>
+                </div>
+            </div>
+        </nav>
+    </aside>
+    <main class="main-content">
+        <header class="header">
+            <div class="breadcrumb">
+                <i class="fas fa-play"></i>
+                <a href="/aplicacao">Aplicação</a>
+            </div>
+            <div class="user-info">
+                <div>
+                    <div class="user-email">joaopedrosantosadmin@gmail.com</div>
+                    <div class="system-subtitle">Sistema de Ensino Integrado de Campos Elíseos</div>
+                </div>
+            </div>
+        </header>
+        <section class="action-cards" id="actionCards">
+            <a href="/aplicacao/nova" class="action-card">
+                <div class="action-icon">
+                    <i class="fas fa-plus-circle"></i>
+                </div>
+                <h3 class="action-title">NOVA APLICAÇÃO</h3>
+                <p class="action-subtitle">Iniciar aplicação de simulado</p>
+                <span class="view-all">Nova aplicação</span>
+            </a>
+            <a href="/aplicacao/ativas" class="action-card">
+                <div class="action-icon">
+                    <i class="fas fa-play"></i>
+                </div>
+                <h3 class="action-title">APLICAÇÕES ATIVAS</h3>
+                <p class="action-subtitle">Ver aplicações em andamento</p>
+                <span class="view-all">Ver ativas</span>
+            </a>
+            <a href="/aplicacao/historico" class="action-card">
+                <div class="action-icon">
+                    <i class="fas fa-history"></i>
+                </div>
+                <h3 class="action-title">HISTÓRICO</h3>
+                <p class="action-subtitle">Consultar aplicações anteriores</p>
+                <span class="view-all">Ver histórico</span>
+            </a>
+        </section>
+        <section class="data-section">
+            <div class="data-table">
+                <div class="table-header">
+                    Aplicações de Simulado Recentes
+                </div>
+                <div class="table-content" id="tableContent">
+                    <div class="table-row">
+                        <div class="status-badge status-available">9° ANO</div>
+                        <div class="student-info">
+                            <div class="student-name">
+                                <a href="/alunos/vitor-marcelo-say">Vitor Marcelo Say</a>
+                            </div>
+                            <div class="student-details">Turma A - Matutino</div>
+                        </div>
+                        <div class="simulation-info">
+                            <a href="/simulados/3-bimestre-2025-9ano">SIMULADO 3° BIMESTRE - 2025 9° ANO</a>
+                        </div>
+                        <div class="status-badge status-available">9ANO0003</div>
+                        <div class="date-info">27/08/2025 07:34:00</div>
+                    </div>
+                    <div class="table-row">
+                        <div class="status-badge status-available">9° ANO</div>
+                        <div class="student-info">
+                            <div class="student-name">
+                                <a href="/alunos/vanessa-teodoro">Vanessa Teodoro</a>
+                            </div>
+                            <div class="student-details">Turma B - Vespertino</div>
+                        </div>
+                        <div class="simulation-info">
+                            <a href="/simulados/3-bimestre-2025-9ano">SIMULADO 3° BIMESTRE - 2025 9° ANO</a>
+                        </div>
+                        <div class="status-badge status-pending">9ANO0001Jr</div>
+                        <div class="date-info">27/08/2025 07:31:00</div>
+                    </div>
+                    <div class="table-row">
+                        <div class="status-badge status-available">9° ANO</div>
+                        <div class="student-info">
+                            <div class="student-name">
+                                <a href="/alunos/talles-francisco-cesar">Talles Francisco César</a>
+                            </div>
+                            <div class="student-details">Turma A - Matutino</div>
+                        </div>
+                        <div class="simulation-info">
+                            <a href="/simulados/3-bimestre-2025-9ano">SIMULADO 3° BIMESTRE - 2025 9° ANO</a>
+                        </div>
+                        <div class="status-badge status-available">9ANO0002</div>
+                        <div class="date-info">27/08/2025 08:01:00</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    <script>
+      //faz o js ali cmg
+    </script>
+</body>
+</html>

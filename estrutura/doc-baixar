@@ -1,0 +1,9 @@
+1 etapa
+
+cd C:\Users\SEICE\provasseice
+
+2 etapa 
+
+php -S localhost:8000  
+
+tem que fazer isso no terminal do xampp, o shell

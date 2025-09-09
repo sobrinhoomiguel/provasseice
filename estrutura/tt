@@ -1,0 +1,13 @@
+seice/
+├── config/
+│   └── database.php
+├── models/
+│   └── Turma.php
+├── api/turmas/
+│   ├── read.php
+│   ├── create.php
+│   ├── update.php
+│   ├── update_unidade.php
+│   ├── delete.php
+│   └── read_one.php
+└── install.php

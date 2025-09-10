@@ -3,10 +3,682 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SEICE - Aplicação de Simulado</title>
+    <title>SEICE - Aplicação de Simulados</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-       /*faz o css aqui*/
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f8f9fa;
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 280px;
+            height: 100vh;
+            background: linear-gradient(180deg, #1e3a5f 0%, #2c4f73 100%);
+            color: white;
+            transition: all 0.3s ease;
+            z-index: 1000;
+            box-shadow: 4px 0 20px rgba(0,0,0,0.1);
+        }
+
+        .sidebar.collapsed {
+            width: 70px;
+        }
+
+        .sidebar-header {
+            padding: 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #4a90e2, #357abd);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+
+        .logo-text {
+            transition: all 0.3s ease;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+
+        .sidebar.collapsed .logo-text {
+            width: 0;
+            opacity: 0;
+        }
+
+        .logo-text h1 {
+            font-size: 24px;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .logo-text p {
+            font-size: 12px;
+            opacity: 0.8;
+            margin-top: 2px;
+        }
+
+        .nav-menu {
+            padding: 20px 0;
+            overflow: hidden;
+        }
+
+        .nav-section {
+            margin-bottom: 30px;
+        }
+
+        .nav-section h3 {
+            padding: 0 20px 10px;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            opacity: 0.7;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+
+        .sidebar.collapsed .nav-section h3 {
+            opacity: 0;
+            height: 0;
+            padding: 0;
+            margin: 0;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            background: none;
+            color: white;
+            width: 100%;
+            text-align: left;
+            position: relative;
+            overflow: hidden;
+            text-decoration: none;
+        }
+
+        .nav-item:hover {
+            background: rgba(255,255,255,0.1);
+            color: white;
+        }
+
+        .nav-item.active {
+            background: rgba(255,255,255,0.15);
+            border-right: 3px solid #4a90e2;
+        }
+
+        .nav-item i {
+            width: 20px;
+            font-size: 16px;
+            margin-right: 15px;
+            flex-shrink: 0;
+            text-align: center;
+        }
+
+        .nav-item span {
+            transition: all 0.3s ease;
+            font-size: 14px;
+            font-weight: 500;
+            overflow: hidden;
+            white-space: nowrap;
+            flex: 1;
+        }
+
+        .sidebar.collapsed .nav-item span {
+            width: 0;
+            opacity: 0;
+        }
+
+        .nav-item .chevron {
+            margin-left: auto;
+            transition: transform 0.3s ease;
+            font-size: 12px;
+            width: 12px;
+        }
+
+        .sidebar.collapsed .nav-item .chevron {
+            opacity: 0;
+            width: 0;
+        }
+
+        .nav-item.expanded .chevron {
+            transform: rotate(90deg);
+        }
+
+        .sub-menu {
+            background: rgba(0,0,0,0.2);
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .sidebar.collapsed .sub-menu {
+            max-height: 0 !important;
+        }
+
+        .sub-menu.open {
+            max-height: 200px;
+        }
+
+        .sub-menu .nav-item {
+            padding-left: 50px;
+            font-size: 13px;
+        }
+
+        .sidebar.collapsed .sub-menu .nav-item {
+            padding-left: 20px;
+        }
+
+        .toggle-btn {
+            position: absolute;
+            top: 80px;
+            right: -12px;
+            width: 24px;
+            height: 24px;
+            background: #4a90e2;
+            border: none;
+            border-radius: 50%;
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            z-index: 1001;
+        }
+
+        .toggle-btn:hover {
+            background: #357abd;
+            transform: scale(1.1);
+        }
+
+        .main-content {
+            margin-left: 280px;
+            transition: margin-left 0.3s ease;
+            min-height: 100vh;
+        }
+
+        .sidebar.collapsed + .main-content {
+            margin-left: 70px;
+        }
+
+        .header {
+            background: white;
+            padding: 20px 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #e1e5e9;
+        }
+
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #666;
+            font-size: 14px;
+        }
+
+        .breadcrumb i {
+            color: #4a90e2;
+        }
+
+        .breadcrumb a {
+            color: #4a90e2;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .breadcrumb a:hover {
+            color: #357abd;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .user-email {
+            font-size: 14px;
+            color: #666;
+            font-weight: 500;
+            text-align: right;
+        }
+
+        .system-subtitle {
+            font-size: 12px;
+            color: #999;
+            text-align: right;
+        }
+
+        .content-wrapper {
+            padding: 30px;
+        }
+
+        .page-title {
+            font-size: 28px;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .page-subtitle {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        .controls-bar {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .search-box {
+            flex: 1;
+            position: relative;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 12px 15px 12px 45px;
+            border: 1px solid #e1e5e9;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .search-box input:focus {
+            outline: none;
+            border-color: #4a90e2;
+            box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.1);
+        }
+
+        .search-box i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #666;
+            font-size: 14px;
+        }
+
+        .filter-btn {
+            background: #f8f9fa;
+            border: 1px solid #e1e5e9;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-size: 14px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .filter-btn:hover {
+            background: #e9ecef;
+            border-color: #4a90e2;
+        }
+
+        .add-btn {
+            background: linear-gradient(135deg, #28a745, #20c997);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .add-btn:hover {
+            background: linear-gradient(135deg, #218838, #1e7e34);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(40, 167, 69, 0.3);
+        }
+
+        .data-table {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+        }
+
+        .table-header {
+            background: #f8f9fa;
+            padding: 20px 30px;
+            border-bottom: 1px solid #e1e5e9;
+            display: grid;
+            grid-template-columns: 120px 1fr 150px 120px 150px 100px;
+            gap: 20px;
+            font-weight: 600;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #666;
+        }
+
+        .table-content {
+            min-height: 400px;
+        }
+
+        .table-row {
+            display: grid;
+            grid-template-columns: 120px 1fr 150px 120px 150px 100px;
+            gap: 20px;
+            padding: 20px 30px;
+            border-bottom: 1px solid #f0f0f0;
+            align-items: center;
+            transition: all 0.2s ease;
+        }
+
+        .table-row:hover {
+            background: #f8f9fa;
+        }
+
+        .table-row:last-child {
+            border-bottom: none;
+        }
+
+        .assessment-type {
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            padding: 6px 12px;
+            border-radius: 20px;
+            text-align: center;
+            white-space: nowrap;
+        }
+
+        .type-simulado {
+            background: #e3f2fd;
+            color: #1976d2;
+        }
+
+        .type-prova {
+            background: #f3e5f5;
+            color: #7b1fa2;
+        }
+
+        .assessment-info h4 {
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 4px;
+            line-height: 1.3;
+        }
+
+        .assessment-info p {
+            font-size: 12px;
+            color: #666;
+            line-height: 1.4;
+        }
+
+        .date-info {
+            font-size: 13px;
+            color: #666;
+            text-align: center;
+        }
+
+        .participants-info {
+            text-align: center;
+            font-size: 13px;
+            font-weight: 600;
+            color: #4a90e2;
+        }
+
+        .academic-info {
+            font-size: 12px;
+            color: #666;
+            text-align: center;
+        }
+
+        .academic-info .series {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .actions-cell {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+        }
+
+        .action-btn {
+            width: 32px;
+            height: 32px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-apply {
+            background: #e8f5e8;
+            color: #28a745;
+        }
+
+        .btn-apply:hover {
+            background: #28a745;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .btn-edit {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .btn-edit:hover {
+            background: #ffc107;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .btn-delete {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .btn-delete:hover {
+            background: #dc3545;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin-top: 30px;
+            font-size: 14px;
+        }
+
+        .pagination button {
+            padding: 8px 12px;
+            border: 1px solid #e1e5e9;
+            background: white;
+            cursor: pointer;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+        }
+
+        .pagination button:hover {
+            background: #4a90e2;
+            color: white;
+            border-color: #4a90e2;
+        }
+
+        .pagination button.active {
+            background: #4a90e2;
+            color: white;
+            border-color: #4a90e2;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #666;
+        }
+
+        .empty-state i {
+            font-size: 48px;
+            color: #ccc;
+            margin-bottom: 20px;
+        }
+
+        .empty-state h3 {
+            font-size: 18px;
+            margin-bottom: 8px;
+            color: #333;
+        }
+
+        .empty-state p {
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+                width: 280px;
+            }
+
+            .sidebar.mobile-open {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+
+            .content-wrapper {
+                padding: 15px;
+            }
+
+            .controls-bar {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .table-header,
+            .table-row {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+
+            .table-row {
+                padding: 20px 15px;
+                border-left: 4px solid #4a90e2;
+            }
+
+            .actions-cell {
+                justify-content: flex-start;
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .data-table {
+            animation: fadeInUp 0.6s ease forwards;
+        }
+
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #c1c1c1;
+            border-radius: 3px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #a1a1a1;
+        }
+
+        .nav-item {
+            position: relative;
+        }
+
+        .sidebar.collapsed .nav-item::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            left: 70px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 6px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            z-index: 1002;
+        }
+
+        .sidebar.collapsed .nav-item:hover::after {
+            opacity: 1;
+        }
     </style>
 </head>
 <body>
@@ -14,6 +686,7 @@
         <button class="toggle-btn" onclick="toggleSidebar()">
             <i class="fas fa-chevron-left" id="toggleIcon"></i>
         </button>
+        
         <div class="sidebar-header">
             <div class="logo">S</div>
             <div class="logo-text">
@@ -21,6 +694,7 @@
                 <p>Sistema de Ensino</p>
             </div>
         </div>
+
         <nav class="nav-menu">
             <div class="nav-section">
                 <h3>Principal</h3>
@@ -29,14 +703,15 @@
                     <span>Início</span>
                 </a>
             </div>
+
             <div class="nav-section">
                 <h3>Avaliações</h3>
-                <a href="#" class="nav-item expandable" onclick="toggleSubMenu(this); return false;" data-tooltip="Avaliações">
+                <a href="#" class="nav-item expandable expanded" onclick="toggleSubMenu(this); return false;" data-tooltip="Avaliações">
                     <i class="fas fa-clipboard-list"></i>
                     <span>AVALIAÇÕES</span>
                     <i class="fas fa-chevron-right chevron"></i>
                 </a>
-                <div class="sub-menu">
+                <div class="sub-menu open">
                     <a href="/banco-questoes" class="nav-item" data-tooltip="Banco de Questões">
                         <i class="fas fa-database"></i>
                         <span>Banco de Questões</span>
@@ -53,12 +728,13 @@
                         <i class="fas fa-check"></i>
                         <span>Correção</span>
                     </a>
-                    <a href="enviar-imagens.html" class="nav-item" data-tooltip="Enviar Imagens">
+                    <a href="/enviar-imagens" class="nav-item" data-tooltip="Enviar Imagens">
                         <i class="fas fa-images"></i>
                         <span>Enviar Imagens</span>
                     </a>
                 </div>
             </div>
+
             <div class="nav-section">
                 <h3>Relatórios</h3>
                 <a href="#" class="nav-item expandable" onclick="toggleSubMenu(this); return false;" data-tooltip="Resultados">
@@ -73,6 +749,7 @@
                     </a>
                 </div>
             </div>
+
             <div class="nav-section">
                 <h3>Configurações</h3>
                 <a href="#" class="nav-item expandable" onclick="toggleSubMenu(this); return false;" data-tooltip="Configuração">
@@ -85,7 +762,7 @@
                         <i class="fas fa-graduation-cap"></i>
                         <span>Série</span>
                     </a>
-                    <a href="turmas.html" class="nav-item" data-tooltip="Turma">
+                    <a href="/turmas" class="nav-item" data-tooltip="Turma">
                         <i class="fas fa-users"></i>
                         <span>Turma</span>
                     </a>
@@ -105,99 +782,346 @@
             </div>
         </nav>
     </aside>
+
     <main class="main-content">
         <header class="header">
             <div class="breadcrumb">
-                <i class="fas fa-play"></i>
-                <a href="/aplicacao">Aplicação</a>
+                <i class="fas fa-home"></i>
+                <a href="/inicio">Início</a>
+                <span>/</span>
+                <span>Aplicação</span>
             </div>
             <div class="user-info">
                 <div>
-                    <div class="user-email">joaopedrosantosadmin@gmail.com</div>
+                    <div class="user-email">iamjosehenrique@gmail.com</div>
                     <div class="system-subtitle">Sistema de Ensino Integrado de Campos Elíseos</div>
                 </div>
             </div>
         </header>
-        <section class="action-cards" id="actionCards">
-            <a href="/aplicacao/nova" class="action-card">
-                <div class="action-icon">
-                    <i class="fas fa-plus-circle"></i>
+
+        <div class="content-wrapper">
+            <div class="page-title">Aplicação</div>
+            <div class="page-subtitle">Avaliações / Aplicação</div>
+
+            <div class="controls-bar">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Digite algo que deseja encontrar..." id="searchInput">
                 </div>
-                <h3 class="action-title">NOVA APLICAÇÃO</h3>
-                <p class="action-subtitle">Iniciar aplicação de simulado</p>
-                <span class="view-all">Nova aplicação</span>
-            </a>
-            <a href="/aplicacao/ativas" class="action-card">
-                <div class="action-icon">
-                    <i class="fas fa-play"></i>
-                </div>
-                <h3 class="action-title">APLICAÇÕES ATIVAS</h3>
-                <p class="action-subtitle">Ver aplicações em andamento</p>
-                <span class="view-all">Ver ativas</span>
-            </a>
-            <a href="/aplicacao/historico" class="action-card">
-                <div class="action-icon">
-                    <i class="fas fa-history"></i>
-                </div>
-                <h3 class="action-title">HISTÓRICO</h3>
-                <p class="action-subtitle">Consultar aplicações anteriores</p>
-                <span class="view-all">Ver histórico</span>
-            </a>
-        </section>
-        <section class="data-section">
+                <button class="filter-btn">
+                    <i class="fas fa-filter"></i>
+                    Filtrar
+                </button>
+                <button class="add-btn" onclick="addNewApplication()">
+                    <i class="fas fa-plus"></i>
+                    Adicionar
+                </button>
+            </div>
+
             <div class="data-table">
                 <div class="table-header">
-                    Aplicações de Simulado Recentes
+                    <div>Tipo de avaliação</div>
+                    <div>Avaliação</div>
+                    <div>Data de aplicação</div>
+                    <div>Avaliações finalizadas</div>
+                    <div>Acadêmico</div>
+                    <div>Ações</div>
                 </div>
                 <div class="table-content" id="tableContent">
                     <div class="table-row">
-                        <div class="status-badge status-available">9° ANO</div>
-                        <div class="student-info">
-                            <div class="student-name">
-                                <a href="/alunos/vitor-marcelo-say">Vitor Marcelo Say</a>
-                            </div>
-                            <div class="student-details">Turma A - Matutino</div>
+                        <div class="assessment-type type-simulado">SIMULADO</div>
+                        <div class="assessment-info">
+                            <h4>SIMULADO 3° BIMESTRE - 2025 9° - 9002 ANO - A</h4>
                         </div>
-                        <div class="simulation-info">
-                            <a href="/simulados/3-bimestre-2025-9ano">SIMULADO 3° BIMESTRE - 2025 9° ANO</a>
+                        <div class="date-info">27/08/2025 08:01</div>
+                        <div class="participants-info">29/30</div>
+                        <div class="academic-info">
+                            <div class="series">Série: 9 ANO</div>
+                            <div>Turma: 9002</div>
                         </div>
-                        <div class="status-badge status-available">9ANO0003</div>
-                        <div class="date-info">27/08/2025 07:34:00</div>
+                        <div class="actions-cell">
+                            <button class="action-btn btn-apply" title="Aplicar">
+                                <i class="fas fa-play"></i>
+                            </button>
+                        </div>
                     </div>
+
                     <div class="table-row">
-                        <div class="status-badge status-available">9° ANO</div>
-                        <div class="student-info">
-                            <div class="student-name">
-                                <a href="/alunos/vanessa-teodoro">Vanessa Teodoro</a>
-                            </div>
-                            <div class="student-details">Turma B - Vespertino</div>
+                        <div class="assessment-type type-simulado">SIMULADO</div>
+                        <div class="assessment-info">
+                            <h4>SIMULADO 2° BIMESTRE - 2025 9° ANO - A</h4>
                         </div>
-                        <div class="simulation-info">
-                            <a href="/simulados/3-bimestre-2025-9ano">SIMULADO 3° BIMESTRE - 2025 9° ANO</a>
+                        <div class="date-info">30/05/2025 15:04</div>
+                        <div class="participants-info">60/60</div>
+                        <div class="academic-info">
+                            <div class="series">Série: 9 ANO</div>
+                            <div>Turma: 9001</div>
                         </div>
-                        <div class="status-badge status-pending">9ANO0001Jr</div>
-                        <div class="date-info">27/08/2025 07:31:00</div>
-                    </div>
-                    <div class="table-row">
-                        <div class="status-badge status-available">9° ANO</div>
-                        <div class="student-info">
-                            <div class="student-name">
-                                <a href="/alunos/talles-francisco-cesar">Talles Francisco César</a>
-                            </div>
-                            <div class="student-details">Turma A - Matutino</div>
+                        <div class="actions-cell">
+                            <button class="action-btn btn-apply" title="Aplicar">
+                                <i class="fas fa-play"></i>
+                            </button>
                         </div>
-                        <div class="simulation-info">
-                            <a href="/simulados/3-bimestre-2025-9ano">SIMULADO 3° BIMESTRE - 2025 9° ANO</a>
-                        </div>
-                        <div class="status-badge status-available">9ANO0002</div>
-                        <div class="date-info">27/08/2025 08:01:00</div>
                     </div>
                 </div>
             </div>
-        </section>
+
+            <div class="pagination">
+                <button><i class="fas fa-chevron-left"></i></button>
+                <button class="active">1</button>
+                <button>2</button>
+                <button>3</button>
+                <span>de 70 registros</span>
+                <button><i class="fas fa-chevron-right"></i></button>
+            </div>
+        </div>
     </main>
+
     <script>
-      //faz o js ali cmg
+        let sidebarCollapsed = false;
+
+        document.addEventListener('DOMContentLoaded', function() {
+            loadSidebarState();
+            setupSearch();
+            handleNavigation();
+        });
+
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const icon = document.getElementById('toggleIcon');
+            
+            sidebarCollapsed = !sidebarCollapsed;
+            
+            if (sidebarCollapsed) {
+                sidebar.classList.add('collapsed');
+                icon.className = 'fas fa-chevron-right';
+                document.querySelectorAll('.sub-menu').forEach(menu => {
+                    menu.classList.remove('open');
+                    menu.style.maxHeight = '0';
+                });
+                document.querySelectorAll('.nav-item.expanded').forEach(item => {
+                    item.classList.remove('expanded');
+                });
+            } else {
+                sidebar.classList.remove('collapsed');
+                icon.className = 'fas fa-chevron-left';
+            }
+
+            localStorage.setItem('sidebarCollapsed', sidebarCollapsed);
+        }
+
+        function loadSidebarState() {
+            const saved = localStorage.getItem('sidebarCollapsed');
+            if (saved === 'true') {
+                toggleSidebar();
+            }
+        }
+
+        function toggleSubMenu(item) {
+            if (sidebarCollapsed) return;
+            
+            const subMenu = item.nextElementSibling;
+            
+            document.querySelectorAll('.nav-item.expanded').forEach(expandedItem => {
+                if (expandedItem !== item) {
+                    expandedItem.classList.remove('expanded');
+                    expandedItem.nextElementSibling.classList.remove('open');
+                    expandedItem.nextElementSibling.style.maxHeight = '0';
+                }
+            });
+            
+            item.classList.toggle('expanded');
+            subMenu.classList.toggle('open');
+            
+            if (subMenu.classList.contains('open')) {
+                subMenu.style.maxHeight = subMenu.scrollHeight + 'px';
+            } else {
+                subMenu.style.maxHeight = '0';
+            }
+        }
+
+        function setupSearch() {
+            const searchInput = document.getElementById('searchInput');
+            const tableRows = document.querySelectorAll('.table-row');
+
+            searchInput.addEventListener('input', function() {
+                const searchTerm = this.value.toLowerCase();
+                
+                tableRows.forEach(row => {
+                    const text = row.textContent.toLowerCase();
+                    if (text.includes(searchTerm)) {
+                        row.style.display = 'grid';
+                    } else {
+                        row.style.display = 'none';
+                    }
+                });
+
+                if (searchTerm === '') {
+                    tableRows.forEach(row => {
+                        row.style.display = 'grid';
+                    });
+                }
+            });
+        }
+
+        function addNewApplication() {
+            showNotification('Redirecionando para nova aplicação...', 'info');
+            setTimeout(() => {
+                window.location.href = '/aplicacao/nova';
+            }, 1000);
+        }
+
+        function handleNavigation() {
+            document.querySelectorAll('.nav-item[href]:not(.expandable)').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    document.querySelectorAll('.nav-item').forEach(item => {
+                        item.classList.remove('active');
+                    });
+                    this.classList.add('active');
+                });
+            });
+
+            document.querySelectorAll('.action-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const action = this.classList.contains('btn-apply') ? 'aplicar' : 
+                                  this.classList.contains('btn-edit') ? 'editar' : 'excluir';
+                    
+                    this.style.transform = 'scale(0.95)';
+                    setTimeout(() => {
+                        this.style.transform = 'translateY(-2px)';
+                        handleAction(action, this);
+                    }, 150);
+                });
+            });
+        }
+
+        function handleAction(action, button) {
+            const row = button.closest('.table-row');
+            const assessmentName = row.querySelector('.assessment-info h4').textContent;
+            
+            switch(action) {
+                case 'aplicar':
+                    showNotification(`Iniciando aplicação: ${assessmentName}`, 'success');
+                    break;
+                case 'editar':
+                    showNotification(`Editando: ${assessmentName}`, 'info');
+                    break;
+                case 'excluir':
+                    if(confirm(`Tem certeza que deseja excluir: ${assessmentName}?`)) {
+                        showNotification(`Excluindo: ${assessmentName}`, 'error');
+                        row.style.animation = 'fadeOut 0.5s ease';
+                        setTimeout(() => row.remove(), 500);
+                    }
+                    break;
+            }
+        }
+
+        function showNotification(message, type = 'info') {
+            const existing = document.querySelector('.notification');
+            if (existing) {
+                existing.remove();
+            }
+
+            const notification = document.createElement('div');
+            notification.className = `notification notification-${type}`;
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                padding: 15px 20px;
+                border-radius: 8px;
+                color: white;
+                font-weight: 500;
+                z-index: 10000;
+                animation: slideIn 0.3s ease;
+                max-width: 400px;
+                box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+            `;
+            
+            const colors = {
+                'success': '#28a745',
+                'info': '#17a2b8',
+                'warning': '#ffc107',
+                'error': '#dc3545'
+            };
+            
+            notification.style.background = colors[type] || colors.info;
+            notification.textContent = message;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.animation = 'slideOut 0.3s ease';
+                setTimeout(() => notification.remove(), 300);
+            }, 3000);
+        }
+
+        document.addEventListener('keydown', function(e) {
+            if (e.ctrlKey && e.key === 'b') {
+                e.preventDefault();
+                toggleSidebar();
+            }
+            
+            if (e.key === 'Escape') {
+                const notification = document.querySelector('.notification');
+                if (notification) {
+                    notification.remove();
+                }
+            }
+
+            if (e.ctrlKey && e.key === 'f') {
+                e.preventDefault();
+                document.getElementById('searchInput').focus();
+            }
+        });
+
+        window.addEventListener('resize', function() {
+            if (window.innerWidth <= 768) {
+                const sidebar = document.getElementById('sidebar');
+                sidebar.classList.add('mobile');
+            } else {
+                const sidebar = document.getElementById('sidebar');
+                sidebar.classList.remove('mobile', 'mobile-open');
+            }
+        });
+
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideIn {
+                from {
+                    transform: translateX(100%);
+                    opacity: 0;
+                }
+                to {
+                    transform: translateX(0);
+                    opacity: 1;
+                }
+            }
+            
+            @keyframes slideOut {
+                from {
+                    transform: translateX(0);
+                    opacity: 1;
+                }
+                to {
+                    transform: translateX(100%);
+                    opacity: 0;
+                }
+            }
+
+            @keyframes fadeOut {
+                from {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+                to {
+                    opacity: 0;
+                    transform: translateY(-20px);
+                }
+            }
+        `;
+        document.head.appendChild(style);
     </script>
 </body>
 </html>
+                       

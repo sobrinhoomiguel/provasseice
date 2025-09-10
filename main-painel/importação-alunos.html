@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <title>Importação de Alunos - Provas SEICE</title>
+    <style>
+        :root {
+            --primary-blue: #2D4B73;
+            --secondary-blue: #3A5F87;
+            --light-blue: #4A6FA5;
+            --dark-blue: #253C59;
+            --white: #ffffff;
+            --light-gray: #f8f9fa;
+            --medium-gray: #e9ecef;
+            --text-dark: #333333;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --shadow-hover: 0 8px 25px rgba(0, 0, 0, 0.15);
+            --transition: all 0.3s ease;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f8f9fa;
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 280px;
+            height: 100vh;
+            background: linear-gradient(180deg, #1e3a5f 0%, #2c4f73 100%);
+            color: white;
+            transition: all 0.3s ease;
+            z-index: 1000;
+            box-shadow: 4px 0 20px rgba(0,0,0,0.1);
+        }
+
+        .sidebar.collapsed {
+            width: 70px;
+        }
+
+        .sidebar-header {
+            padding: 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #4a90e2, #357abd);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+
+        .seice-logo {
+            width: 100px;
+            height: 60px;
+            display: flex;
+            justify-content: center;
+            margin: 0 65px;
+        }
+
+        .sidebar.collapsed .logo-text {
+            opacity: 0;
+            width: 0;
+            overflow: hidden;
+        }
+
+        .logo-text h1 {
+            font-size: 24px;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .logo-text p {
+            font-size: 12px;
+            opacity: 0.8;
+            margin-top: 2px;
+        }
+
+        .nav-menu {
+            padding: 20px 0;
+        }
+
+        .nav-menu a{
+            text-decoration: none;
+            color: white;
+            margin-top: 2px;
+        }
+
+        .nav-section {
+            margin-bottom: 30px;
+        }
+
+        .nav-section h3 {
+            padding: 0 20px 10px;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            opacity: 0.7;
+            font-weight: 600;
+            transition: opacity 0.3s ease;
+        }
+
+        .sidebar.collapsed .nav-section h3 {
+            opacity: 0;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            background: none;
+            color: white;
+            width: 100%;
+            text-align: left;
+            position: relative;
+        }
+
+        .nav-item:hover {
+            background: rgba(255,255,255,0.1);
+        }
+
+        .nav-item.active {
+            background: rgba(255,255,255,0.15);
+            border-right: 3px solid #4a90e2;
+        }
+
+        .nav-item i {
+            width: 20px;
+            font-size: 16px;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+
+        .nav-item span {
+            transition: opacity 0.3s ease;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .sidebar.collapsed .nav-item span {
+            opacity: 0;
+            width: 0;
+            overflow: hidden;
+        }
+
+        .nav-item .chevron {
+            margin-left: auto;
+            transition: transform 0.3s ease;
+            font-size: 12px;
+        }
+
+        .nav-item.expanded .chevron {
+            transform: rotate(90deg);
+        }
+
+        .sub-menu {
+            background: rgba(0,0,0,0.2);
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .sub-menu.open {
+            max-height: 200px;
+        }
+
+        .sub-menu .nav-item {
+            padding-left: 50px;
+            font-size: 13px;
+        }
+
+        .toggle-btn {
+            position: absolute;
+            top: 80px;
+            right: -12px;
+            width: 24px;
+            height: 24px;
+            background: #4a90e2;
+            border: none;
+            border-radius: 50%;
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            z-index: 1001;
+        }
+
+        .toggle-btn:hover {
+            background: #357abd;
+            transform: scale(1.1);
+        }
+
+        
+        .main-content {
+            margin-left: 280px;
+            transition: margin-left 0.3s ease;
+            min-height: 100vh;
+        }
+
+        .sidebar.collapsed + .main-content {
+            margin-left: 70px;
+        }
+
+        .header {
+            background: white;
+            padding: 20px 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #e1e5e9;
+        }
+
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #666;
+            font-size: 14px;
+        }
+
+        .breadcrumb i {
+            color: #4a90e2;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .user-email {
+            font-size: 14px;
+            color: #666;
+            font-weight: 500;
+        }
+
+        .system-subtitle {
+            font-size: 12px;
+            color: #999;
+        }
+
+        .main-container{
+            padding: 20px;
+            max-width: 900px;
+            margin: 15vh auto;
+            background: white;  
+            box-shadow: var(--shadow);
+            border-radius: 8px;
+            transition: var(--transition);
+        }
+
+        .main-container:hover {
+            box-shadow: var(--shadow-hover);
+        }
+
+        .main-h1{
+            font-size: 2em;
+            color: var(--text-dark);
+        }
+
+        .main-p{
+            margin: 7px 0 30px 0;
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+        
+        .fa-solid{
+            margin-left: 13px;
+            font-size: .7em;
+            color: var(--light-gray);
+            background-color: var(--primary-blue);
+            padding: 9px;
+            border-radius: 20%;
+        }
+
+        .escolher-arquivo{
+            padding: 10px;
+            border: 2px dashed var(--medium-gray);
+            border-radius: 8px;
+            width: 100%;
+            max-width: 400px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .escolher-arquivo:hover{
+            border-color: var(--primary-blue);
+            background: var(--light-gray);
+        }
+
+        .upload-btn{
+            margin-top: 15px;
+            padding: 12px 22px;
+            background: var(--primary-blue);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .upload-btn:hover{
+            background: var(--secondary-blue);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .model-archive{
+            margin-top: 15px;
+            padding: 12px 22px;
+            background: var(--primary-blue);
+            color: var(--medium-gray);
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .model-archive:hover{
+            background: var(--secondary-blue);
+            box-shadow: var(--shadow-hover);
+            color: white;
+        }
+
+        .cancel-button{
+            margin-top: 40px;
+            padding: 12px 22px;
+            background: rgba(240, 240, 240, 0.938);
+            box-shadow: var(--shadow);
+            color: var(--text-dark);
+            border: 1px solid rgb(179, 178, 178);
+            border-radius: 5px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .cancel-button:hover{
+            background: var(--light-gray);
+            box-shadow: var(--shadow-hover);
+            color: var(--text-dark);
+        }
+
+        .import-button{
+            margin-top: 40px;
+            padding: 12px 22px;
+            background: var(--primary-blue);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: var(--transition);
+            float: right;
+        }
+
+        .import-button:hover{
+            background: var(--secondary-blue);
+            box-shadow: var(--shadow-hover);
+        }
+    </style>
+</head>
+<body>
+    <body>
+     <aside class="sidebar" id="sidebar">
+        <button class="toggle-btn" onclick="toggleSidebar()">
+            <i class="fas fa-chevron-left" id="toggleIcon"></i>
+        </button>
+        
+        <div class="sidebar-header">
+            <div class="seice-logo">
+                <img src="../img/image.png" alt="Imagem da logo SEICE">
+            </div>
+        </div>
+
+        <nav class="nav-menu">
+            <div class="nav-section">
+                <h3>Avaliações</h3>
+                <button class="nav-item expandable" onclick="toggleSubMenu(this)">
+                    <i class="fas fa-clipboard-list"></i>
+                    <span>Avaliações</span>
+                    <i class="fas fa-chevron-right chevron"></i>
+                </button>
+                <div class="sub-menu">
+                    <button class="nav-item" onclick="navigate('banco-questoes')">
+                        <i class="fas fa-database"></i>
+                        <a href="banco-de-questoes.html">
+                            <span>Banco de Questões</span>
+                        </a>
+                    </button>
+                    <button class="nav-item" onclick="navigate('avaliacao')">
+                        <i class="fas fa-edit"></i>
+                        <a href="avaliacao.html">
+                            <span>Avaliação</span>
+                        </a>
+                    </button>
+                    <button class="nav-item" onclick="navigate('aplicacao')">
+                        <i class="fas fa-play"></i>
+                        <a href="aplicacao.html">
+                            <span>Aplicação</span>
+                        </a>
+                    </button>
+                    <button class="nav-item" onclick="navigate('correcao')">
+                        <i class="fas fa-check"></i>
+                        <a href="correcao.html">
+                            <span>Correção</span>
+                        </a>
+                    </button>
+                    <button class="nav-item" onclick="navigate('enviar-imagens')">
+                        <i class="fas fa-images"></i>
+                        <a href="enviar-imagens.html">
+                            <span>Enviar Imagens</span>
+                        </a>
+                    </button>
+                </div>
+            </div>
+            <div class="nav-section">
+                <h3>Relatórios</h3>
+                <button class="nav-item expandable" onclick="toggleSubMenu(this)">
+                    <i class="fas fa-chart-bar"></i>
+                    <span>Resultados</span>
+                    <i class="fas fa-chevron-right chevron"></i>
+                </button>
+                <div class="sub-menu">
+                    <button class="nav-item" onclick="navigate('relatorios-gerais')">
+                        <i class="fas fa-file-alt"></i>
+                        <a href="relatorios-gerais">
+                            <span>Relatórios Gerais</span>
+                        </a>
+                    </button>
+                </div>
+            </div>
+
+            <div class="nav-section">
+                <h3>Configurações</h3>
+                <button class="nav-item expandable" onclick="toggleSubMenu(this)">
+                    <i class="fas fa-cog"></i>
+                    <span>Configuração</span>
+                    <i class="fas fa-chevron-right chevron"></i>
+                </button>
+                <div class="sub-menu">
+                    <button class="nav-item" onclick="navigate('serie')">
+                        <i class="fas fa-graduation-cap"></i>
+                        <a href="series.html">
+                            <span>Série</span>
+                        </a>
+                    </button>
+                    <button class="nav-item" onclick="navigate('turma')">
+                        <i class="fas fa-users"></i>
+                        <a href="turma.html">
+                            <span>Turma</span>
+                        </a>
+                    </button>
+                    <button class="nav-item" onclick="navigate('alunos')">
+                        <i class="fas fa-user-graduate"></i>
+                        <a href="alunos.html">
+                            <span>Alunos</span>
+                        </a>
+                    </button>
+                    <button class="nav-item" onclick="navigate('importar-alunos')">
+                        <i class="fas fa-upload"></i>
+                        <a href="importação-alunos.html">
+                            <span>Importar Alunos</span>
+                        </a>
+                    </button>
+                    <button class="nav-item" onclick="navigate('usuarios')">
+                        <i class="fas fa-user-cog"></i>
+                        <a href="users.html">
+                            <span>Usuários</span>
+                        </a>
+                    </button>
+                </div>
+            </div>
+        </nav>
+    </aside>
+     <main class="main-content">
+      
+        <header class="header">
+            <div class="breadcrumb">
+                <i class="fas fa-home"></i>
+                <span>Início > Importar Alunos</span>
+            </div>
+            <div class="user-info">
+                <div>
+                    <div class="user-email">joaopedrosantosadmin@gmail.com</div>
+                    <div class="system-subtitle">Sistema de Ensino Integrado de Campos Elíseos</div>
+                </div>
+            </div>
+        </header>
+            <main>
+                <div class="main-container">
+                    <h1 class="main-h1">Importação de Alunos<i class="fa-solid fa-arrow-up-from-bracket"></i></h1>
+                    <p class="main-p">Aqui você pode importar uma lista de alunos para o sistema utilizando um arquivo CSV e Excel (.xlsx, xls) - Máximo 10MB.</p>
+                    <div class="upload-section">
+                        <input type="file" id="fileInput" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" class="escolher-arquivo" />
+                        <button class="upload-btn" onclick="uploadFile()">Abrir Arquivos</button><br>
+                        <button class="model-archive">Modelo de XLS para importação</button><br>
+                        <button class="cancel-button">Cancelar</button> 
+                        <button type="submit" class="import-button">Importar</button>
+                </div>
+            </main>
+    
+</body>
+</html>

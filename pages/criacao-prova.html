@@ -656,43 +656,105 @@
             </h1>
         </div>
         
-        <div class="nav-menu">
-            <a href="painel-professor.html" class="nav-item">
-                <div class="nav-icon"><i class="fa-solid fa-house"></i></div>
-                Dashboard
-                <span class="nav-dropdown">▼</span>
-            </a>
-            <a href="dashboard.html" class="nav-item active">
-                <div class="nav-icon"><i class="fa-solid fa-plus"></i></div>
-                Criação
-                <span class="nav-dropdown">▼</span>
-            </a>
-            <a href="prova-online.html" class="nav-item">
-                <div class="nav-icon"><i class="fa-solid fa-newspaper"></i></div>
-                Prova Online
-                <span class="nav-dropdown">▼</span>
-            </a>
-            <a href="processamento.html" class="nav-item">
-                <div class="nav-icon"><i class="fa-solid fa-ellipsis"></i></div>
-                Processamento
-                <span class="nav-dropdown">▼</span>
-            </a>
-            <a href="correcao.html" class="nav-item">
-                <div class="nav-icon"><i class="fa-solid fa-check"></i></div>
-                Correção
-                <span class="nav-dropdown">▼</span>
-            </a>
-            <a href="relatorios.html" class="nav-item">
-                <div class="nav-icon"><i class="fa-solid fa-square-poll-vertical"></i></div>
-                Relatórios
-                <span class="nav-dropdown">▼</span>
-            </a>
-            <a href="configuracoes.html" class="nav-item">
-                <div class="nav-icon"><i class="fa-solid fa-gear"></i></div>
-                Configurações
-                <span class="nav-dropdown">▼</span>
-            </a>
+            <aside class="sidebar" id="sidebar">
+        <button class="toggle-btn" onclick="toggleSidebar()">
+            <i class="fas fa-chevron-left" id="toggleIcon"></i>
+        </button>
+        
+        <div class="sidebar-header">
+            <div class="seice-logo">
+                <img src="../img/image.png" alt="Imagem da logo do SEICE">
+            </div>
         </div>
+
+        <nav class="nav-menu">
+            <div class="nav-section">
+                <h3>Principal</h3>
+                <a href="/inicio" class="nav-item active" data-tooltip="Início">
+                    <i class="fas fa-home"></i>
+                    <span>Início</span>
+                </a>
+            </div>
+
+            <div class="nav-section">
+                <h3>Avaliações</h3>
+                <a href="#" class="nav-item expandable" onclick="toggleSubMenu(this); return false;" data-tooltip="Avaliações">
+                    <i class="fas fa-clipboard-list"></i>
+                    <span>AVALIAÇÕES</span>
+                    <i class="fas fa-chevron-right chevron"></i>
+                </a>
+                <div class="sub-menu">
+                    <a href="/banco-questoes" class="nav-item" data-tooltip="Banco de Questões">
+                        <i class="fas fa-database"></i>
+                        <span>Banco de Questões</span>
+                    </a>
+                    <a href="/avaliacao" class="nav-item" data-tooltip="Avaliação">
+                        <i class="fas fa-edit"></i>
+                        <span>Avaliação</span>
+                    </a>
+                    <a href="/aplicacao" class="nav-item" data-tooltip="Aplicação">
+                        <i class="fas fa-play"></i>
+                        <span>Aplicação</span>
+                    </a>
+                    <a href="/correcao" class="nav-item" data-tooltip="Correção">
+                        <i class="fas fa-check"></i>
+                        <span>Correção</span>
+                    </a>
+                    <a href="enviar-imagens.html" class="nav-item" data-tooltip="Enviar Imagens">
+                        <i class="fas fa-images"></i>
+                        <span>Enviar Imagens</span>
+                    </a>
+                </div>
+            </div>
+
+            <div class="nav-section">
+                <h3>Relatórios</h3>
+                <a href="#" class="nav-item expandable" onclick="toggleSubMenu(this); return false;" data-tooltip="Resultados">
+                    <i class="fas fa-chart-bar"></i>
+                    <span>RESULTADOS</span>
+                    <i class="fas fa-chevron-right chevron"></i>
+                </a>
+                <div class="sub-menu">
+                    <a href="/relatorios-gerais" class="nav-item" data-tooltip="Relatórios Gerais">
+                        <i class="fas fa-file-alt"></i>
+                        <span>Relatórios Gerais</span>
+                    </a>
+                </div>
+            </div>
+
+            <div class="nav-section">
+                <h3>Configurações</h3>
+                <a href="#" class="nav-item expandable" onclick="toggleSubMenu(this); return false;" data-tooltip="Configuração">
+                    <i class="fas fa-cog"></i>
+                    <span>CONFIGURAÇÃO</span>
+                    <i class="fas fa-chevron-right chevron"></i>
+                </a>
+                <div class="sub-menu">
+                    <a href="/serie" class="nav-item" data-tooltip="Série">
+                        <i class="fas fa-graduation-cap"></i>
+                        <span>Série</span>
+                    </a>
+                    <a href="turmas.html" class="nav-item" data-tooltip="Turma">
+                        <i class="fas fa-users"></i>
+                        <span>Turma</span>
+                    </a>
+                    <a href="/alunos" class="nav-item" data-tooltip="Alunos">
+                        <i class="fas fa-user-graduate"></i>
+                        <span>Alunos</span>
+                    </a>
+                    <a href="/importar-alunos" class="nav-item" data-tooltip="Importar Alunos">
+                        <i class="fas fa-upload"></i>
+                        <span>Importar Alunos</span>
+                    </a>
+                    <a href="/usuarios" class="nav-item" data-tooltip="Usuários">
+                        <i class="fas fa-user-cog"></i>
+                        <span>Usuários</span>
+                    </a>
+                </div>
+            </div>
+        </nav>
+    </aside>
+
 
         <!--
         <div class="solutions-section">

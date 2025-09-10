@@ -333,7 +333,7 @@
         }
 
         .model-archive{
-            margin-top: 15px;
+            margin-top: 45px;
             padding: 12px 22px;
             background: var(--primary-blue);
             color: var(--medium-gray);
@@ -349,26 +349,8 @@
             color: white;
         }
 
-        .cancel-button{
-            margin-top: 40px;
-            padding: 12px 22px;
-            background: rgba(240, 240, 240, 0.938);
-            box-shadow: var(--shadow);
-            color: var(--text-dark);
-            border: 1px solid rgb(179, 178, 178);
-            border-radius: 5px;
-            cursor: pointer;
-            transition: var(--transition);
-        }
-
-        .cancel-button:hover{
-            background: var(--light-gray);
-            box-shadow: var(--shadow-hover);
-            color: var(--text-dark);
-        }
-
         .import-button{
-            margin-top: 40px;
+            margin-top: -35px;
             padding: 12px 22px;
             background: var(--primary-blue);
             color: white;
@@ -387,117 +369,105 @@
 </head>
 <body>
     <body>
-     <aside class="sidebar" id="sidebar">
+    <aside class="sidebar" id="sidebar">
         <button class="toggle-btn" onclick="toggleSidebar()">
             <i class="fas fa-chevron-left" id="toggleIcon"></i>
         </button>
         
         <div class="sidebar-header">
             <div class="seice-logo">
-                <img src="../img/image.png" alt="Imagem da logo SEICE">
+                <img src="../img/image.png" alt="Imagem da logo do SEICE">
             </div>
         </div>
 
         <nav class="nav-menu">
             <div class="nav-section">
+                <h3>Principal</h3>
+                <a href="/inicio" class="nav-item active" data-tooltip="Início">
+                    <i class="fas fa-home"></i>
+                    <span>Início</span>
+                </a>
+            </div>
+
+            <div class="nav-section">
                 <h3>Avaliações</h3>
-                <button class="nav-item expandable" onclick="toggleSubMenu(this)">
+                <a href="#" class="nav-item expandable" onclick="toggleSubMenu(this); return false;" data-tooltip="Avaliações">
                     <i class="fas fa-clipboard-list"></i>
-                    <span>Avaliações</span>
+                    <span>AVALIAÇÕES</span>
                     <i class="fas fa-chevron-right chevron"></i>
-                </button>
+                </a>
                 <div class="sub-menu">
-                    <button class="nav-item" onclick="navigate('banco-questoes')">
+                    <a href="/banco-questoes" class="nav-item" data-tooltip="Banco de Questões">
                         <i class="fas fa-database"></i>
-                        <a href="banco-de-questoes.html">
-                            <span>Banco de Questões</span>
-                        </a>
-                    </button>
-                    <button class="nav-item" onclick="navigate('avaliacao')">
+                        <span>Banco de Questões</span>
+                    </a>
+                    <a href="/avaliacao" class="nav-item" data-tooltip="Avaliação">
                         <i class="fas fa-edit"></i>
-                        <a href="avaliacao.html">
-                            <span>Avaliação</span>
-                        </a>
-                    </button>
-                    <button class="nav-item" onclick="navigate('aplicacao')">
+                        <span>Avaliação</span>
+                    </a>
+                    <a href="/aplicacao" class="nav-item" data-tooltip="Aplicação">
                         <i class="fas fa-play"></i>
-                        <a href="aplicacao.html">
-                            <span>Aplicação</span>
-                        </a>
-                    </button>
-                    <button class="nav-item" onclick="navigate('correcao')">
+                        <span>Aplicação</span>
+                    </a>
+                    <a href="/correcao" class="nav-item" data-tooltip="Correção">
                         <i class="fas fa-check"></i>
-                        <a href="correcao.html">
-                            <span>Correção</span>
-                        </a>
-                    </button>
-                    <button class="nav-item" onclick="navigate('enviar-imagens')">
+                        <span>Correção</span>
+                    </a>
+                    <a href="enviar-imagens.html" class="nav-item" data-tooltip="Enviar Imagens">
                         <i class="fas fa-images"></i>
-                        <a href="enviar-imagens.html">
-                            <span>Enviar Imagens</span>
-                        </a>
-                    </button>
+                        <span>Enviar Imagens</span>
+                    </a>
                 </div>
             </div>
+
             <div class="nav-section">
                 <h3>Relatórios</h3>
-                <button class="nav-item expandable" onclick="toggleSubMenu(this)">
+                <a href="#" class="nav-item expandable" onclick="toggleSubMenu(this); return false;" data-tooltip="Resultados">
                     <i class="fas fa-chart-bar"></i>
-                    <span>Resultados</span>
+                    <span>RESULTADOS</span>
                     <i class="fas fa-chevron-right chevron"></i>
-                </button>
+                </a>
                 <div class="sub-menu">
-                    <button class="nav-item" onclick="navigate('relatorios-gerais')">
+                    <a href="/relatorios-gerais" class="nav-item" data-tooltip="Relatórios Gerais">
                         <i class="fas fa-file-alt"></i>
-                        <a href="relatorios-gerais">
-                            <span>Relatórios Gerais</span>
-                        </a>
-                    </button>
+                        <span>Relatórios Gerais</span>
+                    </a>
                 </div>
             </div>
 
             <div class="nav-section">
                 <h3>Configurações</h3>
-                <button class="nav-item expandable" onclick="toggleSubMenu(this)">
+                <a href="#" class="nav-item expandable" onclick="toggleSubMenu(this); return false;" data-tooltip="Configuração">
                     <i class="fas fa-cog"></i>
-                    <span>Configuração</span>
+                    <span>CONFIGURAÇÃO</span>
                     <i class="fas fa-chevron-right chevron"></i>
-                </button>
+                </a>
                 <div class="sub-menu">
-                    <button class="nav-item" onclick="navigate('serie')">
+                    <a href="/serie" class="nav-item" data-tooltip="Série">
                         <i class="fas fa-graduation-cap"></i>
-                        <a href="series.html">
-                            <span>Série</span>
-                        </a>
-                    </button>
-                    <button class="nav-item" onclick="navigate('turma')">
+                        <span>Série</span>
+                    </a>
+                    <a href="turmas.html" class="nav-item" data-tooltip="Turma">
                         <i class="fas fa-users"></i>
-                        <a href="turma.html">
-                            <span>Turma</span>
-                        </a>
-                    </button>
-                    <button class="nav-item" onclick="navigate('alunos')">
+                        <span>Turma</span>
+                    </a>
+                    <a href="/alunos" class="nav-item" data-tooltip="Alunos">
                         <i class="fas fa-user-graduate"></i>
-                        <a href="alunos.html">
-                            <span>Alunos</span>
-                        </a>
-                    </button>
-                    <button class="nav-item" onclick="navigate('importar-alunos')">
+                        <span>Alunos</span>
+                    </a>
+                    <a href="/importar-alunos" class="nav-item" data-tooltip="Importar Alunos">
                         <i class="fas fa-upload"></i>
-                        <a href="importação-alunos.html">
-                            <span>Importar Alunos</span>
-                        </a>
-                    </button>
-                    <button class="nav-item" onclick="navigate('usuarios')">
+                        <span>Importar Alunos</span>
+                    </a>
+                    <a href="/usuarios" class="nav-item" data-tooltip="Usuários">
                         <i class="fas fa-user-cog"></i>
-                        <a href="users.html">
-                            <span>Usuários</span>
-                        </a>
-                    </button>
+                        <span>Usuários</span>
+                    </a>
                 </div>
             </div>
         </nav>
     </aside>
+
      <main class="main-content">
       
         <header class="header">
@@ -517,10 +487,9 @@
                     <h1 class="main-h1">Importação de Alunos<i class="fa-solid fa-arrow-up-from-bracket"></i></h1>
                     <p class="main-p">Aqui você pode importar uma lista de alunos para o sistema utilizando um arquivo CSV e Excel (.xlsx, xls) - Máximo 10MB.</p>
                     <div class="upload-section">
-                        <input type="file" id="fileInput" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" class="escolher-arquivo" />
+                        <input type="file" id="fileInput" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" class="escolher-arquivo"/>
                         <button class="upload-btn" onclick="uploadFile()">Abrir Arquivos</button><br>
                         <button class="model-archive">Modelo de XLS para importação</button><br>
-                        <button class="cancel-button">Cancelar</button> 
                         <button type="submit" class="import-button">Importar</button>
                 </div>
             </main>

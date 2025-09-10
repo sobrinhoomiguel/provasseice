@@ -631,9 +631,9 @@ header('Expires: 0');
 
 // Conteúdo do CSV modelo
 $csvContent = "nome,email,turma,serie,telefone,matricula\n";
-$csvContent .= "João da Silva,joao.silva@email.com,A,1º Ano,(11) 99999-9999,2024001\n";
-$csvContent .= "Maria Santos,maria.santos@email.com,B,1º Ano,(11) 88888-8888,2024002\n";
-$csvContent .= "Pedro Oliveira,pedro.oliveira@email.com,C,2º Ano,(11) 77777-7777,2024003\n";
+$csvContent .= "João da Silva,joao.silva@email.com,A,1º Ano,(21) 99999-9999,2024001\n";
+$csvContent .= "Maria Santos,maria.santos@email.com,B,1º Ano,(21) 88888-8888,2024002\n";
+$csvContent .= "Pedro Oliveira,pedro.oliveira@email.com,C,2º Ano,(21) 77777-7777,2024003\n";
 
 echo $csvContent;
 exit;

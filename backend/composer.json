@@ -1,0 +1,15 @@
+{
+    "name": "seice/importacao-aluno",
+    "description": "Backend da importacao do aluno",
+    "type": "project",
+    "require": {
+        "phpoffice/phpspreadsheet": "^1.28"
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/"
+        }
+    },
+    "minimum-stability": "stable",
+    "license": "MIT"
+}

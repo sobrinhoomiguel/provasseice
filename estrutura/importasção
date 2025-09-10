@@ -1,0 +1,50 @@
+Principais Componentes:
+1. Database (config/database.php)
+
+Classe para conexão com MySQL
+Configuração PDO com tratamento de erros
+Conexão reutilizável para toda a aplicação
+
+2. Model Student (models/Student.php)
+
+CRUD completo para alunos
+Validações de email e matrícula únicos
+Criação automática da tabela com indexes otimizados
+Sanitização de dados de entrada
+
+3. FileUploadService (services/FileUploadService.php)
+
+Validação de arquivos (tamanho, tipo MIME)
+Upload seguro com nomes únicos
+Limpeza automática de arquivos temporários
+
+4. ImportService (services/ImportService.php)
+
+Processamento de CSV e Excel (PhpSpreadsheet)
+Validação robusta dos dados importados
+Lógica de criação/atualização de alunos
+Controle de transações para integridade
+
+5. API Endpoints:
+
+/api/import.php - Processa importação
+/api/students.php - Lista alunos com paginação
+/download-template.php - Baixa modelo CSV
+
+Recursos Implementados:
+✅ Upload seguro com validação de tipo e tamanho
+✅ Processamento CSV/Excel com PhpSpreadsheet
+✅ Validação completa de dados (email, campos obrigatórios)
+✅ Prevenção de duplicatas (email/matrícula únicos)
+✅ Transações de banco para consistência
+✅ Preview de dados antes da importação
+✅ Logs detalhados de erros
+✅ Sanitização contra SQL injection e XSS
+✅ API RESTful com respostas JSON padronizadas
+Para usar:
+
+Instale dependências: composer install
+Configure banco em config/database.php
+Execute script para criar tabelas
+Configure Apache com .htaccess
+Ajuste frontend para usar os endpoints da API

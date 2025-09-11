@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <title>Cadastro | Sistema SEICE</title>
+    <title>Provas SEICE - Cadastro</title>
     <style>
         :root {
             --primary-blue: #2D4B73;
@@ -30,693 +29,641 @@
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6;
-            color: var(--text-dark);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Inter', sans-serif;
             background: linear-gradient(135deg, var(--light-gray) 0%, var(--medium-gray) 100%);
             min-height: 100vh;
-        }
-
-       
-        .header-container {
-            width: 100%;
-            height: 80px;
-            background-color: var(--white);
-            box-shadow: var(--shadow);
-            position: fixed;
-            top: 0;
-            z-index: 1000;
-        }
-
-        header {
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            height: 100%;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        .seice-logo {
-            height: 60px;
-            width: auto;
+            justify-content: center;
+            padding: 20px;
+            position: relative;
         }
 
         .back-btn {
-            display: inline-flex;
+            position: absolute;
+            top: 24px;
+            right: 24px;
+            background: #2D4B73;
+            border: none;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 25px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
             align-items: center;
             gap: 8px;
-            padding: 10px 20px;
-            background: var(--primary-blue);
-            color: var(--white);
+            box-shadow: 0 4px 15px rgba(37, 99, 235, 0.25);
             text-decoration: none;
-            border-radius: 25px;
-            font-weight: 500;
-            transition: var(--transition);
-            box-shadow: var(--shadow);
         }
 
         .back-btn:hover {
-            background: var(--secondary-blue);
+            background: #3165a8;
             transform: translateY(-2px);
-            box-shadow: var(--shadow-hover);
+            box-shadow: 0 8px 25px rgba(37, 99, 235, 0.35);
         }
 
-       
-        .main-container {
-            padding-top: 100px;
-            padding-bottom: 50px;
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .cadastro-container {
-            background: var(--white);
-            border-radius: 20px;
-            box-shadow: var(--shadow-hover);
-            overflow: hidden;
-            width: 100%;
-            max-width: 900px;
-            margin: 0 20px;
-        }
-
-        .cadastro-header {
-            background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue));
-            color: var(--white);
-            padding: 40px;
-            text-align: center;
-        }
-
-        .cadastro-header h1 {
-            font-size: 2.5rem;
-            margin-bottom: 10px;
-            font-weight: 700;
-        }
-
-        .cadastro-header p {
-            font-size: 1.1rem;
-            opacity: 0.9;
-        }
-
-        .cadastro-form {
-            padding: 40px;
-        }
-
-        .form-section {
-            margin-bottom: 30px;
-        }
-
-        .section-title {
-            font-size: 1.3rem;
+        .back-btn::before {
+            content: "←";
+            font-size: 16px;
             font-weight: 600;
-            color: var(--primary-blue);
+        }
+
+        .register-container {
+            background: white;
+            border-radius: 16px;
+            border: 1px solid #e1e7ff;
+            box-shadow: 0 20px 40px rgba(37, 99, 235, 0.08);
+            padding: 40px 36px;
+            width: 100%;
+            max-width: 500px;
+            text-align: center;
+            animation: slideUp 0.6s ease-out;
+            position: relative;
+            overflow: hidden;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .top-line {
+            position: absolute;
+            top: 0;
+            left: 1px;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue));
+            border-top-left-radius: 16px;
+            border-top-right-radius: 16px;
+        }
+
+        .seice-logo {   
+            height: 75px;
+            width: auto;
             margin-bottom: 20px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid var(--medium-gray);
-            display: flex;
-            align-items: center;
-            gap: 10px;
+        }
+
+        .register-title {
+            font-size: 24px;
+            color: #1e293b;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .register-subtitle {
+            color: #64748b;
+            font-size: 14px;
+            margin-bottom: 32px;
+            font-weight: 400;
         }
 
         .form-row {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
             margin-bottom: 20px;
         }
 
         .form-group {
-            position: relative;
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .form-group.full-width {
+            grid-column: 1 / -1;
         }
 
         .form-group label {
             display: block;
+            font-size: 14px;
+            color: #475569;
             margin-bottom: 8px;
             font-weight: 500;
-            color: var(--text-dark);
         }
 
-        .required {
-            color: var(--error-color);
-        }
-
-        .form-group input,
-        .form-group select,
-        .form-group textarea {
+        .form-group input {
             width: 100%;
-            padding: 12px 16px;
-            border: 2px solid var(--medium-gray);
+            padding: 14px 16px;
+            border: 2px solid #e2e8f0;
             border-radius: 10px;
-            font-size: 16px;
-            transition: var(--transition);
-            background-color: var(--white);
-        }
-
-        .form-group input:focus,
-        .form-group select:focus,
-        .form-group textarea:focus {
+            font-size: 15px;
+            color: #1e293b;
+            background: white;
+            transition: all 0.3s ease;
             outline: none;
-            border-color: var(--primary-blue);
-            box-shadow: 0 0 0 3px rgba(45, 75, 115, 0.1);
         }
 
-        .form-group textarea {
-            resize: vertical;
-            min-height: 100px;
+        .form-group input:focus {
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+            transform: translateY(-1px);
         }
 
-        .password-container {
-            position: relative;
+        .form-group input::placeholder {
+            color: #94a3b8;
+            font-weight: 400;
         }
 
-        .password-toggle {
-            position: absolute;
-            right: 12px;
-            top: 50%;
-            transform: translateY(-50%);
-            background: none;
-            border: none;
-            color: var(--text-dark);
-            cursor: pointer;
-            font-size: 16px;
-            padding: 5px;
-        }
-
-        .password-strength {
-            margin-top: 5px;
-            font-size: 12px;
-        }
-
-        .strength-bar {
-            height: 4px;
-            border-radius: 2px;
-            margin-top: 5px;
-            transition: var(--transition);
-        }
-
-        .strength-weak { background-color: var(--error-color); width: 33%; }
-        .strength-medium { background-color: var(--warning-color); width: 66%; }
-        .strength-strong { background-color: var(--success-color); width: 100%; }
-
-        .checkbox-group {
-            display: flex;
-            align-items: flex-start;
-            gap: 12px;
-            margin-bottom: 20px;
-        }
-
-        .checkbox-group input[type="checkbox"] {
-            width: auto;
-            margin-top: 4px;
-        }
-
-        .checkbox-group label {
-            flex: 1;
-            margin-bottom: 0;
-            font-size: 14px;
-            line-height: 1.5;
+        .form-group input.error {
+            border-color: var(--error-color);
+            box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.1);
         }
 
         .error-message {
             color: var(--error-color);
             font-size: 12px;
-            margin-top: 5px;
+            margin-top: 4px;
             display: none;
         }
 
-        .form-buttons {
-            display: flex;
-            gap: 20px;
-            justify-content: center;
-            margin-top: 40px;
+        .success-message {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 14px;
+            display: none;
         }
 
-        .btn {
-            padding: 15px 30px;
+        .password-strength {
+            margin-top: 8px;
+            height: 4px;
+            background: #e2e8f0;
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .password-strength-bar {
+            height: 100%;
+            width: 0%;
+            transition: all 0.3s ease;
+            border-radius: 2px;
+        }
+
+        .strength-weak { background: #dc3545; width: 33%; }
+        .strength-medium { background: #ffc107; width: 66%; }
+        .strength-strong { background: #28a745; width: 100%; }
+
+        .register-btn {
+            width: 100%;
+            padding: 15px;
+            background: #2D4B73;
+            color: white;
             border: none;
-            border-radius: 25px;
-            font-size: 16px;
+            border-radius: 10px;
+            font-size: 15px;
             font-weight: 600;
             cursor: pointer;
-            transition: var(--transition);
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            box-shadow: var(--shadow);
+            margin-top: 8px;
+            margin-bottom: 24px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3);
         }
 
-        .btn-primary {
-            background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue));
-            color: var(--white);
-        }
-
-        .btn-primary:hover {
-            background: linear-gradient(135deg, var(--secondary-blue), var(--light-blue));
+        .register-btn:hover:not(:disabled) {
+            background: #265ba1;
             transform: translateY(-2px);
-            box-shadow: var(--shadow-hover);
+            box-shadow: 0 8px 25px rgba(37, 99, 235, 0.4);
         }
 
-        .btn-secondary {
-            background: var(--medium-gray);
-            color: var(--text-dark);
-        }
-
-        .btn-secondary:hover {
-            background: #dee2e6;
-            transform: translateY(-2px);
+        .register-btn:disabled {
+            background: #64748b;
+            cursor: not-allowed;
+            transform: none;
         }
 
         .login-link {
-            text-align: center;
-            margin-top: 30px;
-            padding-top: 20px;
-            border-top: 1px solid var(--medium-gray);
+            color: #64748b;
+            font-size: 14px;
+            font-weight: 400;
+            padding: 16px;
+            background: #f8fafc;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
         }
 
         .login-link a {
-            color: var(--primary-blue);
+            color: #3A5F87;
             text-decoration: none;
-            font-weight: 600;
+            font-weight: 500;
+            transition: all 0.2s ease;
         }
 
         .login-link a:hover {
+            color: #64748b;
             text-decoration: underline;
         }
 
-      
-        .loading {
-            display: none;
-            width: 20px;
-            height: 20px;
-            border: 2px solid transparent;
-            border-top: 2px solid var(--white);
+        .floating-shapes {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .floating-shapes::before,
+        .floating-shapes::after {
+            content: "";
+            position: absolute;
             border-radius: 50%;
-            animation: spin 1s linear infinite;
+            background: rgba(37, 99, 235, 0.05);
+            animation: floatShapes 8s ease-in-out infinite;
         }
 
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+        .floating-shapes::before {
+            width: 120px;
+            height: 120px;
+            top: 15%;
+            left: 8%;
+            animation-delay: -2s;
         }
 
-       
-        @media (max-width: 768px) {
-            .cadastro-header h1 {
-                font-size: 2rem;
-            }
+        .floating-shapes::after {
+            width: 180px;
+            height: 180px;
+            bottom: 15%;
+            right: 8%;
+            animation-delay: -4s;
+        }
 
-            .cadastro-form {
-                padding: 30px 20px;
+        @keyframes floatShapes {
+            0%, 100% { 
+                transform: translateY(0px) scale(1);
+                opacity: 0.3;
             }
+            50% { 
+                transform: translateY(-25px) scale(1.1);
+                opacity: 0.5;
+            }
+        }
 
+        .register-container::after {
+            content: "";
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, #2563eb, #60a5fa, #93c5fd, #dbeafe);
+            border-radius: 18px;
+            z-index: -1;
+            opacity: 0.1;
+            animation: borderGlow 3s ease-in-out infinite;
+        }
+
+        @keyframes borderGlow {
+            0%, 100% { opacity: 0.1; }
+            50% { opacity: 0.2; }
+        }
+
+        @media (max-width: 640px) {
             .form-row {
                 grid-template-columns: 1fr;
+                gap: 0;
             }
-
-            .form-buttons {
-                flex-direction: column;
-                align-items: center;
+            
+            .register-container {
+                padding: 32px 28px;
+                max-width: 420px;
             }
-
-            .btn {
-                width: 100%;
-                max-width: 300px;
-                justify-content: center;
+            
+            .back-btn {
+                top: 16px;
+                right: 16px;
+                padding: 10px 16px;
+                font-size: 13px;
             }
-        }
-
-        
-        .success-animation {
-            display: none;
-            text-align: center;
-            padding: 40px;
-        }
-
-        .success-icon {
-            width: 80px;
-            height: 80px;
-            background: var(--success-color);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 20px;
-            animation: bounceIn 0.6s ease;
-        }
-
-        .success-icon i {
-            font-size: 40px;
-            color: var(--white);
-        }
-
-        @keyframes bounceIn {
-            0% { transform: scale(0); }
-            50% { transform: scale(1.1); }
-            100% { transform: scale(1); }
         }
     </style>
 </head>
 <body>
-    <div class="header-container">
-        <header>
-            <a href="index.html">
-                <img src="../img/image.png" alt="Logo SEICE" class="seice-logo">
-            </a>
-            <a href="index.html" class="back-btn">
-                <i class="fas fa-arrow-left"></i>
-                Voltar ao Início
-            </a>
-        </header>
-    </div>
-
-    <div class="main-container">
-        <div class="cadastro-container">
-            <div class="cadastro-header">
-                <h1><i class="fas fa-user-plus"></i> Criar Conta</h1>
-                <p>Preencha os dados abaixo para criar sua conta no Sistema SEICE</p>
-            </div>
-
-            <form class="cadastro-form" id="cadastroForm">
-              
-                <div class="form-section">
-                    <h2 class="section-title">
-                        <i class="fas fa-user"></i>
-                        Dados Pessoais
-                    </h2>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="nome">Nome Completo <span class="required">*</span></label>
-                            <input type="text" id="nome" name="nome" required>
-                            <div class="error-message" id="nomeError">Nome é obrigatório</div>
-                        </div>
-                        <div class="form-group">
-                            <label for="cpf">CPF <span class="required">*</span></label>
-                            <input type="text" id="cpf" name="cpf" placeholder="000.000.000-00" required>
-                            <div class="error-message" id="cpfError">CPF inválido</div>
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="dataNascimento">Data de Nascimento <span class="required">*</span></label>
-                            <input type="date" id="dataNascimento" name="dataNascimento" required>
-                            <div class="error-message" id="dataNascimentoError">Data de nascimento é obrigatória</div>
-                        </div>
-                        <div class="form-group">
-                            <label for="telefone">Telefone <span class="required">*</span></label>
-                            <input type="tel" id="telefone" name="telefone" placeholder="(21) 99999-9999" required>
-                            <div class="error-message" id="telefoneError">Telefone inválido</div>
-                        </div>
-                    </div>
+    <div class="floating-shapes"></div>
+    
+    <a href="login.php" class="back-btn">Voltar ao Login</a>
+    
+    <div class="register-container">
+        <div class="top-line"></div>
+        
+        <div class="logo">
+            <img src="../img/image.png" alt="Logo SEICE" class="seice-logo">
+        </div>
+        
+        <h2 class="register-title">Criar nova conta</h2>
+        <p class="register-subtitle">Preencha seus dados para se cadastrar</p>
+        
+        <div class="success-message" id="successMessage"></div>
+        
+        <form id="registerForm" method="POST" action="process_register.php">
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="nome">Nome Completo</label>
+                    <input 
+                        type="text" 
+                        id="nome" 
+                        name="nome" 
+                        placeholder="Seu nome completo"
+                        required
+                        maxlength="100"
+                    >
+                    <div class="error-message" id="nomeError"></div>
                 </div>
-
-                <div class="form-section">
-                    <h2 class="section-title">
-                        <i class="fas fa-key"></i>
-                        Dados de Acesso
-                    </h2>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="email">E-mail <span class="required">*</span></label>
-                            <input type="email" id="email" name="email" required>
-                            <div class="error-message" id="emailError">E-mail inválido</div>
-                        </div>
-                        <div class="form-group">
-                            <label for="tipoUsuario">Tipo de Usuário <span class="required">*</span></label>
-                            <select id="tipoUsuario" name="tipoUsuario" required>
-                                <option value="">Selecione o tipo de usuário</option>
-                                <option value="professor">Professor</option>
-                                <option value="administrador">Administrador</option>
-                            </select>
-                            <div class="error-message" id="tipoUsuarioError">Selecione um tipo de usuário</div>
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="senha">Senha <span class="required">*</span></label>
-                            <div class="password-container">
-                                <input type="password" id="senha" name="senha" required>
-                                <button type="button" class="password-toggle" onclick="togglePassword('senha')">
-                                    <i class="fas fa-eye" id="senhaToggleIcon"></i>
-                                </button>
-                            </div>
-                            <div class="password-strength" id="passwordStrength"></div>
-                            <div class="strength-bar" id="strengthBar"></div>
-                            <div class="error-message" id="senhaError">Senha deve ter pelo menos 8 caracteres</div>
-                        </div>
-                        <div class="form-group">
-                            <label for="confirmarSenha">Confirmar Senha <span class="required">*</span></label>
-                            <div class="password-container">
-                                <input type="password" id="confirmarSenha" name="confirmarSenha" required>
-                                <button type="button" class="password-toggle" onclick="togglePassword('confirmarSenha')">
-                                    <i class="fas fa-eye" id="confirmarSenhaToggleIcon"></i>
-                                </button>
-                            </div>
-                            <div class="error-message" id="confirmarSenhaError">Senhas não coincidem</div>
-                        </div>
-                    </div>
-                </div>
-
                 
-                <div class="form-section" id="dadosAdicionais">
-                    <h2 class="section-title">
-                        <i class="fas fa-info-circle"></i>
-                        Dados Adicionais
-                    </h2>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="instituicao">Instituição</label>
-                            <input type="text" id="instituicao" name="instituicao" placeholder="Nome da instituição de ensino">
-                        </div>
-                        <div class="form-group">
-                            <label for="matricula">Matrícula/Registro</label>
-                            <input type="text" id="matricula" name="matricula" placeholder="Número de matrícula ou registro">
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="endereco">Endereço</label>
-                            <textarea id="endereco" name="endereco" placeholder="Endereço completo (opcional)"></textarea>
-                        </div>
-                    </div>
+                <div class="form-group">
+                    <label for="telefone">Telefone</label>
+                    <input 
+                        type="tel" 
+                        id="telefone" 
+                        name="telefone" 
+                        placeholder="(21) 99999-9999"
+                        maxlength="20"
+                    >
+                    <div class="error-message" id="telefoneError"></div>
                 </div>
-
-               
-                <div class="form-section">
-                    <div class="checkbox-group">
-                        <input type="checkbox" id="termos" name="termos" required>
-                        <label for="termos">
-                            Eu li e aceito os <a href="#" target="_blank">Termos de Uso</a> e a <a href="#" target="_blank">Política de Privacidade</a> do Sistema SEICE <span class="required">*</span>
-                        </label>
-                    </div>
-                    <div class="checkbox-group">
-                        <input type="checkbox" id="newsletter" name="newsletter">
-                        <label for="newsletter">
-                            Desejo receber e-mails informativos sobre atualizações do sistema e novidades educacionais
-                        </label>
-                    </div>
-                </div>
-
-               
-                <div class="form-buttons">
-                    <button type="submit" class="btn btn-primary" id="submitBtn">
-                        <span id="submitText">
-                            <i class="fas fa-user-plus"></i>
-                            Criar Conta
-                        </span>
-                        <div class="loading" id="loading"></div>
-                    </button>
-                    <button type="reset" class="btn btn-secondary">
-                        <i class="fas fa-undo"></i>
-                        Limpar Formulário
-                    </button>
-                </div>
-
-                <div class="login-link">
-                    <p>Já possui uma conta? <a href="login.html">Faça login aqui!</a></p>
-                </div>
-            </form>
-
-            
-            <div class="success-animation" id="successAnimation">
-                <div class="success-icon">
-                    <i class="fas fa-check"></i>
-                </div>
-                <h2>Conta criada com sucesso!</h2>
-                <p>Você será redirecionado para a página de login em alguns segundos...</p>
             </div>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input 
+                        type="email" 
+                        id="email" 
+                        name="email" 
+                        placeholder="seu@email.com"
+                        required
+                        maxlength="100"
+                    >
+                    <div class="error-message" id="emailError"></div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="data_nascimento">Data de Nascimento</label>
+                    <input 
+                        type="date" 
+                        id="data_nascimento" 
+                        name="data_nascimento"
+                        max="2010-12-31"
+                    >
+                    <div class="error-message" id="dataError"></div>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="senha">Senha</label>
+                <input 
+                    type="password" 
+                    id="senha" 
+                    name="senha" 
+                    placeholder="Sua senha"
+                    required
+                    minlength="6"
+                >
+                <div class="password-strength">
+                    <div class="password-strength-bar" id="passwordStrengthBar"></div>
+                </div>
+                <div class="error-message" id="senhaError"></div>
+            </div>
+            
+            <div class="form-group">
+                <label for="confirmar_senha">Confirmar Senha</label>
+                <input 
+                    type="password" 
+                    id="confirmar_senha" 
+                    name="confirmar_senha" 
+                    placeholder="Confirme sua senha"
+                    required
+                >
+                <div class="error-message" id="confirmarSenhaError"></div>
+            </div>
+            
+            <button type="submit" class="register-btn" id="registerBtn">
+                Criar Conta
+            </button>
+        </form>
+        
+        <div class="login-link">
+            Já tem uma conta? <a href="login.php">Entre aqui</a>
         </div>
     </div>
 
     <script>
-     
-        function maskCPF(input) {
-            let value = input.value.replace(/\D/g, '');
-            value = value.replace(/(\d{3})(\d)/, '$1.$2');
-            value = value.replace(/(\d{3})(\d)/, '$1.$2');
-            value = value.replace(/(\d{3})(\d{1,2})$/, '$1-$2');
-            input.value = value;
-        }
+        const form = document.getElementById('registerForm');
+        const submitBtn = document.getElementById('registerBtn');
+        
+      
+        const inputs = {
+            nome: document.getElementById('nome'),
+            email: document.getElementById('email'),
+            telefone: document.getElementById('telefone'),
+            senha: document.getElementById('senha'),
+            confirmar_senha: document.getElementById('confirmar_senha'),
+            data_nascimento: document.getElementById('data_nascimento')
+        };
 
-        function maskPhone(input) {
-            let value = input.value.replace(/\D/g, '');
-            value = value.replace(/(\d{2})(\d)/, '($1) $2');
-            value = value.replace(/(\d{4,5})(\d{4})$/, '$1-$2');
-            input.value = value;
-        }
+        const errors = {
+            nome: document.getElementById('nomeError'),
+            email: document.getElementById('emailError'),
+            telefone: document.getElementById('telefoneError'),
+            senha: document.getElementById('senhaError'),
+            confirmar_senha: document.getElementById('confirmarSenhaError'),
+            data: document.getElementById('dataError')
+        };
 
-        document.getElementById('cpf').addEventListener('input', function() {
-            maskCPF(this);
-        });
-
-        document.getElementById('telefone').addEventListener('input', function() {
-            maskPhone(this);
-        });
-
-    
-        function togglePassword(fieldId) {
-            const field = document.getElementById(fieldId);
-            const icon = document.getElementById(fieldId + 'ToggleIcon');
-            
-            if (field.type === 'password') {
-                field.type = 'text';
-                icon.classList.remove('fa-eye');
-                icon.classList.add('fa-eye-slash');
-            } else {
-                field.type = 'password';
-                icon.classList.remove('fa-eye-slash');
-                icon.classList.add('fa-eye');
+        
+        inputs.telefone.addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, '');
+            if (value.length >= 11) {
+                value = value.replace(/(\d{2})(\d{5})(\d{4})/, '($1) $2-$3');
+            } else if (value.length >= 7) {
+                value = value.replace(/(\d{2})(\d{4})(\d{0,4})/, '($1) $2-$3');
+            } else if (value.length >= 3) {
+                value = value.replace(/(\d{2})(\d{0,5})/, '($1) $2');
             }
+            e.target.value = value;
+        });
+
+      
+        inputs.senha.addEventListener('input', function(e) {
+            const password = e.target.value;
+            const strengthBar = document.getElementById('passwordStrengthBar');
+            
+            let strength = 0;
+            if (password.length >= 6) strength++;
+            if (password.match(/[a-z]/) && password.match(/[A-Z]/)) strength++;
+            if (password.match(/\d/)) strength++;
+            if (password.match(/[^a-zA-Z\d]/)) strength++;
+            
+            strengthBar.className = 'password-strength-bar';
+            if (strength >= 4) {
+                strengthBar.classList.add('strength-strong');
+            } else if (strength >= 2) {
+                strengthBar.classList.add('strength-medium');
+            } else if (strength >= 1) {
+                strengthBar.classList.add('strength-weak');
+            }
+        });
+
+     
+        inputs.confirmar_senha.addEventListener('input', function() {
+            validatePasswordMatch();
+        });
+
+        inputs.senha.addEventListener('input', function() {
+            validatePasswordMatch();
+        });
+
+        function validatePasswordMatch() {
+            const senha = inputs.senha.value;
+            const confirmarSenha = inputs.confirmar_senha.value;
+            
+            if (confirmarSenha && senha !== confirmarSenha) {
+                showError('confirmar_senha', 'As senhas não coincidem');
+                return false;
+            } else {
+                hideError('confirmar_senha');
+                return true;
+            }
+        }
+
+       
+        inputs.email.addEventListener('blur', function() {
+            const email = this.value;
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            
+            if (email && !emailRegex.test(email)) {
+                showError('email', 'Email inválido');
+            } else {
+                hideError('email');
+            }
+        });
+
+       
+        inputs.nome.addEventListener('blur', function() {
+            const nome = this.value.trim();
+            
+            if (nome.length < 2) {
+                showError('nome', 'Nome deve ter pelo menos 2 caracteres');
+            } else if (nome.length > 100) {
+                showError('nome', 'Nome muito longo');
+            } else {
+                hideError('nome');
+            }
+        });
+
+        function showError(field, message) {
+            inputs[field].classList.add('error');
+            errors[field].textContent = message;
+            errors[field].style.display = 'block';
+        }
+
+        function hideError(field) {
+            inputs[field].classList.remove('error');
+            errors[field].style.display = 'none';
         }
 
         
-        document.getElementById('senha').addEventListener('input', function() {
-            checkPasswordStrength(this.value);
-        });
-
-        function checkPasswordStrength(password) {
-            const strengthText = document.getElementById('passwordStrength');
-            const strengthBar = document.getElementById('strengthBar');
-            
-            let strength = 0;
-            let feedback = '';
-
-            if (password.length >= 8) strength++;
-            if (/[A-Z]/.test(password)) strength++;
-            if (/[a-z]/.test(password)) strength++;
-            if (/[0-9]/.test(password)) strength++;
-            if (/[^A-Za-z0-9]/.test(password)) strength++;
-
-            switch (strength) {
-                case 0:
-                case 1:
-                case 2:
-                    feedback = 'Senha fraca';
-                    strengthBar.className = 'strength-bar strength-weak';
-                    break;
-                case 3:
-                case 4:
-                    feedback = 'Senha média';
-                    strengthBar.className = 'strength-bar strength-medium';
-                    break;
-                case 5:
-                    feedback = 'Senha forte';
-                    strengthBar.className = 'strength-bar strength-strong';
-                    break;
-            }
-
-            strengthText.textContent = feedback;
-            strengthText.style.color = strength <= 2 ? 'var(--error-color)' : strength <= 4 ? 'var(--warning-color)' : 'var(--success-color)';
-        }
-
-      
         function validateForm() {
             let isValid = true;
             
             
-            const requiredFields = ['nome', 'cpf', 'dataNascimento', 'telefone', 'email', 'tipoUsuario', 'senha', 'confirmarSenha'];
-            
-            requiredFields.forEach(fieldName => {
-                const field = document.getElementById(fieldName);
-                const errorElement = document.getElementById(fieldName + 'Error');
-                
-                if (!field.value.trim()) {
-                    errorElement.style.display = 'block';
-                    field.style.borderColor = 'var(--error-color)';
-                    isValid = false;
-                } else {
-                    errorElement.style.display = 'none';
-                    field.style.borderColor = 'var(--medium-gray)';
-                }
-            });
-
-           
-            const senha = document.getElementById('senha').value;
-            const confirmarSenha = document.getElementById('confirmarSenha').value;
-            
-            if (senha !== confirmarSenha) {
-                document.getElementById('confirmarSenhaError').style.display = 'block';
-                document.getElementById('confirmarSenha').style.borderColor = 'var(--error-color)';
+            if (inputs.nome.value.trim().length < 2) {
+                showError('nome', 'Nome é obrigatório e deve ter pelo menos 2 caracteres');
                 isValid = false;
             }
-
-           
-            const termos = document.getElementById('termos');
-            if (!termos.checked) {
-                alert('Você deve aceitar os termos de uso para prosseguir.');
+            
+          
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(inputs.email.value)) {
+                showError('email', 'Email válido é obrigatório');
                 isValid = false;
             }
-
+            
+          
+            if (inputs.senha.value.length < 6) {
+                showError('senha', 'Senha deve ter pelo menos 6 caracteres');
+                isValid = false;
+            }
+            
+            
+            if (!validatePasswordMatch()) {
+                isValid = false;
+            }
+            
             return isValid;
         }
 
-        
-        document.getElementById('cadastroForm').addEventListener('submit', function(e) {
+      
+        form.addEventListener('submit', function(e) {
             e.preventDefault();
             
-            if (validateForm()) {
-                const submitBtn = document.getElementById('submitBtn');
-                const submitText = document.getElementById('submitText');
-                const loading = document.getElementById('loading');
-                
-                
-                submitText.style.display = 'none';
-                loading.style.display = 'block';
-                submitBtn.disabled = true;
-                
-                
-                setTimeout(() => {
-                  
-                    document.querySelector('.cadastro-form').style.display = 'none';
-                    document.getElementById('successAnimation').style.display = 'block';
-                    
-                    
-                    setTimeout(() => {
-                        window.location.href = 'login.html';
-                    }, 3000);
-                }, 2000);
+            if (!validateForm()) {
+                return;
             }
-        });
-
-      
-        document.querySelectorAll('input, select').forEach(field => {
-            field.addEventListener('blur', function() {
-                if (this.hasAttribute('required') && !this.value.trim()) {
-                    const errorElement = document.getElementById(this.name + 'Error');
-                    if (errorElement) {
-                        errorElement.style.display = 'block';
-                        this.style.borderColor = 'var(--error-color)';
-                    }
+            
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Criando conta...';
+            
+           
+            const formData = new FormData(form);
+            
+            fetch('process_register.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    document.getElementById('successMessage').textContent = data.message;
+                    document.getElementById('successMessage').style.display = 'block';
+                    form.reset();
+                    
+                
+                    setTimeout(() => {
+                        window.location.href = 'login.php?registered=1';
+                    }, 2000);
                 } else {
-                    const errorElement = document.getElementById(this.name + 'Error');
-                    if (errorElement) {
-                        errorElement.style.display = 'none';
-                        this.style.borderColor = 'var(--medium-gray)';
+                    if (data.errors) {
+                        Object.keys(data.errors).forEach(field => {
+                            showError(field, data.errors[field]);
+                        });
+                    } else {
+                        alert('Erro: ' + data.message);
                     }
                 }
+            })
+            .catch(error => {
+                console.error('Erro:', error);
+                alert('Erro ao processar cadastro. Tente novamente.');
+            })
+            .finally(() => {
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Criar Conta';
+            });
+        });
+
+       
+        Object.values(inputs).forEach(input => {
+            input.addEventListener('focus', function() {
+                this.parentElement.style.transform = 'scale(1.02)';
+            });
+            
+            input.addEventListener('blur', function() {
+                this.parentElement.style.transform = 'scale(1)';
             });
         });
     </script>

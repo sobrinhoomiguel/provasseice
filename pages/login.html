@@ -56,6 +56,7 @@
             align-items: center;
             gap: 8px;
             box-shadow: 0 4px 15px rgba(37, 99, 235, 0.25);
+            text-decoration: none;
         }
 
         .back-btn:hover {
@@ -95,6 +96,28 @@
             }
         }
 
+        .success-message {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 14px;
+            display: none;
+        }
+
+        .error-message {
+            background: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 14px;
+            display: none;
+        }
+
         .form-group {
             margin-bottom: 20px;
             text-align: left;
@@ -131,6 +154,18 @@
             font-weight: 400;
         }
 
+        .form-group input.error {
+            border-color: var(--error-color);
+            box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.1);
+        }
+
+        .input-error {
+            color: var(--error-color);
+            font-size: 12px;
+            margin-top: 4px;
+            display: none;
+        }
+
         .login-btn {
             width: 100%;
             padding: 15px;
@@ -147,10 +182,16 @@
             box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3);
         }
 
-        .login-btn:hover {
+        .login-btn:hover:not(:disabled) {
             background: #265ba1;
             transform: translateY(-2px);
             box-shadow: 0 8px 25px rgba(37, 99, 235, 0.4);
+        }
+
+        .login-btn:disabled {
+            background: #64748b;
+            cursor: not-allowed;
+            transform: none;
         }
 
         .login-btn:active {
@@ -197,6 +238,13 @@
         .seice-logo {   
             height: 75px;
             width: auto;
+        }
+
+        .login-title {
+            font-size: 24px;
+            color: #1e293b;
+            font-weight: 700;
+            margin-bottom: 32px;
         }
      
         .floating-shapes {
@@ -257,7 +305,6 @@
             }
         }
 
-    
         .login-container::after {
             content: "";
             position: absolute;
@@ -300,15 +347,6 @@
                 margin-bottom: 28px;
             }
 
-            .logo-text {
-                font-size: 20px;
-            }
-
-            .logo-icon {
-                width: 32px;
-                height: 32px;
-            }
-
             .floating-shapes::before {
                 width: 80px;
                 height: 80px;
@@ -324,7 +362,7 @@
 <body>
     <div class="floating-shapes"></div>
     
-    <button class="back-btn">Voltar ao Início</button>
+    <a href="index.html" class="back-btn">Voltar ao Início</a>
     
     <div class="login-container">
         <div class="top-line"></div>
@@ -334,7 +372,10 @@
         
         <h2 class="login-title">Entrar na sua conta</h2>
         
-        <form>
+        <div class="success-message" id="successMessage"></div>
+        <div class="error-message" id="errorMessage"></div>
+        
+        <form id="loginForm" method="POST" action="process_login.php">
             <div class="form-group">
                 <label for="email">Email</label>
                 <input 
@@ -344,6 +385,7 @@
                     placeholder="seu@email.com"
                     required
                 >
+                <div class="input-error" id="emailError"></div>
             </div>
             
             <div class="form-group">
@@ -355,41 +397,141 @@
                     placeholder="Sua senha"
                     required
                 >
+                <div class="input-error" id="passwordError"></div>
             </div>
             
-            <button type="submit" class="login-btn">Entrar</button>
+            <button type="submit" class="login-btn" id="loginBtn">Entrar</button>
         </form>
         
-        <a href="#" class="forgot-password">Esqueceu sua senha?</a>
+        <a href="forgot_password.php" class="forgot-password">Esqueceu sua senha?</a>
         
         <div class="signup-link">
-            Não tem uma conta? <a href="#">Cadastre-se aqui</a>
+            Não tem uma conta? <a href="register.php">Cadastre-se aqui</a>
         </div>
     </div>
 
     <script>
-        
-        document.querySelector('.back-btn').addEventListener('click', function() {
-            window.history.back();
-        });
+        // Verificar se há mensagem de sucesso do cadastro
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.get('registered') === '1') {
+            showSuccess('Cadastro realizado com sucesso! Faça login para continuar.');
+        }
 
-      
-        document.querySelector('form').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const btn = document.querySelector('.login-btn');
-            const originalText = btn.textContent;
-            
-            btn.textContent = 'Entrando...';
-            btn.style.background = '#64748b';
-            
+        const form = document.getElementById('loginForm');
+        const submitBtn = document.getElementById('loginBtn');
+        const emailInput = document.getElementById('email');
+        const passwordInput = document.getElementById('password');
+
+        function showSuccess(message) {
+            const successDiv = document.getElementById('successMessage');
+            successDiv.textContent = message;
+            successDiv.style.display = 'block';
             setTimeout(() => {
-                btn.textContent = originalText;
-                btn.style.background = '#2563eb';
-            }, 2000);
+                successDiv.style.display = 'none';
+            }, 5000);
+        }
+
+        function showError(message) {
+            const errorDiv = document.getElementById('errorMessage');
+            errorDiv.textContent = message;
+            errorDiv.style.display = 'block';
+            setTimeout(() => {
+                errorDiv.style.display = 'none';
+            }, 5000);
+        }
+
+        function showFieldError(field, message) {
+            const input = document.getElementById(field);
+            const errorDiv = document.getElementById(field + 'Error');
+            
+            input.classList.add('error');
+            errorDiv.textContent = message;
+            errorDiv.style.display = 'block';
+        }
+
+        function hideFieldError(field) {
+            const input = document.getElementById(field);
+            const errorDiv = document.getElementById(field + 'Error');
+            
+            input.classList.remove('error');
+            errorDiv.style.display = 'none';
+        }
+
+       
+        emailInput.addEventListener('input', () => hideFieldError('email'));
+        passwordInput.addEventListener('input', () => hideFieldError('password'));
+
+        
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+          
+            document.getElementById('successMessage').style.display = 'none';
+            document.getElementById('errorMessage').style.display = 'none';
+            hideFieldError('email');
+            hideFieldError('password');
+            
+            const email = emailInput.value.trim();
+            const password = passwordInput.value;
+            
+           
+            let hasError = false;
+            
+            if (!email) {
+                showFieldError('email', 'Email é obrigatório');
+                hasError = true;
+            } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+                showFieldError('email', 'Email inválido');
+                hasError = true;
+            }
+            
+            if (!password) {
+                showFieldError('password', 'Senha é obrigatória');
+                hasError = true;
+            }
+            
+            if (hasError) return;
+            
+            
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Entrando...';
+            
+            
+            const formData = new FormData(form);
+            
+            fetch('process_login.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    showSuccess('Login realizado com sucesso! Redirecionando...');
+                    setTimeout(() => {
+                        window.location.href = data.redirect || 'dashboard.php';
+                    }, 1500);
+                } else {
+                    if (data.field_errors) {
+                        Object.keys(data.field_errors).forEach(field => {
+                            showFieldError(field, data.field_errors[field]);
+                        });
+                    } else {
+                        showError(data.message || 'Erro ao fazer login');
+                    }
+                }
+            })
+            .catch(error => {
+                console.error('Erro:', error);
+                showError('Erro de conexão. Tente novamente.');
+            })
+            .finally(() => {
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Entrar';
+            });
         });
 
        
-        document.querySelectorAll('input').forEach(input => {
+        [emailInput, passwordInput].forEach(input => {
             input.addEventListener('focus', function() {
                 this.parentElement.style.transform = 'scale(1.02)';
             });

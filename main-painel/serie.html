@@ -1,0 +1,1448 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SEICE - Gerenciar Séries</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f8f9fa;
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 280px;
+            height: 100vh;
+            background: linear-gradient(180deg, #1e3a5f 0%, #2c4f73 100%);
+            color: white;
+            transition: all 0.3s ease;
+            z-index: 1000;
+            box-shadow: 4px 0 20px rgba(0,0,0,0.1);
+        }
+
+        .sidebar.collapsed {
+            width: 70px;
+        }
+
+        .sidebar-header {
+            padding: 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #4a90e2, #357abd);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+
+        .logo-text {
+            transition: all 0.3s ease;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+
+        .sidebar.collapsed .logo-text {
+            width: 0;
+            opacity: 0;
+        }
+
+        .logo-text h1 {
+            font-size: 24px;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .logo-text p {
+            font-size: 12px;
+            opacity: 0.8;
+            margin-top: 2px;
+        }
+
+        .nav-menu {
+            padding: 20px 0;
+            overflow: hidden;
+        }
+
+        .nav-section {
+            margin-bottom: 30px;
+        }
+
+        .nav-section h3 {
+            padding: 0 20px 10px;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            opacity: 0.7;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+
+        .sidebar.collapsed .nav-section h3 {
+            opacity: 0;
+            height: 0;
+            padding: 0;
+            margin: 0;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            background: none;
+            color: white;
+            width: 100%;
+            text-align: left;
+            position: relative;
+            overflow: hidden;
+            text-decoration: none;
+        }
+
+        .nav-item:hover {
+            background: rgba(255,255,255,0.1);
+            color: white;
+        }
+
+        .nav-item.active {
+            background: rgba(255,255,255,0.15);
+            border-right: 3px solid #4a90e2;
+        }
+
+        .nav-item i {
+            width: 20px;
+            font-size: 16px;
+            margin-right: 15px;
+            flex-shrink: 0;
+            text-align: center;
+        }
+
+        .nav-item span {
+            transition: all 0.3s ease;
+            font-size: 14px;
+            font-weight: 500;
+            overflow: hidden;
+            white-space: nowrap;
+            flex: 1;
+        }
+
+        .sidebar.collapsed .nav-item span {
+            width: 0;
+            opacity: 0;
+        }
+
+        .nav-item .chevron {
+            margin-left: auto;
+            transition: transform 0.3s ease;
+            font-size: 12px;
+            width: 12px;
+        }
+
+        .sidebar.collapsed .nav-item .chevron {
+            opacity: 0;
+            width: 0;
+        }
+
+        .nav-item.expanded .chevron {
+            transform: rotate(90deg);
+        }
+
+        .sub-menu {
+            background: rgba(0,0,0,0.2);
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .sidebar.collapsed .sub-menu {
+            max-height: 0 !important;
+        }
+
+        .sub-menu.open {
+            max-height: 300px;
+        }
+
+        .sub-menu .nav-item {
+            padding-left: 50px;
+            font-size: 13px;
+        }
+
+        .sidebar.collapsed .sub-menu .nav-item {
+            padding-left: 20px;
+        }
+
+        .toggle-btn {
+            position: absolute;
+            top: 80px;
+            right: -12px;
+            width: 24px;
+            height: 24px;
+            background: #4a90e2;
+            border: none;
+            border-radius: 50%;
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            z-index: 1001;
+        }
+
+        .toggle-btn:hover {
+            background: #357abd;
+            transform: scale(1.1);
+        }
+
+        .main-content {
+            margin-left: 280px;
+            transition: margin-left 0.3s ease;
+            min-height: 100vh;
+        }
+
+        .sidebar.collapsed + .main-content {
+            margin-left: 70px;
+        }
+
+        .header {
+            background: white;
+            padding: 20px 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #e1e5e9;
+        }
+
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #666;
+            font-size: 14px;
+        }
+
+        .breadcrumb i {
+            color: #4a90e2;
+        }
+
+        .breadcrumb a {
+            color: #4a90e2;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .breadcrumb a:hover {
+            color: #357abd;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .user-email {
+            font-size: 14px;
+            color: #666;
+            font-weight: 500;
+            text-align: right;
+        }
+
+        .system-subtitle {
+            font-size: 12px;
+            color: #999;
+            text-align: right;
+        }
+
+        .page-content {
+            padding: 40px 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .page-title {
+            font-size: 32px;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .page-subtitle {
+            color: #666;
+            margin-bottom: 40px;
+            font-size: 16px;
+        }
+
+        .actions-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            gap: 20px;
+        }
+
+        .search-box {
+            position: relative;
+            flex: 1;
+            max-width: 400px;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 12px 45px 12px 15px;
+            border: 2px solid #e1e5e9;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .search-box input:focus {
+            outline: none;
+            border-color: #4a90e2;
+            box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.1);
+        }
+
+        .search-box i {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #666;
+            font-size: 16px;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            white-space: nowrap;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #4a90e2, #357abd);
+            color: white;
+            box-shadow: 0 4px 15px rgba(74, 144, 226, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(74, 144, 226, 0.4);
+            color: white;
+            text-decoration: none;
+        }
+
+        .btn-secondary {
+            background: white;
+            color: #666;
+            border: 2px solid #e1e5e9;
+        }
+
+        .btn-secondary:hover {
+            border-color: #4a90e2;
+            color: #4a90e2;
+        }
+
+        .series-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .series-card {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            border: 2px solid #f0f0f0;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .series-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #4a90e2, #357abd);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .series-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            border-color: #4a90e2;
+        }
+
+        .series-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .series-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .series-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .series-card:hover .series-icon {
+            background: linear-gradient(135deg, #4a90e2, #357abd);
+        }
+
+        .series-icon i {
+            font-size: 24px;
+            color: #666;
+            transition: color 0.3s ease;
+        }
+
+        .series-card:hover .series-icon i {
+            color: white;
+        }
+
+        .series-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .action-btn {
+            width: 35px;
+            height: 35px;
+            border: none;
+            border-radius: 6px;
+            background: #f8f9fa;
+            color: #666;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            font-size: 14px;
+        }
+
+        .action-btn:hover {
+            background: #4a90e2;
+            color: white;
+            transform: scale(1.1);
+        }
+
+        .action-btn.delete:hover {
+            background: #dc3545;
+        }
+
+        .series-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .series-description {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+
+        .series-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border: 1px solid #e9ecef;
+        }
+
+        .stat-value {
+            font-size: 24px;
+            font-weight: 700;
+            color: #4a90e2;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 10000;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal.show {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 1;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 500px;
+            max-height: 90vh;
+            overflow-y: auto;
+            transform: scale(0.7);
+            transition: transform 0.3s ease;
+        }
+
+        .modal.show .modal-content {
+            transform: scale(1);
+        }
+
+        .modal-header {
+            padding: 25px 30px 20px;
+            border-bottom: 1px solid #e1e5e9;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #333;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: #666;
+            cursor: pointer;
+            padding: 0;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .modal-close:hover {
+            background: #f8f9fa;
+            color: #333;
+        }
+
+        .modal-body {
+            padding: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-label {
+            display: block;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e1e5e9;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: #4a90e2;
+            box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.1);
+        }
+
+        .form-control.error {
+            border-color: #dc3545;
+        }
+
+        .error-message {
+            color: #dc3545;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+
+        .modal-footer {
+            padding: 20px 30px 30px;
+            display: flex;
+            gap: 15px;
+            justify-content: flex-end;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #666;
+        }
+
+        .empty-state i {
+            font-size: 64px;
+            color: #e1e5e9;
+            margin-bottom: 20px;
+        }
+
+        .empty-state h3 {
+            font-size: 20px;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .empty-state p {
+            font-size: 14px;
+            margin-bottom: 30px;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+
+            .sidebar.mobile-open {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+
+            .page-content {
+                padding: 20px 15px;
+            }
+
+            .actions-bar {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 15px;
+            }
+
+            .search-box {
+                max-width: none;
+                order: 2;
+            }
+
+            .series-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .series-stats {
+                grid-template-columns: 1fr;
+            }
+
+            .modal-content {
+                width: 95%;
+                margin: 10px;
+            }
+
+            .modal-body,
+            .modal-header,
+            .modal-footer {
+                padding: 20px;
+            }
+        }
+
+        .nav-item[data-tooltip]::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            left: 70px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 6px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            z-index: 1002;
+        }
+
+        .sidebar.collapsed .nav-item:hover::after {
+            opacity: 1;
+        }
+
+        .loading-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid #e1e5e9;
+            border-top: 4px solid #4a90e2;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .series-card {
+            animation: fadeInUp 0.6s ease forwards;
+        }
+
+        .series-card:nth-child(1) { animation-delay: 0.1s; }
+        .series-card:nth-child(2) { animation-delay: 0.2s; }
+        .series-card:nth-child(3) { animation-delay: 0.3s; }
+        .series-card:nth-child(4) { animation-delay: 0.4s; }
+        .series-card:nth-child(5) { animation-delay: 0.5s; }
+        .series-card:nth-child(6) { animation-delay: 0.6s; }
+    </style>
+</head>
+<body>
+    <aside class="sidebar" id="sidebar">
+        <button class="toggle-btn" onclick="toggleSidebar()">
+            <i class="fas fa-chevron-left" id="toggleIcon"></i>
+        </button>
+        
+        <div class="sidebar-header">
+            <div class="logo">S</div>
+            <div class="logo-text">
+                <h1>SEICE</h1>
+                <p>Sistema de Ensino</p>
+            </div>
+        </div>
+
+        <nav class="nav-menu">
+            <div class="nav-section">
+                <h3>Principal</h3>
+                <a href="index.html" class="nav-item" data-tooltip="Início">
+                    <i class="fas fa-home"></i>
+                    <span>Início</span>
+                </a>
+            </div>
+
+            <div class="nav-section">
+                <h3>Avaliações</h3>
+                <a href="#" class="nav-item expandable" onclick="toggleSubMenu(this); return false;" data-tooltip="Avaliações">
+                    <i class="fas fa-clipboard-list"></i>
+                    <span>AVALIAÇÕES</span>
+                    <i class="fas fa-chevron-right chevron"></i>
+                </a>
+                <div class="sub-menu">
+                    <a href="/banco-questoes" class="nav-item" data-tooltip="Banco de Questões">
+                        <i class="fas fa-database"></i>
+                        <span>Banco de Questões</span>
+                    </a>
+                    <a href="/avaliacao" class="nav-item" data-tooltip="Avaliação">
+                        <i class="fas fa-edit"></i>
+                        <span>Avaliação</span>
+                    </a>
+                    <a href="/aplicacao" class="nav-item" data-tooltip="Aplicação">
+                        <i class="fas fa-play"></i>
+                        <span>Aplicação</span>
+                    </a>
+                    <a href="/correcao" class="nav-item" data-tooltip="Correção">
+                        <i class="fas fa-check"></i>
+                        <span>Correção</span>
+                    </a>
+                </div>
+            </div>
+
+            <div class="nav-section">
+                <h3>Relatórios</h3>
+                <a href="#" class="nav-item expandable" onclick="toggleSubMenu(this); return false;" data-tooltip="Resultados">
+                    <i class="fas fa-chart-bar"></i>
+                    <span>RESULTADOS</span>
+                    <i class="fas fa-chevron-right chevron"></i>
+                </a>
+                <div class="sub-menu">
+                    <a href="/relatorios-gerais" class="nav-item" data-tooltip="Relatórios Gerais">
+                        <i class="fas fa-file-alt"></i>
+                        <span>Relatórios Gerais</span>
+                    </a>
+                </div>
+            </div>
+
+            <div class="nav-section">
+                <h3>Configurações</h3>
+                <a href="#" class="nav-item expandable expanded" onclick="toggleSubMenu(this); return false;" data-tooltip="Configuração">
+                    <i class="fas fa-cog"></i>
+                    <span>CONFIGURAÇÃO</span>
+                    <i class="fas fa-chevron-right chevron"></i>
+                </a>
+                <div class="sub-menu open">
+                    <a href="/serie" class="nav-item active" data-tooltip="Série">
+                        <i class="fas fa-graduation-cap"></i>
+                        <span>Série</span>
+                    </a>
+                    <a href="/turmas" class="nav-item" data-tooltip="Turma">
+                        <i class="fas fa-users"></i>
+                        <span>Turma</span>
+                    </a>
+                    <a href="/alunos" class="nav-item" data-tooltip="Alunos">
+                        <i class="fas fa-user-graduate"></i>
+                        <span>Alunos</span>
+                    </a>
+                    <a href="/importar-alunos" class="nav-item" data-tooltip="Importar Alunos">
+                        <i class="fas fa-upload"></i>
+                        <span>Importar Alunos</span>
+                    </a>
+                    <a href="/usuarios" class="nav-item" data-tooltip="Usuários">
+                        <i class="fas fa-user-cog"></i>
+                        <span>Usuários</span>
+                    </a>
+                </div>
+            </div>
+        </nav>
+    </aside>
+
+    <main class="main-content">
+        <header class="header">
+            <div class="breadcrumb">
+                <i class="fas fa-home"></i>
+                <a href="/inicio">Início</a>
+                <span>/</span>
+                <span>Configurações</span>
+                <span>/</span>
+                <span>Séries</span>
+            </div>
+            <div class="user-info">
+                <div>
+                    <div class="user-email">joaopedrosantosadmin@gmail.com</div>
+                    <div class="system-subtitle">Sistema de Ensino Integrado de Campos Elíseos</div>
+                </div>
+            </div>
+        </header>
+
+        <div class="page-content">
+            <h1 class="page-title">Gerenciar Séries</h1>
+            <p class="page-subtitle">Cadastre e gerencie as séries do seu sistema de ensino</p>
+
+            <div class="actions-bar">
+                <div class="search-box">
+                    <input type="text" placeholder="Pesquisar séries..." id="searchInput">
+                    <i class="fas fa-search"></i>
+                </div>
+                <button class="btn btn-primary" onclick="openModal('add')">
+                    <i class="fas fa-plus"></i>
+                    Nova Série
+                </button>
+            </div>
+
+            <div class="series-grid" id="seriesGrid">
+                <!-- inserido via js -->
+            </div>
+
+            <div class="empty-state" id="emptyState" style="display: none;">
+                <i class="fas fa-graduation-cap"></i>
+                <h3>Nenhuma série encontrada</h3>
+                <p>Comece criando sua primeira série escolar</p>
+                <button class="btn btn-primary" onclick="openModal('add')">
+                    <i class="fas fa-plus"></i>
+                    Criar Primeira Série
+                </button>
+            </div>
+        </div>
+    </main>
+
+    
+    <div class="modal" id="seriesModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title" id="modalTitle">Nova Série</h2>
+                <button class="modal-close" onclick="closeModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="seriesForm">
+                    <div class="form-group">
+                        <label class="form-label" for="seriesName">Nome da Série *</label>
+                        <input type="text" class="form-control" id="seriesName" placeholder="Ex: 9° Ano" required>
+                        <div class="error-message" id="seriesNameError"></div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="seriesDescription">Descrição</label>
+                        <input type="text" class="form-control" id="seriesDescription" placeholder="Ex: Ensino Fundamental II - 9° Ano">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="seriesLevel">Nível de Ensino *</label>
+                        <select class="form-control" id="seriesLevel" required>
+                            <option value="">Selecione o nível</option>
+                            <option value="infantil">Educação Infantil</option>
+                            <option value="fundamental1">Ensino Fundamental I</option>
+                            <option value="fundamental2">Ensino Fundamental II</option>
+                            <option value="medio">Ensino Médio</option>
+                            <option value="tecnico">Ensino Técnico</option>
+                            <option value="superior">Ensino Superior</option>
+                        </select>
+                        <div class="error-message" id="seriesLevelError"></div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="seriesOrder">Ordem/Posição</label>
+                        <input type="number" class="form-control" id="seriesOrder" placeholder="1" min="1">
+                    </div>
+                </form>
+            </div>
+         <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" onclick="closeModal()">Cancelar</button>
+                <button type="submit" class="btn btn-primary" id="saveBtn">
+                    <i class="fas fa-save"></i>
+                    Salvar Série
+                </button>
+            </div>
+        </div>
+    </div>
+
+    
+    <div class="modal" id="deleteModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Confirmar Exclusão</h2>
+                <button class="modal-close" onclick="closeDeleteModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>Tem certeza que deseja excluir a série <strong id="deleteSeriesName"></strong>?</p>
+                <p class="text-danger">Esta ação não pode ser desfeita e todas as turmas e alunos vinculados a esta série serão afetados.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" onclick="closeDeleteModal()">Cancelar</button>
+                <button type="button" class="btn btn-danger" onclick="confirmDelete()">
+                    <i class="fas fa-trash"></i>
+                    Excluir Série
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // global var
+        let series = [];
+        let currentEditId = null;
+        let deleteId = null;
+
+        
+        const sampleSeries = [
+            {
+                id: 1,
+                name: "6° Ano",
+                description: "Ensino Fundamental II - 6° Ano",
+                level: "fundamental2",
+                order: 6,
+                students: 145,
+                classes: 5
+            },
+            {
+                id: 2,
+                name: "7° Ano",
+                description: "Ensino Fundamental II - 7° Ano", 
+                level: "fundamental2",
+                order: 7,
+                students: 138,
+                classes: 5
+            },
+            {
+                id: 3,
+                name: "8° Ano",
+                description: "Ensino Fundamental II - 8° Ano",
+                level: "fundamental2",
+                order: 8,
+                students: 142,
+                classes: 5
+            },
+            {
+                id: 4,
+                name: "9° Ano",
+                description: "Ensino Fundamental II - 9° Ano",
+                level: "fundamental2",
+                order: 9,
+                students: 134,
+                classes: 4
+            },
+            {
+                id: 5,
+                name: "1° Ano EM",
+                description: "Ensino Médio - 1° Ano",
+                level: "medio",
+                order: 10,
+                students: 89,
+                classes: 3
+            },
+            {
+                id: 6,
+                name: "2° Ano EM",
+                description: "Ensino Médio - 2° Ano",
+                level: "medio",
+                order: 11,
+                students: 92,
+                classes: 3
+            }
+        ];
+
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            series = [...sampleSeries];
+            renderSeries();
+            setupEventListeners();
+        });
+
+        
+        function setupEventListeners() {
+            const searchInput = document.getElementById('searchInput');
+            const seriesForm = document.getElementById('seriesForm');
+
+            searchInput.addEventListener('input', handleSearch);
+            seriesForm.addEventListener('submit', handleFormSubmit);
+
+           
+            document.addEventListener('click', function(e) {
+                if (e.target.classList.contains('modal')) {
+                    closeModal();
+                    closeDeleteModal();
+                }
+            });
+        }
+
+        
+        function renderSeries(filteredSeries = null) {
+            const grid = document.getElementById('seriesGrid');
+            const emptyState = document.getElementById('emptyState');
+            const seriesToRender = filteredSeries || series;
+
+            if (seriesToRender.length === 0) {
+                grid.style.display = 'none';
+                emptyState.style.display = 'block';
+                return;
+            }
+
+            grid.style.display = 'grid';
+            emptyState.style.display = 'none';
+
+            grid.innerHTML = seriesToRender.map(serie => `
+                <div class="series-card">
+                    <div class="series-header">
+                        <div class="series-icon">
+                            <i class="fas fa-graduation-cap"></i>
+                        </div>
+                        <div class="series-actions">
+                            <button class="action-btn" onclick="editSeries(${serie.id})" title="Editar">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="action-btn delete" onclick="deleteSeries(${serie.id})" title="Excluir">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <h3 class="series-title">${serie.name}</h3>
+                    <p class="series-description">${serie.description || 'Sem descrição'}</p>
+                    <div class="series-stats">
+                        <div class="stat-item">
+                            <div class="stat-value">${serie.students}</div>
+                            <div class="stat-label">Alunos</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">${serie.classes}</div>
+                            <div class="stat-label">Turmas</div>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        
+        function handleSearch(e) {
+            const searchTerm = e.target.value.toLowerCase();
+            if (!searchTerm) {
+                renderSeries();
+                return;
+            }
+
+            const filtered = series.filter(serie => 
+                serie.name.toLowerCase().includes(searchTerm) ||
+                serie.description.toLowerCase().includes(searchTerm)
+            );
+            renderSeries(filtered);
+        }
+
+        function openModal(mode, serieId = null) {
+            const modal = document.getElementById('seriesModal');
+            const modalTitle = document.getElementById('modalTitle');
+            const saveBtn = document.getElementById('saveBtn');
+            
+            currentEditId = serieId;
+
+            if (mode === 'add') {
+                modalTitle.textContent = 'Nova Série';
+                saveBtn.innerHTML = '<i class="fas fa-save"></i> Salvar Série';
+                clearForm();
+            } else {
+                modalTitle.textContent = 'Editar Série';
+                saveBtn.innerHTML = '<i class="fas fa-save"></i> Atualizar Série';
+                loadSeriesData(serieId);
+            }
+
+            modal.classList.add('show');
+            document.body.style.overflow = 'hidden';
+        }
+
+        
+        function closeModal() {
+            const modal = document.getElementById('seriesModal');
+            modal.classList.remove('show');
+            document.body.style.overflow = 'auto';
+            clearForm();
+            currentEditId = null;
+        }
+
+      
+        function clearForm() {
+            document.getElementById('seriesForm').reset();
+            clearErrors();
+        }
+
+        
+        function clearErrors() {
+            const errorElements = document.querySelectorAll('.error-message');
+            errorElements.forEach(el => el.textContent = '');
+            
+            const formControls = document.querySelectorAll('.form-control');
+            formControls.forEach(el => el.classList.remove('error'));
+        }
+
+       
+        function loadSeriesData(serieId) {
+            const serie = series.find(s => s.id === serieId);
+            if (serie) {
+                document.getElementById('seriesName').value = serie.name;
+                document.getElementById('seriesDescription').value = serie.description || '';
+                document.getElementById('seriesLevel').value = serie.level;
+                document.getElementById('seriesOrder').value = serie.order;
+            }
+        }
+
+       
+        function handleFormSubmit(e) {
+            e.preventDefault();
+            
+            const formData = {
+                name: document.getElementById('seriesName').value.trim(),
+                description: document.getElementById('seriesDescription').value.trim(),
+                level: document.getElementById('seriesLevel').value,
+                order: parseInt(document.getElementById('seriesOrder').value) || 1
+            };
+
+            if (!validateForm(formData)) {
+                return;
+            }
+
+            if (currentEditId) {
+                updateSeries(currentEditId, formData);
+            } else {
+                addSeries(formData);
+            }
+
+            closeModal();
+            renderSeries();
+            showNotification(currentEditId ? 'Série atualizada com sucesso!' : 'Série criada com sucesso!', 'success');
+        }
+
+        
+        function validateForm(data) {
+            let isValid = true;
+            clearErrors();
+
+            if (!data.name) {
+                showFieldError('seriesName', 'Nome da série é obrigatório');
+                isValid = false;
+            }
+
+            if (!data.level) {
+                showFieldError('seriesLevel', 'Nível de ensino é obrigatório');
+                isValid = false;
+            }
+
+            const duplicateExists = series.some(s => 
+                s.name.toLowerCase() === data.name.toLowerCase() && 
+                s.id !== currentEditId
+            );
+
+            if (duplicateExists) {
+                showFieldError('seriesName', 'Já existe uma série com este nome');
+                isValid = false;
+            }
+
+            return isValid;
+        }
+
+        
+        function showFieldError(fieldId, message) {
+            const field = document.getElementById(fieldId);
+            const errorElement = document.getElementById(fieldId + 'Error');
+            
+            field.classList.add('error');
+            errorElement.textContent = message;
+        }
+
+        
+        function addSeries(data) {
+            const newId = Math.max(...series.map(s => s.id)) + 1;
+            const newSeries = {
+                id: newId,
+                ...data,
+                students: 0,
+                classes: 0
+            };
+            
+            series.push(newSeries);
+            series.sort((a, b) => a.order - b.order);
+        }
+
+       
+        function updateSeries(id, data) {
+            const index = series.findIndex(s => s.id === id);
+            if (index !== -1) {
+                series[index] = { ...series[index], ...data };
+                series.sort((a, b) => a.order - b.order);
+            }
+        }
+
+      
+        function editSeries(id) {
+            openModal('edit', id);
+        }
+
+       
+        function deleteSeries(id) {
+            const serie = series.find(s => s.id === id);
+            if (serie) {
+                deleteId = id;
+                document.getElementById('deleteSeriesName').textContent = serie.name;
+                document.getElementById('deleteModal').classList.add('show');
+                document.body.style.overflow = 'hidden';
+            }
+        }
+
+        
+        function closeDeleteModal() {
+            document.getElementById('deleteModal').classList.remove('show');
+            document.body.style.overflow = 'auto';
+            deleteId = null;
+        }
+
+        
+        function confirmDelete() {
+            if (deleteId) {
+                series = series.filter(s => s.id !== deleteId);
+                renderSeries();
+                closeDeleteModal();
+                showNotification('Série excluída com sucesso!', 'success');
+            }
+        }
+
+       
+        function showNotification(message, type = 'info') {
+         
+            const notification = document.createElement('div');
+            notification.className = `notification notification-${type}`;
+            notification.innerHTML = `
+                <i class="fas ${type === 'success' ? 'fa-check-circle' : 'fa-info-circle'}"></i>
+                <span>${message}</span>
+                <button onclick="this.parentElement.remove()">
+                    <i class="fas fa-times"></i>
+                </button>
+            `;
+
+           
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: ${type === 'success' ? '#d4edda' : '#d1ecf1'};
+                color: ${type === 'success' ? '#155724' : '#0c5460'};
+                border: 1px solid ${type === 'success' ? '#c3e6cb' : '#bee5eb'};
+                border-radius: 8px;
+                padding: 15px 20px;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                z-index: 10001;
+                min-width: 300px;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+                animation: slideIn 0.3s ease;
+            `;
+
+            document.body.appendChild(notification);
+
+           
+            setTimeout(() => {
+                if (notification.parentElement) {
+                    notification.remove();
+                }
+            }, 5000);
+        }
+
+        
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const toggleIcon = document.getElementById('toggleIcon');
+            
+            sidebar.classList.toggle('collapsed');
+            
+            if (sidebar.classList.contains('collapsed')) {
+                toggleIcon.classList.remove('fa-chevron-left');
+                toggleIcon.classList.add('fa-chevron-right');
+            } else {
+                toggleIcon.classList.remove('fa-chevron-right');
+                toggleIcon.classList.add('fa-chevron-left');
+            }
+        }
+
+        
+        function toggleSubMenu(element) {
+            const subMenu = element.nextElementSibling;
+            const isOpen = subMenu.classList.contains('open');
+            
+          
+            document.querySelectorAll('.sub-menu.open').forEach(menu => {
+                menu.classList.remove('open');
+            });
+            document.querySelectorAll('.nav-item.expanded').forEach(item => {
+                item.classList.remove('expanded');
+            });
+            
+            if (!isOpen) {
+                subMenu.classList.add('open');
+                element.classList.add('expanded');
+            }
+        }
+
+     
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideIn {
+                from {
+                    transform: translateX(100%);
+                    opacity: 0;
+                }
+                to {
+                    transform: translateX(0);
+                    opacity: 1;
+                }
+            }
+
+            .notification button {
+                background: none;
+                border: none;
+                color: inherit;
+                cursor: pointer;
+                padding: 0;
+                margin-left: auto;
+            }
+
+            .btn-danger {
+                background: linear-gradient(135deg, #dc3545, #c82333);
+                color: white;
+                box-shadow: 0 4px 15px rgba(220, 53, 69, 0.3);
+            }
+
+            .btn-danger:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 6px 20px rgba(220, 53, 69, 0.4);
+                color: white;
+                text-decoration: none;
+            }
+
+            .text-danger {
+                color: #dc3545 !important;
+                font-size: 13px;
+                margin-top: 10px;
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>

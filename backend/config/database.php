@@ -29,36 +29,5 @@ class Database {
     }
 }
 
--- ================================
 
--- pages/banco-questoes.php (Página principal integrada)
-<?php
-session_start();
 
-// Verificar se usuário está logado
-if (!isset($_SESSION['user_id'])) {
-    header('Location: /login');
-    exit;
-}
-
-// Incluir configurações
-require_once '../backend/config/database.php';
-require_once '../backend/classes/Question.php';
-
-try {
-    $database = new Database();
-    $db = $database->getConnection();
-    $question = new Question($db);
-    
-    // Buscar estatísticas para exibir no painel
-    $stats = $question->getStats();
-    $statsData = $stats['success'] ? $stats['data'] : [];
-    
-} catch (Exception $e) {
-    error_log("Error loading questions page: " . $e->getMessage());
-    $statsData = [];
-}
-
-$pageTitle = "Banco de Questões";
-$currentPage = "banco-questoes";
-?>

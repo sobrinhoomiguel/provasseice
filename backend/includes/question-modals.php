@@ -1,7 +1,7 @@
 <?php
 // includes/question-modals.php
 ?>
-<!-- Create Question Modal -->
+
 <div class="modal" id="createQuestionModal">
     <div class="modal-content">
         <div class="modal-header">
@@ -64,7 +64,7 @@
                 </select>
             </div>
 
-            <!-- Multiple Choice Options -->
+            
             <div id="multipleChoiceOptions" style="display: none;">
                 <h4 style="margin: 20px 0 15px 0; color: #1e3a5f;">Alternativas</h4>
                 <div class="form-group">
@@ -99,7 +99,7 @@
                 </div>
             </div>
 
-            <!-- True/False Options -->
+            
             <div id="trueFalseOptions" style="display: none;">
                 <h4 style="margin: 20px 0 15px 0; color: #1e3a5f;">Resposta Correta</h4>
                 <div class="form-group">
@@ -114,7 +114,7 @@
                 </div>
             </div>
 
-            <!-- Essay Options -->
+          
             <div id="essayOptions" style="display: none;">
                 <div class="form-group">
                     <label for="essayGuidelines">Critérios de Avaliação</label>
@@ -146,7 +146,7 @@
     </div>
 </div>
 
-<!-- Import Questions Modal -->
+
 <div class="modal" id="importModal">
     <div class="modal-content">
         <div class="modal-header">
@@ -380,7 +380,7 @@ class QuestionValidator {
 class ResponseHelper {
     public static function success($data = null, $message = null, $code = 200) {
         http_response_code($code);
-        echo json_encode([
+        echo json_encode([   
             'success' => true,
             'message' => $message,
             'data' => $data

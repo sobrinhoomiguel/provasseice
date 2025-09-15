@@ -748,19 +748,80 @@
             </div>
 
             <div class="nav-section">
+                <h3>Avaliações</h3>
+                <a href="#" class="nav-item expandable" onclick="toggleSubMenu(this); return false;" data-tooltip="Avaliações">
+                    <i class="fas fa-clipboard-list"></i>
+                    <span>AVALIAÇÕES</span>
+                    <i class="fas fa-chevron-right chevron"></i>
+                </a>
+                <div class="sub-menu">
+                    <a href="banco-questoes.html" class="nav-item" data-tooltip="Banco de Questões">
+                        <i class="fas fa-database"></i>
+                        <span>Banco de Questões</span>
+                    </a>
+                    <a href="avaliação.html" class="nav-item" data-tooltip="Avaliação">
+                        <i class="fas fa-edit"></i>
+                        <span>Avaliação</span>
+                    </a>
+                    <a href="aplicação-simulado.html" class="nav-item" data-tooltip="Aplicação">
+                        <i class="fas fa-play"></i>
+                        <span>Aplicação</span>
+                    </a>
+                    <a href="corrreção.html" class="nav-item" data-tooltip="Correção">
+                        <i class="fas fa-check"></i>
+                        <span>Correção</span>
+                    </a>
+                    <a href="enviar-imagens.html" class="nav-item" data-tooltip="Enviar Imagens">
+                        <i class="fas fa-images"></i>
+                        <span>Enviar Imagens</span>
+                    </a>
+                </div>
+            </div>
+
+            <div class="nav-section">
+                <h3>Relatórios</h3>
+                <a href="#" class="nav-item expandable" onclick="toggleSubMenu(this); return false;" data-tooltip="Resultados">
+                    <i class="fas fa-chart-bar"></i>
+                    <span>RESULTADOS</span>
+                    <i class="fas fa-chevron-right chevron"></i>
+                </a>
+                <div class="sub-menu">
+                    <a href="relatorios-gerais.html" class="nav-item" data-tooltip="Relatórios Gerais">
+                        <i class="fas fa-file-alt"></i>
+                        <span>Relatórios Gerais</span>
+                    </a>
+                </div>
+            </div>
+
+            <div class="nav-section">
                 <h3>Configurações</h3>
-                <a href="alunos.html" class="nav-item active">
-                    <i class="fas fa-user-graduate"></i>
-                    <span>Alunos</span>
+                <a href="#" class="nav-item expandable" onclick="toggleSubMenu(this); return false;" data-tooltip="Configuração">
+                    <i class="fas fa-cog"></i>
+                    <span>CONFIGURAÇÃO</span>
+                    <i class="fas fa-chevron-right chevron"></i>
                 </a>
-                <a href="turmas.html" class="nav-item">
-                    <i class="fas fa-users"></i>
-                    <span>Turmas</span>
-                </a>
-                <a href="serie.html" class="nav-item">
-                    <i class="fas fa-graduation-cap"></i>
-                    <span>Séries</span>
-                </a>
+                <div class="sub-menu">
+                    <a href="serie.html" class="nav-item" data-tooltip="Série">
+                        <i class="fas fa-graduation-cap"></i>
+                        <span>Série</span>
+                    </a>
+                    <a href="turmas.html" class="nav-item" data-tooltip="Turma">
+                        <i class="fas fa-users"></i>
+                        <span>Turma</span>
+                    </a>
+                    <a href="alunos.html" class="nav-item active" data-tooltip="Alunos">
+                        <i class="fas fa-user-graduate"></i>
+                        <span>Alunos</span>
+                    </a>
+                    <a href="importação-alunos.html" class="nav-item" data-tooltip="Importar Alunos">
+                        <i class="fas fa-upload"></i>
+                        <span>Importar Alunos</span>
+                    </a>
+                    <a href="usuarios.html" class="nav-item" data-tooltip="Usuários">
+                        <i class="fas fa-user-cog"></i>
+                        <span>Usuários</span>
+                    </a>
+                </div>
             </div>
         </nav>
     </aside>
@@ -804,10 +865,10 @@
                         <label>Turma</label>
                         <select class="filter-input" id="turmaFilter">
                             <option value="">Todas as turmas</option>
-                            <option value="9A">9° Ano A - Matutino</option>
-                            <option value="9B">9° Ano B - Vespertino</option>
-                            <option value="8A">8° Ano A - Matutino</option>
-                            <option value="8B">8° Ano B - Vespertino</option>
+                            <option value="9A">9° Ano A - CE</option>
+                            <option value="9B">9° Ano B - JP</option>
+                            <option value="8A">8° Ano A - CE</option>
+                            <option value="8B">8° Ano B - JP</option>
                         </select>
                     </div>
                     <div class="filter-group">
@@ -886,10 +947,10 @@
                         <label for="studentTurma">Turma *</label>
                         <select class="form-control" id="studentTurma" required>
                             <option value="">Selecione uma turma</option>
-                            <option value="9A">9° Ano A - Matutino</option>
-                            <option value="9B">9° Ano B - Vespertino</option>
-                            <option value="8A">8° Ano A - Matutino</option>
-                            <option value="8B">8° Ano B - Vespertino</option>
+                            <option value="9A">9° Ano A - CE</option>
+                            <option value="9B">9° Ano B - JP</option>
+                            <option value="8A">8° Ano A - CE</option>
+                            <option value="8B">8° Ano B - JP</option>
                         </select>
                     </div>
                     <div class="form-group">
@@ -917,7 +978,7 @@
                 matricula: "9ANO0001",
                 email: "ana.carolina@email.com",
                 turma: "9A",
-                turmaName: "9° Ano A - Matutino",
+                turmaName: "9° Ano A - CE",
                 status: "ativo"
             },
             {
@@ -926,7 +987,7 @@
                 matricula: "9ANO0002",
                 email: "bruno.oliveira@email.com",
                 turma: "9A",
-                turmaName: "9° Ano A - Matutino",
+                turmaName: "9° Ano A - CE",
                 status: "ativo"
             },
             {
@@ -935,7 +996,7 @@
                 matricula: "9ANO0003",
                 email: "camila.lima@email.com",
                 turma: "9B",
-                turmaName: "9° Ano B - Vespertino",
+                turmaName: "9° Ano B - JP",
                 status: "inativo"
             },
             {
@@ -944,7 +1005,7 @@
                 matricula: "9ANO0004",
                 email: "diego.costa@email.com",
                 turma: "9B",
-                turmaName: "9° Ano B - Vespertino",
+                turmaName: "9° Ano B - JP",
                 status: "ativo"
             },
             {
@@ -953,7 +1014,7 @@
                 matricula: "8ANO0001",
                 email: "eduarda.alves@email.com",
                 turma: "8A",
-                turmaName: "8° Ano A - Matutino",
+                turmaName: "8° Ano A - CE",
                 status: "ativo"
             },
             {
@@ -962,7 +1023,7 @@
                 matricula: "8ANO0002",
                 email: "felipe.ribeiro@email.com",
                 turma: "8A",
-                turmaName: "8° Ano A - Matutino",
+                turmaName: "8° Ano A - CE",
                 status: "ativo"
             },
             {
@@ -971,7 +1032,7 @@
                 matricula: "8ANO0003",
                 email: "gabriela.souza@email.com",
                 turma: "8B",
-                turmaName: "8° Ano B - Vespertino",
+                turmaName: "8° Ano B - JP",
                 status: "inativo"
             },
             {
@@ -980,7 +1041,7 @@
                 matricula: "8ANO0004",
                 email: "henrique.moreira@email.com",
                 turma: "8B",
-                turmaName: "8° Ano B - Vespertino",
+                turmaName: "8° Ano B - JP",
                 status: "ativo"
             }
         ];
@@ -1228,10 +1289,10 @@
             }
             
             const turmaNames = {
-                '9A': '9° Ano A - Matutino',
-                '9B': '9° Ano B - Vespertino',
-                '8A': '8° Ano A - Matutino',
-                '8B': '8° Ano B - Vespertino'
+                '9A': '9° Ano A - CE',
+                '9B': '9° Ano B - JP',
+                '8A': '8° Ano A - CE',
+                '8B': '8° Ano B - JP'
             };
             
             if (editingId) {
@@ -1332,9 +1393,44 @@
             if (sidebarCollapsed) {
                 sidebar.classList.add('collapsed');
                 icon.className = 'fas fa-chevron-right';
+                // Fechar todos os submenus quando colapsar
+                document.querySelectorAll('.sub-menu').forEach(menu => {
+                    menu.classList.remove('open');
+                    menu.style.maxHeight = '0';
+                });
+                document.querySelectorAll('.nav-item.expanded').forEach(item => {
+                    item.classList.remove('expanded');
+                });
             } else {
                 sidebar.classList.remove('collapsed');
                 icon.className = 'fas fa-chevron-left';
+            }
+        }
+
+        // Alternar submenu
+        function toggleSubMenu(item) {
+            if (sidebarCollapsed) return; // Não abrir submenus quando sidebar está colapsada
+            
+            const subMenu = item.nextElementSibling;
+            const chevron = item.querySelector('.chevron');
+            
+            // Fechar outros submenus
+            document.querySelectorAll('.nav-item.expanded').forEach(expandedItem => {
+                if (expandedItem !== item) {
+                    expandedItem.classList.remove('expanded');
+                    expandedItem.nextElementSibling.classList.remove('open');
+                    expandedItem.nextElementSibling.style.maxHeight = '0';
+                }
+            });
+            
+            // Alternar o submenu atual
+            item.classList.toggle('expanded');
+            subMenu.classList.toggle('open');
+            
+            if (subMenu.classList.contains('open')) {
+                subMenu.style.maxHeight = subMenu.scrollHeight + 'px';
+            } else {
+                subMenu.style.maxHeight = '0';
             }
         }
 

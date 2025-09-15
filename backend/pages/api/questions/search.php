@@ -24,6 +24,8 @@ if (!isset($_SESSION['user_id'])) {
     exit;
 }
 
+
+
 try {
     $database = new Database();
     $db = $database->getConnection();

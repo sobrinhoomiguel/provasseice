@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <title>Relatórios Gerais - Provas SEICE</title>
+    <title>Alunos - Provas SEICE</title>
     <style>
         * {
             margin: 0;
@@ -509,6 +509,61 @@
             gap: 6px;
         }
 
+        .main-buttons{
+            position: relative;
+            left: 33%;
+        }
+
+        .import-button{
+            padding: 12px;
+            background: linear-gradient(135deg, #3a7bc5 0%, #2e69ad 100%);
+            color: #ffffff;
+            border: none;
+            box-shadow: 1px 1px 8px rgba(0, 0, 0, 0.322);
+            border-radius: 4px;
+            font-size: 1em;
+            transition: background 0.1s, transform 0.1s, box-shadow 0.3s;
+            cursor: pointer;
+        }
+
+        .import-button:hover{
+            transform: translateY(-1px) scale(1.02);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+        }
+
+        .add-button{
+            padding: 12px;
+            background: linear-gradient(135deg, #27851b 0%, #319923 100%);
+            color: #ffffff;
+            border: none;
+            box-shadow: 1px 1px 8px rgba(0, 0, 0, 0.322);
+            border-radius: 4px;
+            font-size: 1em;
+            transition: background 0.1s, transform 0.1s, box-shadow 0.3s;
+            cursor: pointer;
+        }
+
+        .add-button:hover{
+            transform: translateY(-3px) scale(1.04);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+        }
+
+        .btn-acoes{
+            background: linear-gradient(135deg, #69a8f0 0%, #52a4f7 100%);
+            padding: 8px 8px;
+            border: none;
+            color: white;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 4px rgba(74,144,226,0.2);
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
         /* Animações */
         @keyframes fadeIn {
             from {
@@ -578,7 +633,7 @@
         <nav class="nav-menu">
             <div class="nav-section">
                 <h3>Principal</h3>
-                <a href="index.html" class="nav-item" data-tooltip="Início">
+                <a href="../main-painel/index.html" class="nav-item" data-tooltip="Início">
                     <i class="fas fa-home"></i>
                     <span>Início</span>
                     <div class="tooltip">Início</div>
@@ -594,27 +649,27 @@
                     <div class="tooltip">Avaliações</div>
                 </div>
                 <div class="sub-menu">
-                    <a href="/banco-questoes" class="nav-item" data-tooltip="Banco de Questões">
+                    <a href="../main-painel/banco-questoes.html" class="nav-item" data-tooltip="Banco de Questões">
                         <i class="fas fa-database"></i>
                         <span>Banco de Questões</span>
                         <div class="tooltip">Banco de Questões</div>
                     </a>
-                    <a href="/avaliacao" class="nav-item" data-tooltip="Avaliação">
+                    <a href="../main-painel/avaliação.html" class="nav-item" data-tooltip="Avaliação">
                         <i class="fas fa-edit"></i>
                         <span>Avaliação</span>
                         <div class="tooltip">Avaliação</div>
                     </a>
-                    <a href="/aplicacao" class="nav-item" data-tooltip="Aplicação">
+                    <a href="../main-painel/aplicação-simulado.html" class="nav-item" data-tooltip="Aplicação">
                         <i class="fas fa-play"></i>
                         <span>Aplicação</span>
                         <div class="tooltip">Aplicação</div>
                     </a>
-                    <a href="/correcao" class="nav-item" data-tooltip="Correção">
+                    <a href="../main-painel/correção.html" class="nav-item" data-tooltip="Correção">
                         <i class="fas fa-check"></i>
                         <span>Correção</span>
                         <div class="tooltip">Correção</div>
                     </a>
-                    <a href="enviar-imagens.html" class="nav-item" data-tooltip="Enviar Imagens">
+                    <a href="../main-painel/enviar-imagens.html" class="nav-item" data-tooltip="Enviar Imagens">
                         <i class="fas fa-images"></i>
                         <span>Enviar Imagens</span>
                         <div class="tooltip">Enviar Imagens</div>
@@ -631,7 +686,7 @@
                     <div class="tooltip">Resultados</div>
                 </div>
                 <div class="sub-menu">
-                    <a href="/relatorios-gerais" class="nav-item active" data-tooltip="Relatórios Gerais">
+                    <a href="../main-painel/relatorios-gerais.html" class="nav-item" data-tooltip="Relatórios Gerais">
                         <i class="fas fa-file-alt"></i>
                         <span>Relatórios Gerais</span>
                         <div class="tooltip">Relatórios Gerais</div>
@@ -658,17 +713,17 @@
                         <span>Turma</span>
                         <div class="tooltip">Turma</div>
                     </a>
-                    <a href="../main-painel/alunos.html" class="nav-item" data-tooltip="Alunos">
+                    <a href="../main-painel/alunos.html" class="nav-item active" data-tooltip="Alunos">
                         <i class="fas fa-user-graduate"></i>
                         <span>Alunos</span>
                         <div class="tooltip">Alunos</div>
                     </a>
-                    <a href="/importar-alunos" class="nav-item" data-tooltip="Importar Alunos">
+                    <a href="../main-painel/importação-alunos.html" class="nav-item" data-tooltip="Importar Alunos">
                         <i class="fas fa-upload"></i>
                         <span>Importar Alunos</span>
                         <div class="tooltip">Importar Alunos</div>
                     </a>
-                    <a href="../main-painel/importação-alunos.html" class="nav-item" data-tooltip="Usuários">
+                    <a href="../main-painel/usuarios.html" class="nav-item" data-tooltip="Usuários">
                         <i class="fas fa-user-cog"></i>
                         <span>Usuários</span>
                         <div class="tooltip">Usuários</div>
@@ -682,9 +737,9 @@
         <header class="header">
             <div class="breadcrumb">
                 <i class="fas fa-home"></i>
-                <a href="/inicio">Início</a>
+                <a href="../main-painel/index.html">Início</a>
                 <span>/</span>
-                <span>Relatórios Gerais</span>
+                <span>Alunos</span>
             </div>
             <div class="user-info">
                 <div>
@@ -696,8 +751,8 @@
         
         <section class="content">
             <div class="main-header">
-                <h2 class="main-h2">Relatórios Gerais</h2>
-                <p class="main-p">Aqui você pode acessar e gerar relatórios detalhados sobre as avaliações aplicadas, dados dos alunos e análises do sistema.</p>
+                <h2 class="main-h2">Alunos</h2>
+                <p class="main-p">Você consegue controlar e analisar o desempenho individual de cada aluno. </p>
             </div>
             
             <div class="actions-bar">
@@ -705,59 +760,74 @@
                     <input type="text" placeholder="Digite algo que deseja encontrar..." id="searchInput" onkeyup="filterReports()">
                     <i class="fas fa-search"></i>
                 </div>
+            <div class="main-buttons">
+                <a href="../main-painel/importação-alunos.html">
+                    <button class="import-button">
+                        <i class="fa-solid fa-file-import"></i>
+                        Importação de Alunos
+                    </button>
+                </a> 
+                <a href="adicionar-aluno">
+                    <button class="add-button">
+                        <i class="fa-solid fa-plus"></i>
+                        Adição de Alunos
+                    </button>
+                </a>
+            </div>
                 
                 <div class="tabela-container">
-                    <h2><i class="fas fa-file-chart-column"></i>Relatórios Disponíveis</h2>
-                    <div class="table-wrapper">
-                        <table id="reportsTable">
-                            <thead>
-                                <tr>
-                                    <th>Nome do Relatório</th>
-                                    <th>Ação</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>Auditoria Reconhecimento Facial</td>
-                                    <td><button class="btn-executar" onclick="executeReport('auditoria-facial')"><i class="fas fa-play"></i>Executar</button></td>
-                                </tr>
-                                <tr>
-                                    <td>Banco de Questões</td>
-                                    <td><button class="btn-executar" onclick="executeReport('banco-questoes')"><i class="fas fa-play"></i>Executar</button></td>
-                                </tr>
-                                <tr>
-                                    <td>Dados da Aplicação e Notas</td>
-                                    <td><button class="btn-executar" onclick="executeReport('dados-aplicacao')"><i class="fas fa-play"></i>Executar</button></td>
-                                </tr>
-                                <tr>
-                                    <td>Dados da Aplicação e Notas por Questão</td>
-                                    <td><button class="btn-executar" onclick="executeReport('dados-questao')"><i class="fas fa-play"></i>Executar</button></td>
-                                </tr>
-                                <tr>
-                                    <td>Turmas e Alunos</td>
-                                    <td><button class="btn-executar" onclick="executeReport('turmas-alunos')"><i class="fas fa-play"></i>Executar</button></td>
-                                </tr>
-                                <tr>
-                                    <td>Relatório - Correção de Avaliação</td>
-                                    <td><button class="btn-executar" onclick="executeReport('correcao-avaliacao')"><i class="fas fa-play"></i>Executar</button></td>
-                                </tr>
-                                <tr>
-                                    <td>Relatório de Marcação (Prova Online)</td>
-                                    <td><button class="btn-executar" onclick="executeReport('marcacao-online')"><i class="fas fa-play"></i>Executar</button></td>
-                                </tr>
-                                <tr>
-                                    <td>Relatório de Marcações (Prova Impressa)</td>
-                                    <td><button class="btn-executar" onclick="executeReport('marcacao-impressa')"><i class="fas fa-play"></i>Executar</button></td>
-                                </tr>
-                                <tr>
-                                    <td>Relatório do Professor</td>
-                                    <td><button class="btn-executar" onclick="executeReport('relatorio-professor')"><i class="fas fa-play"></i>Executar</button></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
+    <h2><i class="fas fa-file-chart-column"></i>Listagem de Alunos</h2>
+    <div class="table-wrapper">
+        <table id="reportsTable">
+            <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th>Matrícula</th>
+                    <th>E-mail</th>
+                    <th>Turma</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>João Silva</td>
+                    <td>0120154</td>
+                    <td>joaosilva@seice.com.br</td>
+                    <td>6 ANO / 6001</td>
+                    <td><button class="btn-acoes">Ações ▾</button></td>
+                </tr>
+                <tr>
+                    <td>Júlia Tavares</td>
+                    <td>0549117</td>
+                    <td>juliatavares@seice.com.br</td>
+                    <td>9 ANO / 9002</td>
+                    <td><button class="btn-acoes">Ações ▾</button></td>
+                </tr>
+                <tr>
+                    <td>Gabriela Torres</td>
+                    <td>1243698</td>
+                    <td>gabrielatorres@seice.com.br</td>
+                    <td>5 ANO / 5002</td>
+                    <td><button class="btn-acoes">Ações ▾</button></td>
+                </tr>
+                <tr>
+                    <td>Marcos Augusto</td>
+                    <td>6845784</td>
+                    <td>marcosaugusto@seice.com.br</td>
+                    <td>7 ANO / 7003</td>
+                    <td><button class="btn-acoes">Ações ▾</button></td>
+                </tr>
+                <tr>
+                    <td>Jorge Ferreira</td>
+                    <td>1232112</td>
+                    <td>jorgeferreira@seice.com.br</td>
+                    <td>9 ANO / 9001</td>
+                    <td><button class="btn-acoes">Ações ▾</button></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
         </section>
     </main>
 

@@ -228,7 +228,7 @@ class Question {
         return [
             'success' => false,
             'message' => 'Erro ao excluir questão ou questão não encontrada'
-        ];
+        ];     
     }
 
     // Excluir múltiplas questões
@@ -443,10 +443,11 @@ class Question {
         
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
-        
+            
         return [
             'success' => true,
             'data' => $stmt->fetch(PDO::FETCH_ASSOC)
         ];
     }
 }
+?>

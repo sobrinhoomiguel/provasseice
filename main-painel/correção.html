@@ -1,0 +1,1503 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SEICE - Correção de Questões</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f8f9fa;
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 280px;
+            height: 100vh;
+            background: linear-gradient(180deg, #1e3a5f 0%, #2c4f73 100%);
+            color: white;
+            transition: all 0.3s ease;
+            z-index: 1000;
+            box-shadow: 4px 0 20px rgba(0,0,0,0.1);
+        }
+
+        .sidebar.collapsed {
+            width: 70px;
+        }
+
+        .sidebar-header {
+            padding: 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #4a90e2, #357abd);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+
+        .logo-text {
+            transition: all 0.3s ease;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+
+        .sidebar.collapsed .logo-text {
+            width: 0;
+            opacity: 0;
+        }
+
+        .logo-text h1 {
+            font-size: 24px;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .logo-text p {
+            font-size: 12px;
+            opacity: 0.8;
+            margin-top: 2px;
+        }
+
+        .toggle-btn {
+            width: 32px;
+            height: 32px;
+            background: rgba(255,255,255,0.1);
+            border: none;
+            border-radius: 8px;
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            flex-shrink: 0;
+        }
+
+        .toggle-btn:hover {
+            background: rgba(255,255,255,0.2);
+            transform: scale(1.05);
+        }
+
+        .nav-menu {
+            padding: 20px 0;
+            overflow: hidden;
+        }
+
+        .nav-section {
+            margin-bottom: 30px;
+        }
+
+        .nav-section h3 {
+            padding: 0 20px 10px;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            opacity: 0.7;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+
+        .sidebar.collapsed .nav-section h3 {
+            opacity: 0;
+            height: 0;
+            padding: 0;
+            margin: 0;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            background: none;
+            color: white;
+            width: 100%;
+            text-align: left;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-item:hover {
+            background: rgba(255,255,255,0.1);
+        }
+
+        .nav-item.active {
+            background: rgba(255,255,255,0.15);
+            border-right: 3px solid #4a90e2;
+        }
+
+        .nav-item i {
+            width: 20px;
+            font-size: 16px;
+            margin-right: 15px;
+            flex-shrink: 0;
+            text-align: center;
+        }
+
+        .nav-item span {
+            transition: all 0.3s ease;
+            font-size: 14px;
+            font-weight: 500;
+            overflow: hidden;
+            white-space: nowrap;
+            flex: 1;
+        }
+
+        .sidebar.collapsed .nav-item span {
+            width: 0;
+            opacity: 0;
+        }
+
+        .nav-item .chevron {
+            margin-left: auto;
+            transition: transform 0.3s ease;
+            font-size: 12px;
+            width: 12px;
+        }
+
+        .sidebar.collapsed .nav-item .chevron {
+            opacity: 0;
+            width: 0;
+        }
+
+        .nav-item.expanded .chevron {
+            transform: rotate(90deg);
+        }
+
+        .sub-menu {
+            background: rgba(0,0,0,0.2);
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .sidebar.collapsed .sub-menu {
+            max-height: 0 !important;
+        }
+
+        .sub-menu.open {
+            max-height: 200px;
+        }
+
+        .sub-menu .nav-item {
+            padding-left: 50px;
+            font-size: 13px;
+        }
+
+        .main-content {
+            margin-left: 280px;
+            transition: margin-left 0.3s ease;
+            min-height: 100vh;
+        }
+
+        .sidebar.collapsed + .main-content {
+            margin-left: 70px;
+        }
+
+        .header {
+            background: white;
+            padding: 20px 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #e1e5e9;
+        }
+
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #666;
+            font-size: 14px;
+        }
+
+        .breadcrumb i {
+            color: #4a90e2;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .user-email {
+            font-size: 14px;
+            color: #666;
+            font-weight: 500;
+            text-align: right;
+        }
+
+        .system-subtitle {
+            font-size: 12px;
+            color: #999;
+            text-align: right;
+        }
+
+        .page-content {
+            padding: 40px 30px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .page-title {
+            font-size: 28px;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .page-subtitle {
+            font-size: 16px;
+            color: #666;
+            margin-bottom: 40px;
+        }
+
+        .correction-container {
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            gap: 30px;
+            height: calc(100vh - 200px);
+        }
+
+        .image-viewer {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .viewer-header {
+            padding: 20px 30px;
+            border-bottom: 1px solid #e1e5e9;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #f8f9fa;
+        }
+
+        .viewer-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .viewer-controls {
+            display: flex;
+            gap: 10px;
+        }
+
+        .control-btn {
+            width: 36px;
+            height: 36px;
+            border: none;
+            border-radius: 8px;
+            background: #e9ecef;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .control-btn:hover {
+            background: #4a90e2;
+            color: white;
+        }
+
+        .viewer-content {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f8f9fa;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .placeholder-image {
+            text-align: center;
+            color: #666;
+            padding: 60px 20px;
+        }
+
+        .placeholder-image i {
+            font-size: 64px;
+            margin-bottom: 20px;
+            opacity: 0.5;
+        }
+
+        .placeholder-text {
+            font-size: 16px;
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+
+        .placeholder-subtext {
+            font-size: 14px;
+            opacity: 0.7;
+        }
+
+        .correction-panel {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            max-height: 100%;
+        }
+
+        .panel-header {
+            padding: 20px 25px;
+            border-bottom: 1px solid #e1e5e9;
+            background: #f8f9fa;
+        }
+
+        .panel-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .exam-selector {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .exam-select {
+            flex: 1;
+            padding: 10px 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 14px;
+            background: white;
+        }
+
+        .load-btn {
+            padding: 10px 20px;
+            background: linear-gradient(135deg, #4a90e2, #357abd);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .load-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(74, 144, 226, 0.3);
+        }
+
+        .panel-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 0;
+        }
+
+        .student-list {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .student-item {
+            display: flex;
+            align-items: center;
+            padding: 15px 25px;
+            border-bottom: 1px solid #f0f2f5;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .student-item:hover {
+            background: #f8f9fa;
+        }
+
+        .student-item.active {
+            background: #e6f3ff;
+            border-left: 4px solid #4a90e2;
+        }
+
+        .student-info {
+            flex: 1;
+        }
+
+        .student-name {
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 4px;
+        }
+
+        .student-details {
+            font-size: 12px;
+            color: #666;
+        }
+
+        .correction-status {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-left: 15px;
+        }
+
+        .status-badge {
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .status-pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .status-corrected {
+            background: #d1edff;
+            color: #0c5460;
+        }
+
+        .status-reviewed {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .questions-grid {
+            padding: 25px;
+            border-top: 1px solid #e1e5e9;
+            background: #f8f9fa;
+        }
+
+        .questions-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .questions-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(45px, 1fr));
+            gap: 8px;
+            margin-bottom: 25px;
+        }
+
+        .question-btn {
+            width: 45px;
+            height: 45px;
+            border: 2px solid #d1d5db;
+            border-radius: 8px;
+            background: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .question-btn:hover {
+            border-color: #4a90e2;
+            transform: scale(1.05);
+        }
+
+        .question-btn.correct {
+            background: #d4edda;
+            border-color: #28a745;
+            color: #155724;
+        }
+
+        .question-btn.incorrect {
+            background: #f8d7da;
+            border-color: #dc3545;
+            color: #721c24;
+        }
+
+        .question-btn.partial {
+            background: #fff3cd;
+            border-color: #ffc107;
+            color: #856404;
+        }
+
+        .question-btn.active {
+            border-color: #4a90e2;
+            background: #4a90e2;
+            color: white;
+            transform: scale(1.1);
+        }
+
+        .correction-actions {
+            padding: 25px;
+            border-top: 1px solid #e1e5e9;
+            background: white;
+        }
+
+        .score-input-group {
+            margin-bottom: 20px;
+        }
+
+        .score-label {
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .score-input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .score-input:focus {
+            outline: none;
+            border-color: #4a90e2;
+            box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.1);
+        }
+
+        .score-buttons {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        .score-btn {
+            padding: 10px;
+            border: 2px solid #d1d5db;
+            border-radius: 8px;
+            background: white;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .score-btn.correct {
+            border-color: #28a745;
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .score-btn.incorrect {
+            border-color: #dc3545;
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .score-btn.partial {
+            border-color: #ffc107;
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .action-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .action-btn {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-save {
+            background: linear-gradient(135deg, #28a745, #20c997);
+            color: white;
+        }
+
+        .btn-save:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(40, 167, 69, 0.3);
+        }
+
+        .btn-next {
+            background: linear-gradient(135deg, #4a90e2, #357abd);
+            color: white;
+        }
+
+        .btn-next:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(74, 144, 226, 0.3);
+        }
+
+        .stats-summary {
+            padding: 20px 25px;
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            border-bottom: 1px solid #e1e5e9;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 24px;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 4px;
+        }
+
+        .stat-label {
+            font-size: 11px;
+            text-transform: uppercase;
+            color: #666;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        .empty-state {
+            padding: 60px 25px;
+            text-align: center;
+            color: #666;
+        }
+
+        .empty-state i {
+            font-size: 48px;
+            margin-bottom: 20px;
+            opacity: 0.5;
+        }
+
+        .empty-state h3 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .empty-state p {
+            font-size: 14px;
+            opacity: 0.8;
+        }
+
+        @media (max-width: 1200px) {
+            .correction-container {
+                grid-template-columns: 1fr;
+                gap: 20px;
+                height: auto;
+            }
+
+            .image-viewer {
+                height: 500px;
+            }
+
+            .correction-panel {
+                max-height: 600px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+                width: 280px;
+            }
+
+            .sidebar.mobile-open {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+
+            .page-content {
+                padding: 20px 15px;
+            }
+
+            .correction-container {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+
+            .questions-container {
+                grid-template-columns: repeat(auto-fill, minmax(40px, 1fr));
+                gap: 6px;
+            }
+
+            .question-btn {
+                width: 40px;
+                height: 40px;
+                font-size: 12px;
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .correction-container {
+            animation: fadeInUp 0.6s ease forwards;
+        }
+
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #c1c1c1;
+            border-radius: 3px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #a1a1a1;
+        }
+    </style>
+</head>
+<body>
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="logo-container">
+                <div class="logo">S</div>
+                <div class="logo-text">
+                    <h1>SEICE</h1>
+                    <p>Sistema de Ensino</p>
+                </div>
+            </div>
+            <button class="toggle-btn" onclick="toggleSidebar()">
+                <i class="fas fa-chevron-left" id="toggleIcon"></i>
+            </button>
+        </div>
+
+        <nav class="nav-menu">
+            <div class="nav-section">
+                <h3>Principal</h3>
+                <button class="nav-item" onclick="navigate('home')" data-tooltip="Início">
+                    <i class="fas fa-home"></i>
+                    <span>Início</span>
+                </button>
+            </div>
+
+            <div class="nav-section">
+                <h3>Avaliações</h3>
+                <button class="nav-item expandable expanded" onclick="toggleSubMenu(this)" data-tooltip="Avaliações">
+                    <i class="fas fa-clipboard-list"></i>
+                    <span>AVALIAÇÕES</span>
+                    <i class="fas fa-chevron-right chevron"></i>
+                </button>
+                <div class="sub-menu open">
+                    <button class="nav-item" onclick="navigate('banco-questoes')" data-tooltip="Banco de Questões">
+                        <i class="fas fa-database"></i>
+                        <span>Banco de Questões</span>
+                    </button>
+                    <button class="nav-item" onclick="navigate('avaliacao')" data-tooltip="Avaliação">
+                        <i class="fas fa-edit"></i>
+                        <span>Avaliação</span>
+                    </button>
+                    <button class="nav-item" onclick="navigate('aplicacao')" data-tooltip="Aplicação">
+                        <i class="fas fa-play"></i>
+                        <span>Aplicação</span>
+                    </button>
+                    <button class="nav-item active" onclick="navigate('correcao')" data-tooltip="Correção">
+                        <i class="fas fa-check"></i>
+                        <span>Correção</span>
+                    </button>
+                    <button class="nav-item" onclick="navigate('enviar-imagens')" data-tooltip="Enviar Imagens">
+                        <i class="fas fa-images"></i>
+                        <span>Enviar Imagens</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="nav-section">
+                <h3>Relatórios</h3>
+                <button class="nav-item expandable" onclick="toggleSubMenu(this)" data-tooltip="Resultados">
+                    <i class="fas fa-chart-bar"></i>
+                    <span>RESULTADOS</span>
+                    <i class="fas fa-chevron-right chevron"></i>
+                </button>
+                <div class="sub-menu">
+                    <button class="nav-item" onclick="navigate('relatorios-gerais')" data-tooltip="Relatórios Gerais">
+                        <i class="fas fa-file-alt"></i>
+                        <span>Relatórios Gerais</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="nav-section">
+                <h3>Configurações</h3>
+                <button class="nav-item expandable" onclick="toggleSubMenu(this)" data-tooltip="Configuração">
+                    <i class="fas fa-cog"></i>
+                    <span>CONFIGURAÇÃO</span>
+                    <i class="fas fa-chevron-right chevron"></i>
+                </button>
+                <div class="sub-menu">
+                    <button class="nav-item" onclick="navigate('serie')" data-tooltip="Série">
+                        <i class="fas fa-graduation-cap"></i>
+                        <span>Série</span>
+                    </button>
+                    <button class="nav-item" onclick="navigate('turma')" data-tooltip="Turma">
+                        <i class="fas fa-users"></i>
+                        <span>Turma</span>
+                    </button>
+                    <button class="nav-item" onclick="navigate('alunos')" data-tooltip="Alunos">
+                        <i class="fas fa-user-graduate"></i>
+                        <span>Alunos</span>
+                    </button>
+                    <button class="nav-item" onclick="navigate('importar-alunos')" data-tooltip="Importar Alunos">
+                        <i class="fas fa-upload"></i>
+                        <span>Importar Alunos</span>
+                    </button>
+                    <button class="nav-item" onclick="navigate('usuarios')" data-tooltip="Usuários">
+                        <i class="fas fa-user-cog"></i>
+                        <span>Usuários</span>
+                    </button>
+                </div>
+            </div>
+        </nav>
+    </aside>
+
+    <main class="main-content">
+        <header class="header">
+            <div class="breadcrumb">
+                <i class="fas fa-home"></i>
+                <span>Avaliações</span>
+                <i class="fas fa-chevron-right"></i>
+                <span>Correção</span>
+            </div>
+            <div class="user-info">
+                <div>
+                    <div class="user-email">joaopedrosantosadmin@gmail.com</div>
+                    <div class="system-subtitle">Sistema de Ensino Integrado de Campos Elíseos</div>
+                </div>
+            </div>
+        </header>
+
+        <div class="page-content">
+            <h1 class="page-title">Correção de Questões</h1>
+            <p class="page-subtitle">Sistema de correção digital de provas e avaliações</p>
+
+            <div class="correction-container">
+                <!-- Visualizador de Imagem -->
+                <div class="image-viewer">
+                    <div class="viewer-header">
+                        <div class="viewer-title">
+                            <i class="fas fa-image"></i>
+                            <span id="imageTitle">Visualizador de Prova</span>
+                        </div>
+                        <div class="viewer-controls">
+                            <button class="control-btn" onclick="zoomOut()" title="Diminuir Zoom">
+                                <i class="fas fa-search-minus"></i>
+                            </button>
+                            <button class="control-btn" onclick="resetZoom()" title="Zoom Original">
+                                <i class="fas fa-expand-arrows-alt"></i>
+                            </button>
+                            <button class="control-btn" onclick="zoomIn()" title="Aumentar Zoom">
+                                <i class="fas fa-search-plus"></i>
+                            </button>
+                            <button class="control-btn" onclick="rotateImage()" title="Girar Imagem">
+                                <i class="fas fa-redo"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="viewer-content" id="imageViewer">
+                        <div class="placeholder-image">
+                            <i class="fas fa-file-image"></i>
+                            <div class="placeholder-text">Nenhuma prova carregada</div>
+                            <div class="placeholder-subtext">Selecione uma avaliação e um aluno para começar a correção</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Painel de Correção -->
+                <div class="correction-panel">
+                    <div class="panel-header">
+                        <div class="panel-title">
+                            <i class="fas fa-clipboard-check"></i>
+                            Painel de Correção
+                        </div>
+                        
+                        <div class="exam-selector">
+                            <select class="exam-select" id="examSelect">
+                                <option value="">Selecione uma avaliação</option>
+                                <option value="matematica-2024-1">Matemática - 1º Bimestre 2024</option>
+                                <option value="portugues-2024-1">Português - 1º Bimestre 2024</option>
+                                <option value="ciencias-2024-1">Ciências - 1º Bimestre 2024</option>
+                                <option value="historia-2024-1">História - 1º Bimestre 2024</option>
+                                <option value="geografia-2024-1">Geografia - 1º Bimestre 2024</option>
+                            </select>
+                            <button class="load-btn" onclick="loadExam()">
+                                <i class="fas fa-download"></i>
+                                Carregar
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="stats-summary" id="examStats" style="display: none;">
+                        <div class="stats-grid">
+                            <div class="stat-item">
+                                <div class="stat-number" id="totalStudents">0</div>
+                                <div class="stat-label">Alunos</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-number" id="correctedCount">0</div>
+                                <div class="stat-label">Corrigidas</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-number" id="pendingCount">0</div>
+                                <div class="stat-label">Pendentes</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="panel-content">
+                        <div class="empty-state" id="emptyState">
+                            <i class="fas fa-clipboard-list"></i>
+                            <h3>Selecione uma avaliação</h3>
+                            <p>Escolha uma avaliação para começar o processo de correção</p>
+                        </div>
+
+                        <div class="student-list" id="studentList" style="display: none;">
+                            <!-- Lista de alunos será carregada aqui -->
+                        </div>
+                    </div>
+
+                    <div class="questions-grid" id="questionsGrid" style="display: none;">
+                        <div class="questions-title">
+                            <i class="fas fa-list-ol"></i>
+                            <span>Questões da Prova</span>
+                        </div>
+                        
+                        <div class="questions-container" id="questionsContainer">
+                            <!-- Botões das questões serão gerados aqui -->
+                        </div>
+
+                        <div class="correction-actions">
+                            <div class="score-input-group">
+                                <label class="score-label" for="scoreInput">Pontuação da Questão</label>
+                                <input type="number" class="score-input" id="scoreInput" 
+                                       placeholder="0.0" min="0" max="10" step="0.1" 
+                                       oninput="updateScore(this.value)">
+                            </div>
+
+                            <div class="score-buttons">
+                                <button class="score-btn correct" onclick="setScore('correct', 10)">
+                                    <i class="fas fa-check"></i>
+                                    Correta
+                                </button>
+                                <button class="score-btn partial" onclick="setScore('partial', 5)">
+                                    <i class="fas fa-minus"></i>
+                                    Parcial
+                                </button>
+                                <button class="score-btn incorrect" onclick="setScore('incorrect', 0)">
+                                    <i class="fas fa-times"></i>
+                                    Incorreta
+                                </button>
+                            </div>
+
+                            <div class="action-buttons">
+                                <button class="action-btn btn-save" onclick="saveCorrection()">
+                                    <i class="fas fa-save"></i>
+                                    Salvar
+                                </button>
+                                <button class="action-btn btn-next" onclick="nextStudent()">
+                                    <i class="fas fa-arrow-right"></i>
+                                    Próximo
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Estado da aplicação
+        let currentExam = null;
+        let currentStudent = null;
+        let currentQuestion = 1;
+        let students = [];
+        let corrections = {};
+        let zoomLevel = 1;
+        let rotation = 0;
+
+        // Dados de exemplo
+        const examData = {
+            'matematica-2024-1': {
+                name: 'Matemática - 1º Bimestre 2024',
+                totalQuestions: 20,
+                students: [
+                    { id: 1, name: 'Ana Silva Santos', registration: '2024001', status: 'pending' },
+                    { id: 2, name: 'Bruno Costa Lima', registration: '2024002', status: 'corrected' },
+                    { id: 3, name: 'Carla Mendes Oliveira', registration: '2024003', status: 'pending' },
+                    { id: 4, name: 'Daniel Ferreira Rocha', registration: '2024004', status: 'reviewed' },
+                    { id: 5, name: 'Eduardo Santos Pinto', registration: '2024005', status: 'pending' },
+                    { id: 6, name: 'Fernanda Lima Costa', registration: '2024006', status: 'pending' },
+                    { id: 7, name: 'Gabriel Oliveira Souza', registration: '2024007', status: 'corrected' },
+                    { id: 8, name: 'Helena Rodrigues Silva', registration: '2024008', status: 'pending' }
+                ]
+            },
+            'portugues-2024-1': {
+                name: 'Português - 1º Bimestre 2024',
+                totalQuestions: 15,
+                students: [
+                    { id: 1, name: 'Igor Martins Alves', registration: '2024009', status: 'pending' },
+                    { id: 2, name: 'Julia Santos Costa', registration: '2024010', status: 'corrected' },
+                    { id: 3, name: 'Kevin Lima Ferreira', registration: '2024011', status: 'pending' },
+                    { id: 4, name: 'Larissa Oliveira Pinto', registration: '2024012', status: 'pending' }
+                ]
+            },
+            'ciencias-2024-1': {
+                name: 'Ciências - 1º Bimestre 2024',
+                totalQuestions: 18,
+                students: [
+                    { id: 1, name: 'Marcos Silva Santos', registration: '2024013', status: 'reviewed' },
+                    { id: 2, name: 'Natália Costa Lima', registration: '2024014', status: 'pending' },
+                    { id: 3, name: 'Otávio Mendes Rocha', registration: '2024015', status: 'corrected' }
+                ]
+            }
+        };
+
+        // Inicialização
+        document.addEventListener('DOMContentLoaded', function() {
+            // Implementar tooltips para sidebar colapsada
+            setupTooltips();
+        });
+
+        // Funções da Sidebar
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const toggleIcon = document.getElementById('toggleIcon');
+            
+            sidebar.classList.toggle('collapsed');
+            
+            if (sidebar.classList.contains('collapsed')) {
+                toggleIcon.classList.remove('fa-chevron-left');
+                toggleIcon.classList.add('fa-chevron-right');
+            } else {
+                toggleIcon.classList.remove('fa-chevron-right');
+                toggleIcon.classList.add('fa-chevron-left');
+            }
+        }
+
+        function toggleSubMenu(element) {
+            const subMenu = element.nextElementSibling;
+            const chevron = element.querySelector('.chevron');
+            
+            element.classList.toggle('expanded');
+            subMenu.classList.toggle('open');
+            
+            if (element.classList.contains('expanded')) {
+                chevron.style.transform = 'rotate(90deg)';
+            } else {
+                chevron.style.transform = 'rotate(0deg)';
+            }
+        }
+
+        function navigate(page) {
+            console.log('Navegando para:', page);
+            // Implementar navegação aqui
+        }
+
+        function setupTooltips() {
+            const navItems = document.querySelectorAll('.nav-item[data-tooltip]');
+            
+            navItems.forEach(item => {
+                item.addEventListener('mouseenter', function(e) {
+                    const sidebar = document.getElementById('sidebar');
+                    if (sidebar.classList.contains('collapsed')) {
+                        // Criar tooltip
+                        const tooltip = document.createElement('div');
+                        tooltip.className = 'tooltip';
+                        tooltip.textContent = this.dataset.tooltip;
+                        tooltip.style.cssText = `
+                            position: fixed;
+                            background: #333;
+                            color: white;
+                            padding: 8px 12px;
+                            border-radius: 4px;
+                            font-size: 12px;
+                            z-index: 10000;
+                            pointer-events: none;
+                            white-space: nowrap;
+                            left: 80px;
+                            top: ${e.target.getBoundingClientRect().top + 10}px;
+                        `;
+                        document.body.appendChild(tooltip);
+                        
+                        this.tooltipElement = tooltip;
+                    }
+                });
+                
+                item.addEventListener('mouseleave', function() {
+                    if (this.tooltipElement) {
+                        document.body.removeChild(this.tooltipElement);
+                        this.tooltipElement = null;
+                    }
+                });
+            });
+        }
+
+        // Funções de Avaliação
+        function loadExam() {
+            const examSelect = document.getElementById('examSelect');
+            const selectedExam = examSelect.value;
+            
+            if (!selectedExam) {
+                alert('Por favor, selecione uma avaliação');
+                return;
+            }
+            
+            currentExam = examData[selectedExam];
+            students = currentExam.students;
+            
+            // Mostrar estatísticas
+            updateExamStats();
+            
+            // Carregar lista de alunos
+            loadStudentList();
+            
+            // Ocultar estado vazio
+            document.getElementById('emptyState').style.display = 'none';
+            document.getElementById('studentList').style.display = 'block';
+            document.getElementById('examStats').style.display = 'block';
+        }
+
+        function updateExamStats() {
+            const totalStudents = students.length;
+            const correctedCount = students.filter(s => s.status === 'corrected' || s.status === 'reviewed').length;
+            const pendingCount = students.filter(s => s.status === 'pending').length;
+            
+            document.getElementById('totalStudents').textContent = totalStudents;
+            document.getElementById('correctedCount').textContent = correctedCount;
+            document.getElementById('pendingCount').textContent = pendingCount;
+        }
+
+        function loadStudentList() {
+            const studentList = document.getElementById('studentList');
+            studentList.innerHTML = '';
+            
+            students.forEach(student => {
+                const studentItem = document.createElement('div');
+                studentItem.className = 'student-item';
+                studentItem.onclick = () => selectStudent(student);
+                
+                const statusClass = `status-${student.status}`;
+                const statusText = {
+                    'pending': 'Pendente',
+                    'corrected': 'Corrigida',
+                    'reviewed': 'Revisada'
+                }[student.status];
+                
+                studentItem.innerHTML = `
+                    <div class="student-info">
+                        <div class="student-name">${student.name}</div>
+                        <div class="student-details">Matrícula: ${student.registration}</div>
+                    </div>
+                    <div class="correction-status">
+                        <span class="status-badge ${statusClass}">${statusText}</span>
+                    </div>
+                `;
+                
+                studentList.appendChild(studentItem);
+            });
+        }
+
+        function selectStudent(student) {
+            // Remover seleção anterior
+            document.querySelectorAll('.student-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            
+            // Selecionar novo aluno
+            event.currentTarget.classList.add('active');
+            currentStudent = student;
+            
+            // Atualizar título da imagem
+            document.getElementById('imageTitle').textContent = 
+                `${student.name} - ${currentExam.name}`;
+            
+            // Carregar grid de questões
+            loadQuestionsGrid();
+            
+            // Simular carregamento de imagem da prova
+            loadExamImage(student);
+        }
+
+        function loadQuestionsGrid() {
+            if (!currentExam) return;
+            
+            const questionsGrid = document.getElementById('questionsGrid');
+            const questionsContainer = document.getElementById('questionsContainer');
+            
+            questionsContainer.innerHTML = '';
+            
+            for (let i = 1; i <= currentExam.totalQuestions; i++) {
+                const questionBtn = document.createElement('button');
+                questionBtn.className = 'question-btn';
+                questionBtn.textContent = i;
+                questionBtn.onclick = () => selectQuestion(i);
+                
+                // Aplicar status se existir correção
+                const correctionKey = `${currentStudent.id}-${i}`;
+                if (corrections[correctionKey]) {
+                    const score = corrections[correctionKey];
+                    if (score >= 8) questionBtn.classList.add('correct');
+                    else if (score >= 4) questionBtn.classList.add('partial');
+                    else questionBtn.classList.add('incorrect');
+                }
+                
+                questionsContainer.appendChild(questionBtn);
+            }
+            
+            questionsGrid.style.display = 'block';
+            selectQuestion(1);
+        }
+
+        function selectQuestion(questionNumber) {
+            // Remover seleção anterior
+            document.querySelectorAll('.question-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // Selecionar nova questão
+            const questionBtn = document.querySelectorAll('.question-btn')[questionNumber - 1];
+            questionBtn.classList.add('active');
+            
+            currentQuestion = questionNumber;
+            
+            // Carregar pontuação atual se existir
+            const correctionKey = `${currentStudent.id}-${currentQuestion}`;
+            const currentScore = corrections[correctionKey] || '';
+            document.getElementById('scoreInput').value = currentScore;
+        }
+
+        function loadExamImage(student) {
+            const imageViewer = document.getElementById('imageViewer');
+            
+            // Simular carregamento de imagem
+            imageViewer.innerHTML = `
+                <div style="display: flex; align-items: center; justify-content: center; height: 100%; background: #f0f0f0;">
+                    <div style="text-align: center; color: #666;">
+                        <i class="fas fa-spinner fa-spin" style="font-size: 32px; margin-bottom: 15px;"></i>
+                        <div>Carregando prova de ${student.name}...</div>
+                    </div>
+                </div>
+            `;
+            
+            // Simular delay de carregamento
+            setTimeout(() => {
+                imageViewer.innerHTML = `
+                    <div style="display: flex; align-items: center; justify-content: center; height: 100%; background: #f9f9f9;">
+                        <div style="text-align: center; color: #666; padding: 40px;">
+                            <i class="fas fa-file-pdf" style="font-size: 64px; margin-bottom: 20px; color: #dc3545;"></i>
+                            <div style="font-size: 16px; font-weight: 500; margin-bottom: 8px;">
+                                Prova de ${student.name}
+                            </div>
+                            <div style="font-size: 14px; opacity: 0.7;">
+                                ${currentExam.name} - Questão ${currentQuestion}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }, 1000);
+        }
+
+        // Funções de Correção
+        function setScore(type, value) {
+            document.getElementById('scoreInput').value = value;
+            updateScore(value);
+        }
+
+        function updateScore(score) {
+            if (!currentStudent || !currentQuestion) return;
+            
+            const correctionKey = `${currentStudent.id}-${currentQuestion}`;
+            corrections[correctionKey] = parseFloat(score) || 0;
+            
+            // Atualizar visual da questão
+            const questionBtn = document.querySelectorAll('.question-btn')[currentQuestion - 1];
+            questionBtn.classList.remove('correct', 'incorrect', 'partial');
+            
+            if (score >= 8) questionBtn.classList.add('correct');
+            else if (score >= 4) questionBtn.classList.add('partial');
+            else if (score > 0) questionBtn.classList.add('incorrect');
+        }
+
+        function saveCorrection() {
+            if (!currentStudent) {
+                alert('Selecione um aluno primeiro');
+                return;
+            }
+            
+            // Simular salvamento
+            const saveButton = document.querySelector('.btn-save');
+            const originalText = saveButton.innerHTML;
+            
+            saveButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Salvando...';
+            saveButton.disabled = true;
+            
+            setTimeout(() => {
+                saveButton.innerHTML = '<i class="fas fa-check"></i> Salvo!';
+                
+                setTimeout(() => {
+                    saveButton.innerHTML = originalText;
+                    saveButton.disabled = false;
+                }, 1000);
+            }, 1000);
+            
+            // Atualizar status do aluno
+            if (currentStudent.status === 'pending') {
+                currentStudent.status = 'corrected';
+                updateExamStats();
+                loadStudentList();
+            }
+        }
+
+        function nextStudent() {
+            if (!students.length) return;
+            
+            const currentIndex = students.findIndex(s => s.id === currentStudent.id);
+            const nextIndex = (currentIndex + 1) % students.length;
+            const nextStudent = students[nextIndex];
+            
+            // Encontrar o item do próximo aluno e simular clique
+            const studentItems = document.querySelectorAll('.student-item');
+            if (studentItems[nextIndex]) {
+                studentItems[nextIndex].click();
+            }
+        }
+
+        // Funções do Visualizador de Imagem
+        function zoomIn() {
+            zoomLevel = Math.min(zoomLevel + 0.25, 3);
+            applyImageTransform();
+        }
+
+        function zoomOut() {
+            zoomLevel = Math.max(zoomLevel - 0.25, 0.5);
+            applyImageTransform();
+        }
+
+        function resetZoom() {
+            zoomLevel = 1;
+            rotation = 0;
+            applyImageTransform();
+        }
+
+        function rotateImage() {
+            rotation = (rotation + 90) % 360;
+            applyImageTransform();
+        }
+
+        function applyImageTransform() {
+            const imageContent = document.querySelector('#imageViewer > div');
+            if (imageContent) {
+                imageContent.style.transform = `scale(${zoomLevel}) rotate(${rotation}deg)`;
+                imageContent.style.transition = 'transform 0.3s ease';
+            }
+        }
+
+        // Responsividade
+        window.addEventListener('resize', function() {
+            if (window.innerWidth <= 768) {
+                document.getElementById('sidebar').classList.add('collapsed');
+            }
+        });
+
+        // Atalhos de teclado
+        document.addEventListener('keydown', function(e) {
+            if (e.ctrlKey && e.key === 's') {
+                e.preventDefault();
+                saveCorrection();
+            }
+            
+            if (e.key === 'ArrowRight' && currentQuestion < currentExam?.totalQuestions) {
+                selectQuestion(currentQuestion + 1);
+            }
+            
+            if (e.key === 'ArrowLeft' && currentQuestion > 1) {
+                selectQuestion(currentQuestion - 1);
+            }
+            
+            
+            if (e.key === '1') setScore('incorrect', 0);
+            if (e.key === '2') setScore('partial', 5);
+            if (e.key === '3') setScore('correct', 10);
+        });
+    </script>
+</body>
+</html>

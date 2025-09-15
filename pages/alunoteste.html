@@ -1,0 +1,1472 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SEICE - Alunos</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f8f9fa;
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        /* Sidebar Styles */
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 280px;
+            height: 100vh;
+            background: linear-gradient(180deg, #1e3a5f 0%, #2c4f73 100%);
+            color: white;
+            transition: all 0.3s ease;
+            z-index: 1000;
+            box-shadow: 4px 0 20px rgba(0,0,0,0.1);
+        }
+
+        .sidebar.collapsed {
+            width: 70px;
+        }
+
+        .sidebar-header {
+            padding: 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .seice-logo {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #4a90e2, #357abd);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+
+        .nav-menu {
+            padding: 20px 0;
+            overflow: hidden;
+        }
+
+        .nav-section {
+            margin-bottom: 30px;
+        }
+
+        .nav-section h3 {
+            padding: 0 20px 10px;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            opacity: 0.7;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+
+        .sidebar.collapsed .nav-section h3 {
+            opacity: 0;
+            height: 0;
+            padding: 0;
+            margin: 0;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            background: none;
+            color: white;
+            width: 100%;
+            text-align: left;
+            position: relative;
+            overflow: hidden;
+            text-decoration: none;
+        }
+
+        .nav-item:hover {
+            background: rgba(255,255,255,0.1);
+            color: white;
+        }
+
+        .nav-item.active {
+            background: rgba(255,255,255,0.15);
+            border-right: 3px solid #4a90e2;
+        }
+
+        .nav-item i {
+            width: 20px;
+            font-size: 16px;
+            margin-right: 15px;
+            flex-shrink: 0;
+            text-align: center;
+        }
+
+        .nav-item span {
+            transition: all 0.3s ease;
+            font-size: 14px;
+            font-weight: 500;
+            overflow: hidden;
+            white-space: nowrap;
+            flex: 1;
+        }
+
+        .sidebar.collapsed .nav-item span {
+            width: 0;
+            opacity: 0;
+        }
+
+        .toggle-btn {
+            position: absolute;
+            top: 80px;
+            right: -12px;
+            width: 24px;
+            height: 24px;
+            background: #4a90e2;
+            border: none;
+            border-radius: 50%;
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            z-index: 1001;
+        }
+
+        .toggle-btn:hover {
+            background: #357abd;
+            transform: scale(1.1);
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-left: 280px;
+            transition: margin-left 0.3s ease;
+            min-height: 100vh;
+        }
+
+        .sidebar.collapsed + .main-content {
+            margin-left: 70px;
+        }
+
+        .header {
+            background: white;
+            padding: 20px 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #e1e5e9;
+        }
+
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #666;
+            font-size: 14px;
+        }
+
+        .breadcrumb i {
+            color: #4a90e2;
+        }
+
+        .breadcrumb a {
+            color: #4a90e2;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .breadcrumb a:hover {
+            color: #357abd;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .user-email {
+            font-size: 14px;
+            color: #666;
+            font-weight: 500;
+            text-align: right;
+        }
+
+        .system-subtitle {
+            font-size: 12px;
+            color: #999;
+            text-align: right;
+        }
+
+        /* Page Content */
+        .page-content {
+            padding: 30px;
+        }
+
+        .page-title {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .page-title h1 {
+            font-size: 28px;
+            color: #333;
+            font-weight: 600;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #4a90e2, #357abd);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #357abd, #2d5d8f);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(74, 144, 226, 0.4);
+        }
+
+        /* Filters */
+        .filters {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .filter-row {
+            display: grid;
+            grid-template-columns: 1fr 200px 200px auto;
+            gap: 15px;
+            align-items: end;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .filter-group label {
+            font-size: 12px;
+            font-weight: 600;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .filter-input {
+            padding: 10px 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: border-color 0.3s ease;
+        }
+
+        .filter-input:focus {
+            outline: none;
+            border-color: #4a90e2;
+            box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.1);
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+            border: none;
+            padding: 10px 16px;
+            border-radius: 6px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-secondary:hover {
+            background: #5a6268;
+        }
+
+        /* Students Table */
+        .students-table {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+        }
+
+        .table-header {
+            background: #f8f9fa;
+            padding: 20px;
+            border-bottom: 1px solid #e1e5e9;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .table-header h3 {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .table-info {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .table-content {
+            overflow-x: auto;
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .table th {
+            background: #f8f9fa;
+            padding: 15px 20px;
+            text-align: left;
+            font-weight: 600;
+            color: #333;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-bottom: 2px solid #e1e5e9;
+        }
+
+        .table td {
+            padding: 20px;
+            border-bottom: 1px solid #f0f0f0;
+            vertical-align: middle;
+        }
+
+        .table tr:hover {
+            background: #f8f9fa;
+        }
+
+        .table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .student-name {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 2px;
+        }
+
+        .student-matricula {
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            color: #666;
+            background: #f8f9fa;
+            padding: 2px 6px;
+            border-radius: 4px;
+            display: inline-block;
+        }
+
+        .student-email {
+            color: #4a90e2;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .student-email:hover {
+            color: #357abd;
+            text-decoration: underline;
+        }
+
+        .turma-badge {
+            background: linear-gradient(135deg, #4a90e2, #357abd);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Status */
+        .status-badge {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            text-align: center;
+        }
+
+        .status-active {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status-inactive {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        /* Action Buttons */
+        .actions {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .btn-sm {
+            padding: 6px 12px;
+            border: none;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .btn-edit {
+            background: #ffc107;
+            color: #212529;
+        }
+
+        .btn-edit:hover {
+            background: #e0a800;
+            transform: translateY(-1px);
+        }
+
+        .btn-toggle {
+            background: #6c757d;
+            color: white;
+        }
+
+        .btn-toggle:hover {
+            background: #5a6268;
+            transform: translateY(-1px);
+        }
+
+        .btn-toggle.activate {
+            background: #28a745;
+        }
+
+        .btn-toggle.activate:hover {
+            background: #218838;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 10000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal.show {
+            display: flex;
+            opacity: 1;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 12px;
+            padding: 0;
+            width: 90%;
+            max-width: 500px;
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+        }
+
+        .modal.show .modal-content {
+            transform: scale(1);
+        }
+
+        .modal-header {
+            padding: 20px 24px;
+            border-bottom: 1px solid #e1e5e9;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: #999;
+            cursor: pointer;
+            padding: 0;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-close:hover {
+            color: #333;
+        }
+
+        .modal-body {
+            padding: 24px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 600;
+            color: #333;
+            font-size: 14px;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: #4a90e2;
+            box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.1);
+        }
+
+        .modal-footer {
+            padding: 20px 24px;
+            border-top: 1px solid #e1e5e9;
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+        }
+
+        .btn-cancel {
+            background: #6c757d;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        .btn-save {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #666;
+        }
+
+        .empty-state i {
+            font-size: 48px;
+            color: #ddd;
+            margin-bottom: 20px;
+        }
+
+        .empty-state h3 {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .empty-state p {
+            font-size: 14px;
+        }
+
+        /* Pagination */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            gap: 8px;
+        }
+
+        .pagination button {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            background: white;
+            color: #666;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .pagination button:hover:not(:disabled) {
+            background: #4a90e2;
+            color: white;
+            border-color: #4a90e2;
+        }
+
+        .pagination button.active {
+            background: #4a90e2;
+            color: white;
+            border-color: #4a90e2;
+        }
+
+        .pagination button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+                width: 280px;
+            }
+
+            .sidebar.mobile-open {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+
+            .sidebar.collapsed + .main-content {
+                margin-left: 0;
+            }
+
+            .page-content {
+                padding: 20px 15px;
+            }
+
+            .filter-row {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+
+            .table-content {
+                overflow-x: scroll;
+            }
+
+            .modal-content {
+                width: 95%;
+                margin: 10px;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .students-table {
+            animation: fadeInUp 0.6s ease forwards;
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <button class="toggle-btn" onclick="toggleSidebar()">
+            <i class="fas fa-chevron-left" id="toggleIcon"></i>
+        </button>
+        
+        <div class="sidebar-header">
+            <div class="seice-logo">S</div>
+        </div>
+
+        <nav class="nav-menu">
+            <div class="nav-section">
+                <h3>Principal</h3>
+                <a href="../main-painel/index.html" class="nav-item">
+                    <i class="fas fa-home"></i>
+                    <span>Início</span>
+                </a>
+            </div>
+
+            <div class="nav-section">
+                <h3>Avaliações</h3>
+                <a href="#" class="nav-item expandable" onclick="toggleSubMenu(this); return false;" data-tooltip="Avaliações">
+                    <i class="fas fa-clipboard-list"></i>
+                    <span>AVALIAÇÕES</span>
+                    <i class="fas fa-chevron-right chevron"></i>
+                </a>
+                <div class="sub-menu">
+                    <a href="banco-questoes.html" class="nav-item" data-tooltip="Banco de Questões">
+                        <i class="fas fa-database"></i>
+                        <span>Banco de Questões</span>
+                    </a>
+                    <a href="avaliação.html" class="nav-item" data-tooltip="Avaliação">
+                        <i class="fas fa-edit"></i>
+                        <span>Avaliação</span>
+                    </a>
+                    <a href="aplicação-simulado.html" class="nav-item" data-tooltip="Aplicação">
+                        <i class="fas fa-play"></i>
+                        <span>Aplicação</span>
+                    </a>
+                    <a href="corrreção.html" class="nav-item" data-tooltip="Correção">
+                        <i class="fas fa-check"></i>
+                        <span>Correção</span>
+                    </a>
+                    <a href="enviar-imagens.html" class="nav-item" data-tooltip="Enviar Imagens">
+                        <i class="fas fa-images"></i>
+                        <span>Enviar Imagens</span>
+                    </a>
+                </div>
+            </div>
+
+            <div class="nav-section">
+                <h3>Relatórios</h3>
+                <a href="#" class="nav-item expandable" onclick="toggleSubMenu(this); return false;" data-tooltip="Resultados">
+                    <i class="fas fa-chart-bar"></i>
+                    <span>RESULTADOS</span>
+                    <i class="fas fa-chevron-right chevron"></i>
+                </a>
+                <div class="sub-menu">
+                    <a href="relatorios-gerais.html" class="nav-item" data-tooltip="Relatórios Gerais">
+                        <i class="fas fa-file-alt"></i>
+                        <span>Relatórios Gerais</span>
+                    </a>
+                </div>
+            </div>
+
+            <div class="nav-section">
+                <h3>Configurações</h3>
+                <a href="#" class="nav-item expandable" onclick="toggleSubMenu(this); return false;" data-tooltip="Configuração">
+                    <i class="fas fa-cog"></i>
+                    <span>CONFIGURAÇÃO</span>
+                    <i class="fas fa-chevron-right chevron"></i>
+                </a>
+                <div class="sub-menu">
+                    <a href="serie.html" class="nav-item" data-tooltip="Série">
+                        <i class="fas fa-graduation-cap"></i>
+                        <span>Série</span>
+                    </a>
+                    <a href="turmas.html" class="nav-item" data-tooltip="Turma">
+                        <i class="fas fa-users"></i>
+                        <span>Turma</span>
+                    </a>
+                    <a href="alunos.html" class="nav-item active" data-tooltip="Alunos">
+                        <i class="fas fa-user-graduate"></i>
+                        <span>Alunos</span>
+                    </a>
+                    <a href="importação-alunos.html" class="nav-item" data-tooltip="Importar Alunos">
+                        <i class="fas fa-upload"></i>
+                        <span>Importar Alunos</span>
+                    </a>
+                    <a href="usuarios.html" class="nav-item" data-tooltip="Usuários">
+                        <i class="fas fa-user-cog"></i>
+                        <span>Usuários</span>
+                    </a>
+                </div>
+            </div>
+        </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Header -->
+        <header class="header">
+            <div class="breadcrumb">
+                <i class="fas fa-home"></i>
+                <a href="../main-painel/index.html">Início</a>
+                <span>/</span>
+                <span>Alunos</span>
+            </div>
+            <div class="user-info">
+                <div>
+                    <div class="user-email">joaopedrosantosadmin@gmail.com</div>
+                    <div class="system-subtitle">Sistema de Ensino Integrado de Campos Elíseos</div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Page Content -->
+        <div class="page-content">
+            <div class="page-title">
+                <h1>Gerenciamento de Alunos</h1>
+                <button class="btn-primary" onclick="openAddModal()">
+                    <i class="fas fa-plus"></i>
+                    Adicionar Aluno
+                </button>
+            </div>
+
+            <!-- Filters -->
+            <div class="filters">
+                <div class="filter-row">
+                    <div class="filter-group">
+                        <label>Buscar Aluno</label>
+                        <input type="text" class="filter-input" id="searchInput" placeholder="Nome, matrícula ou e-mail...">
+                    </div>
+                    <div class="filter-group">
+                        <label>Turma</label>
+                        <select class="filter-input" id="turmaFilter">
+                            <option value="">Todas as turmas</option>
+                            <option value="9A">9° Ano A - CE</option>
+                            <option value="9B">9° Ano B - JP</option>
+                            <option value="8A">8° Ano A - CE</option>
+                            <option value="8B">8° Ano B - JP</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label>Status</label>
+                        <select class="filter-input" id="statusFilter">
+                            <option value="">Todos</option>
+                            <option value="ativo">Ativos</option>
+                            <option value="inativo">Inativos</option>
+                        </select>
+                    </div>
+                    <div>
+                        <button class="btn-secondary" onclick="clearFilters()">
+                            <i class="fas fa-times"></i>
+                            Limpar
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Students Table -->
+            <div class="students-table">
+                <div class="table-header">
+                    <h3>Lista de Alunos</h3>
+                    <div class="table-info">
+                        <span id="totalStudents">127 alunos</span> • 
+                        <span id="activeStudents">119 ativos</span> • 
+                        <span id="inactiveStudents">8 inativos</span>
+                    </div>
+                </div>
+                <div class="table-content">
+                    <table class="table" id="studentsTable">
+                        <thead>
+                            <tr>
+                                <th>Nome</th>
+                                <th>Matrícula</th>
+                                <th>E-mail</th>
+                                <th>Turma</th>
+                                <th>Status</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="studentsTableBody">
+                            <!-- Dados serão inseridos via JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+                <div class="pagination" id="pagination">
+                    <!-- Paginação será inserida via JavaScript -->
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Modal Adicionar/Editar Aluno -->
+    <div class="modal" id="studentModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title" id="modalTitle">Adicionar Aluno</h2>
+                <button class="modal-close" onclick="closeModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="studentForm">
+                    <div class="form-group">
+                        <label for="studentName">Nome Completo *</label>
+                        <input type="text" class="form-control" id="studentName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="studentMatricula">Matrícula *</label>
+                        <input type="text" class="form-control" id="studentMatricula" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="studentEmail">E-mail</label>
+                        <input type="email" class="form-control" id="studentEmail">
+                    </div>
+                    <div class="form-group">
+                        <label for="studentTurma">Turma *</label>
+                        <select class="form-control" id="studentTurma" required>
+                            <option value="">Selecione uma turma</option>
+                            <option value="9A">9° Ano A - CE</option>
+                            <option value="9B">9° Ano B - JP</option>
+                            <option value="8A">8° Ano A - CE</option>
+                            <option value="8B">8° Ano B - JP</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="studentStatus">Status *</label>
+                        <select class="form-control" id="studentStatus" required>
+                            <option value="ativo">Ativo</option>
+                            <option value="inativo">Inativo</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-cancel" onclick="closeModal()">Cancelar</button>
+                <button class="btn-save" onclick="saveStudent()">Salvar</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Dados dos alunos (simulados)
+        let students = [
+            {
+                id: 1,
+                name: "Ana Carolina Silva Santos",
+                matricula: "9ANO0001",
+                email: "ana.carolina@email.com",
+                turma: "9A",
+                turmaName: "9° Ano A - CE",
+                status: "ativo"
+            },
+            {
+                id: 2,
+                name: "Bruno Henrique Oliveira",
+                matricula: "9ANO0002",
+                email: "bruno.oliveira@email.com",
+                turma: "9A",
+                turmaName: "9° Ano A - CE",
+                status: "ativo"
+            },
+            {
+                id: 3,
+                name: "Camila Rodrigues Lima",
+                matricula: "9ANO0003",
+                email: "camila.lima@email.com",
+                turma: "9B",
+                turmaName: "9° Ano B - JP",
+                status: "inativo"
+            },
+            {
+                id: 4,
+                name: "Diego Martins Costa",
+                matricula: "9ANO0004",
+                email: "diego.costa@email.com",
+                turma: "9B",
+                turmaName: "9° Ano B - JP",
+                status: "ativo"
+            },
+            {
+                id: 5,
+                name: "Eduarda Fernandes Alves",
+                matricula: "8ANO0001",
+                email: "eduarda.alves@email.com",
+                turma: "8A",
+                turmaName: "8° Ano A - CE",
+                status: "ativo"
+            },
+            {
+                id: 6,
+                name: "Felipe Santos Ribeiro",
+                matricula: "8ANO0002",
+                email: "felipe.ribeiro@email.com",
+                turma: "8A",
+                turmaName: "8° Ano A - CE",
+                status: "ativo"
+            },
+            {
+                id: 7,
+                name: "Gabriela Pereira Souza",
+                matricula: "8ANO0003",
+                email: "gabriela.souza@email.com",
+                turma: "8B",
+                turmaName: "8° Ano B - JP",
+                status: "inativo"
+            },
+            {
+                id: 8,
+                name: "Henrique Cardoso Moreira",
+                matricula: "8ANO0004",
+                email: "henrique.moreira@email.com",
+                turma: "8B",
+                turmaName: "8° Ano B - JP",
+                status: "ativo"
+            }
+        ];
+
+        let filteredStudents = [...students];
+        let currentPage = 1;
+        const itemsPerPage = 10;
+        let editingId = null;
+
+        // Inicialização
+        document.addEventListener('DOMContentLoaded', function() {
+            renderTable();
+            updateStats();
+            setupEventListeners();
+        });
+
+        // Setup de event listeners
+        function setupEventListeners() {
+            document.getElementById('searchInput').addEventListener('input', filterStudents);
+            document.getElementById('turmaFilter').addEventListener('change', filterStudents);
+            document.getElementById('statusFilter').addEventListener('change', filterStudents);
+        }
+
+        // Renderizar tabela
+        function renderTable() {
+            const tbody = document.getElementById('studentsTableBody');
+            const startIndex = (currentPage - 1) * itemsPerPage;
+            const endIndex = Math.min(startIndex + itemsPerPage, filteredStudents.length);
+            
+            if (filteredStudents.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="6" class="empty-state">
+                            <i class="fas fa-user-graduate"></i>
+                            <h3>Nenhum aluno encontrado</h3>
+                            <p>Tente ajustar os filtros ou adicionar um novo aluno</p>
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+
+            tbody.innerHTML = '';
+            
+            for (let i = startIndex; i < endIndex; i++) {
+                const student = filteredStudents[i];
+                const row = document.createElement('tr');
+                
+                row.innerHTML = `
+                    <td>
+                        <div class="student-name">${student.name}</div>
+                    </td>
+                    <td>
+                        <div class="student-matricula">${student.matricula}</div>
+                    </td>
+                    <td>
+                        <a href="mailto:${student.email}" class="student-email">${student.email || 'Não informado'}</a>
+                    </td>
+                    <td>
+                        <span class="turma-badge">${student.turmaName}</span>
+                    </td>
+                    <td>
+                        <span class="status-badge ${student.status === 'ativo' ? 'status-active' : 'status-inactive'}">
+                            ${student.status === 'ativo' ? 'Ativo' : 'Inativo'}
+                        </span>
+                    </td>
+                    <td>
+                        <div class="actions">
+                            <button class="btn-sm btn-edit" onclick="editStudent(${student.id})" title="Editar">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="btn-sm btn-toggle ${student.status === 'ativo' ? '' : 'activate'}" 
+                                onclick="toggleStatus(${student.id})" 
+                                title="${student.status === 'ativo' ? 'Inativar' : 'Ativar'}">
+                                <i class="fas ${student.status === 'ativo' ? 'fa-ban' : 'fa-check'}"></i>
+                            </button>
+                        </div>
+                    </td>
+                `;
+                
+                tbody.appendChild(row);
+            }
+            
+            renderPagination();
+        }
+
+        // Renderizar paginação
+        function renderPagination() {
+            const pagination = document.getElementById('pagination');
+            const totalPages = Math.ceil(filteredStudents.length / itemsPerPage);
+            
+            if (totalPages <= 1) {
+                pagination.innerHTML = '';
+                return;
+            }
+            
+            let paginationHTML = '';
+            
+            // Botão anterior
+            paginationHTML += `
+                <button onclick="changePage(${currentPage - 1})" 
+                        ${currentPage === 1 ? 'disabled' : ''}>
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+            `;
+            
+            // Páginas
+            for (let i = 1; i <= totalPages; i++) {
+                if (i === 1 || i === totalPages || (i >= currentPage - 2 && i <= currentPage + 2)) {
+                    paginationHTML += `
+                        <button onclick="changePage(${i})" 
+                                class="${i === currentPage ? 'active' : ''}">
+                            ${i}
+                        </button>
+                    `;
+                } else if (i === currentPage - 3 || i === currentPage + 3) {
+                    paginationHTML += '<span>...</span>';
+                }
+            }
+            
+            // Botão próximo
+            paginationHTML += `
+                <button onclick="changePage(${currentPage + 1})" 
+                        ${currentPage === totalPages ? 'disabled' : ''}>
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            `;
+            
+            pagination.innerHTML = paginationHTML;
+        }
+
+        // Mudar página
+        function changePage(page) {
+            const totalPages = Math.ceil(filteredStudents.length / itemsPerPage);
+            if (page >= 1 && page <= totalPages) {
+                currentPage = page;
+                renderTable();
+            }
+        }
+
+        // Filtrar alunos
+        function filterStudents() {
+            const search = document.getElementById('searchInput').value.toLowerCase();
+            const turmaFilter = document.getElementById('turmaFilter').value;
+            const statusFilter = document.getElementById('statusFilter').value;
+            
+            filteredStudents = students.filter(student => {
+                const matchesSearch = student.name.toLowerCase().includes(search) ||
+                                    student.matricula.toLowerCase().includes(search) ||
+                                    (student.email && student.email.toLowerCase().includes(search));
+                
+                const matchesTurma = !turmaFilter || student.turma === turmaFilter;
+                const matchesStatus = !statusFilter || student.status === statusFilter;
+                
+                return matchesSearch && matchesTurma && matchesStatus;
+            });
+            
+            currentPage = 1;
+            renderTable();
+            updateStats();
+        }
+
+        // Limpar filtros
+        function clearFilters() {
+            document.getElementById('searchInput').value = '';
+            document.getElementById('turmaFilter').value = '';
+            document.getElementById('statusFilter').value = '';
+            
+            filteredStudents = [...students];
+            currentPage = 1;
+            renderTable();
+            updateStats();
+        }
+
+        // Atualizar estatísticas
+        function updateStats() {
+            const total = filteredStudents.length;
+            const active = filteredStudents.filter(s => s.status === 'ativo').length;
+            const inactive = filteredStudents.filter(s => s.status === 'inativo').length;
+            
+            document.getElementById('totalStudents').textContent = `${total} aluno${total !== 1 ? 's' : ''}`;
+            document.getElementById('activeStudents').textContent = `${active} ativo${active !== 1 ? 's' : ''}`;
+            document.getElementById('inactiveStudents').textContent = `${inactive} inativo${inactive !== 1 ? 's' : ''}`;
+        }
+
+        // Abrir modal para adicionar
+        function openAddModal() {
+            editingId = null;
+            document.getElementById('modalTitle').textContent = 'Adicionar Aluno';
+            document.getElementById('studentForm').reset();
+            document.getElementById('studentStatus').value = 'ativo';
+            showModal();
+        }
+
+        // Editar aluno
+        function editStudent(id) {
+            const student = students.find(s => s.id === id);
+            if (!student) return;
+            
+            editingId = id;
+            document.getElementById('modalTitle').textContent = 'Editar Aluno';
+            document.getElementById('studentName').value = student.name;
+            document.getElementById('studentMatricula').value = student.matricula;
+            document.getElementById('studentEmail').value = student.email || '';
+            document.getElementById('studentTurma').value = student.turma;
+            document.getElementById('studentStatus').value = student.status;
+            
+            showModal();
+        }
+
+        // Alternar status
+        function toggleStatus(id) {
+            const student = students.find(s => s.id === id);
+            if (!student) return;
+            
+            const newStatus = student.status === 'ativo' ? 'inativo' : 'ativo';
+            const action = newStatus === 'ativo' ? 'ativar' : 'inativar';
+            
+            if (confirm(`Deseja realmente ${action} o aluno ${student.name}?`)) {
+                student.status = newStatus;
+                filterStudents();
+                showNotification(`Aluno ${newStatus === 'ativo' ? 'ativado' : 'inativado'} com sucesso!`, 'success');
+            }
+        }
+
+        // Salvar aluno
+        function saveStudent() {
+            const form = document.getElementById('studentForm');
+            if (!form.checkValidity()) {
+                form.reportValidity();
+                return;
+            }
+            
+            const name = document.getElementById('studentName').value.trim();
+            const matricula = document.getElementById('studentMatricula').value.trim();
+            const email = document.getElementById('studentEmail').value.trim();
+            const turma = document.getElementById('studentTurma').value;
+            const status = document.getElementById('studentStatus').value;
+            
+            // Validar matrícula única
+            const existingStudent = students.find(s => s.matricula === matricula && s.id !== editingId);
+            if (existingStudent) {
+                showNotification('Esta matrícula já está em uso!', 'error');
+                return;
+            }
+            
+            const turmaNames = {
+                '9A': '9° Ano A - CE',
+                '9B': '9° Ano B - JP',
+                '8A': '8° Ano A - CE',
+                '8B': '8° Ano B - JP'
+            };
+            
+            if (editingId) {
+                // Editar
+                const student = students.find(s => s.id === editingId);
+                student.name = name;
+                student.matricula = matricula;
+                student.email = email || null;
+                student.turma = turma;
+                student.turmaName = turmaNames[turma];
+                student.status = status;
+                
+                showNotification('Aluno atualizado com sucesso!', 'success');
+            } else {
+                // Adicionar
+                const newId = Math.max(...students.map(s => s.id)) + 1;
+                students.push({
+                    id: newId,
+                    name: name,
+                    matricula: matricula,
+                    email: email || null,
+                    turma: turma,
+                    turmaName: turmaNames[turma],
+                    status: status
+                });
+                
+                showNotification('Aluno adicionado com sucesso!', 'success');
+            }
+            
+            closeModal();
+            filterStudents();
+        }
+
+        // Mostrar modal
+        function showModal() {
+            const modal = document.getElementById('studentModal');
+            modal.style.display = 'flex';
+            setTimeout(() => modal.classList.add('show'), 10);
+        }
+
+        // Fechar modal
+        function closeModal() {
+            const modal = document.getElementById('studentModal');
+            modal.classList.remove('show');
+            setTimeout(() => modal.style.display = 'none', 300);
+        }
+
+        // Mostrar notificação
+        function showNotification(message, type = 'info') {
+            const existing = document.querySelector('.notification');
+            if (existing) {
+                existing.remove();
+            }
+
+            const notification = document.createElement('div');
+            notification.className = `notification notification-${type}`;
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                padding: 15px 20px;
+                border-radius: 8px;
+                color: white;
+                font-weight: 500;
+                z-index: 10001;
+                animation: slideIn 0.3s ease;
+                max-width: 400px;
+                box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+            `;
+            
+            const colors = {
+                'success': '#28a745',
+                'info': '#17a2b8',
+                'warning': '#ffc107',
+                'error': '#dc3545'
+            };
+            
+            notification.style.background = colors[type] || colors.info;
+            notification.textContent = message;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.animation = 'slideOut 0.3s ease';
+                setTimeout(() => notification.remove(), 300);
+            }, 3000);
+        }
+
+        // Sidebar functions
+        let sidebarCollapsed = false;
+
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const icon = document.getElementById('toggleIcon');
+            
+            sidebarCollapsed = !sidebarCollapsed;
+            
+            if (sidebarCollapsed) {
+                sidebar.classList.add('collapsed');
+                icon.className = 'fas fa-chevron-right';
+                // Fechar todos os submenus quando colapsar
+                document.querySelectorAll('.sub-menu').forEach(menu => {
+                    menu.classList.remove('open');
+                    menu.style.maxHeight = '0';
+                });
+                document.querySelectorAll('.nav-item.expanded').forEach(item => {
+                    item.classList.remove('expanded');
+                });
+            } else {
+                sidebar.classList.remove('collapsed');
+                icon.className = 'fas fa-chevron-left';
+            }
+        }
+
+        // Alternar submenu
+        function toggleSubMenu(item) {
+            if (sidebarCollapsed) return; // Não abrir submenus quando sidebar está colapsada
+            
+            const subMenu = item.nextElementSibling;
+            const chevron = item.querySelector('.chevron');
+            
+            // Fechar outros submenus
+            document.querySelectorAll('.nav-item.expanded').forEach(expandedItem => {
+                if (expandedItem !== item) {
+                    expandedItem.classList.remove('expanded');
+                    expandedItem.nextElementSibling.classList.remove('open');
+                    expandedItem.nextElementSibling.style.maxHeight = '0';
+                }
+            });
+            
+            // Alternar o submenu atual
+            item.classList.toggle('expanded');
+            subMenu.classList.toggle('open');
+            
+            if (subMenu.classList.contains('open')) {
+                subMenu.style.maxHeight = subMenu.scrollHeight + 'px';
+            } else {
+                subMenu.style.maxHeight = '0';
+            }
+        }
+
+        // Fechar modal ao clicar fora
+        document.getElementById('studentModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeModal();
+            }
+        });
+
+        // Adicionar estilos para animações
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideIn {
+                from {
+                    transform: translateX(100%);
+                    opacity: 0;
+                }
+                to {
+                    transform: translateX(0);
+                    opacity: 1;
+                }
+            }
+            
+            @keyframes slideOut {
+                from {
+                    transform: translateX(0);
+                    opacity: 1;
+                }
+                to {
+                    transform: translateX(100%);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>

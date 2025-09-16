@@ -19,7 +19,7 @@
             overflow-x: hidden;
         }
 
-        
+       
         .sidebar {
             position: fixed;
             left: 0;
@@ -58,6 +58,7 @@
             flex-shrink: 0;
             overflow: hidden;
             transition: all 0.3s ease;
+            cursor: pointer;
         }
 
         .seice-logo img {
@@ -215,7 +216,7 @@
         }
 
         .sub-menu.open {
-            max-height: 300px;
+            max-height: 400px;
         }
 
         .sub-menu .nav-item {
@@ -335,7 +336,7 @@
             text-align: right;
         }
 
-        .main-header{
+        .main-header {
             padding: 30px;
             background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
         }
@@ -398,7 +399,7 @@
             padding: 0 30px 20px;
         }
         
-        .tabela-container{
+        .tabela-container {
             background: white;
             margin: 20px auto;
             padding: 25px;
@@ -443,6 +444,9 @@
             font-size: 14px;
             letter-spacing: 0.5px;
             border: none;
+            position: sticky;
+            top: 0;
+            z-index: 10;
         }
 
         tbody td {
@@ -475,7 +479,7 @@
             width: 120px;
         }
 
-        .btn-executar{
+        .btn-executar {
             background: linear-gradient(135deg, #4a90e2 0%, #357abd 100%);
             padding: 8px 16px;
             border: none;
@@ -501,7 +505,7 @@
             transform: translateY(0);
         }
 
-        .a-style{
+        .a-style {
             text-decoration: none;
             color: white;
             display: flex;
@@ -509,48 +513,63 @@
             gap: 6px;
         }
 
-        .main-buttons{
-            position: relative;
-            left: 33%;
+        .main-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
         }
 
-        .import-button{
-            padding: 12px;
+        .import-button {
+            padding: 12px 20px;
             background: linear-gradient(135deg, #3a7bc5 0%, #2e69ad 100%);
             color: #ffffff;
             border: none;
             box-shadow: 1px 1px 8px rgba(0, 0, 0, 0.322);
-            border-radius: 4px;
-            font-size: 1em;
-            transition: background 0.1s, transform 0.1s, box-shadow 0.3s;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s ease;
             cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
         }
 
-        .import-button:hover{
-            transform: translateY(-1px) scale(1.02);
+        .import-button:hover {
+            transform: translateY(-2px) scale(1.02);
             box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+            color: white;
         }
 
-        .add-button{
-            padding: 12px;
+        .add-button {
+            padding: 12px 20px;
             background: linear-gradient(135deg, #27851b 0%, #319923 100%);
             color: #ffffff;
             border: none;
             box-shadow: 1px 1px 8px rgba(0, 0, 0, 0.322);
-            border-radius: 4px;
-            font-size: 1em;
-            transition: background 0.1s, transform 0.1s, box-shadow 0.3s;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s ease;
             cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
         }
 
-        .add-button:hover{
-            transform: translateY(-3px) scale(1.04);
+        .add-button:hover {
+            transform: translateY(-2px) scale(1.02);
             box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+            color: white;
         }
 
-        .btn-acoes{
+        .btn-acoes {
             background: linear-gradient(135deg, #69a8f0 0%, #52a4f7 100%);
-            padding: 8px 8px;
+            padding: 8px 12px;
             border: none;
             color: white;
             border-radius: 6px;
@@ -562,9 +581,151 @@
             display: inline-flex;
             align-items: center;
             gap: 6px;
+            position: relative;
         }
 
-        /* Animações */
+        .btn-acoes:hover {
+            background: linear-gradient(135deg, #4a90e2 0%, #357abd 100%);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(74,144,226,0.3);
+        }
+
+       
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: white;
+            border: 1px solid #e1e5e9;
+            border-radius: 6px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+            min-width: 150px;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+        }
+
+        .dropdown-menu.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 15px;
+            color: #333;
+            text-decoration: none;
+            font-size: 13px;
+            transition: background-color 0.3s ease;
+            border: none;
+            background: none;
+            width: 100%;
+            text-align: left;
+            cursor: pointer;
+        }
+
+        .dropdown-item:hover {
+            background-color: #f8f9fa;
+        }
+
+        .dropdown-item.danger:hover {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+
+        .dropdown-item i {
+            width: 14px;
+            text-align: center;
+        }
+
+     
+        .loading {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .loading::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            animation: loading 1.5s infinite;
+        }
+
+        @keyframes loading {
+            0% {
+                left: -100%;
+            }
+            100% {
+                left: 100%;
+            }
+        }
+
+       
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            z-index: 9999;
+            font-size: 14px;
+            font-weight: 500;
+            transform: translateX(400px);
+            transition: transform 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            max-width: 350px;
+        }
+
+        .notification.success {
+            background: #28a745;
+            color: white;
+        }
+
+        .notification.error {
+            background: #dc3545;
+            color: white;
+        }
+
+        .notification.info {
+            background: #17a2b8;
+            color: white;
+        }
+
+        .notification.warning {
+            background: #ffc107;
+            color: #333;
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
+       
+        .no-results {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+        }
+
+        .no-results i {
+            font-size: 48px;
+            margin-bottom: 15px;
+            opacity: 0.5;
+        }
+
+      
         @keyframes fadeIn {
             from {
                 opacity: 0;
@@ -580,7 +741,7 @@
             animation: fadeIn 0.5s ease-out;
         }
 
-        
+       
         @media (max-width: 768px) {
             .sidebar {
                 width: 100%;
@@ -613,20 +774,71 @@
             }
 
             .search-box {
-                padding: 0;
+                padding: 0 20px;
+                margin: 20px 0;
+            }
+
+            .main-buttons {
+                flex-direction: column;
+                align-items: stretch;
+                padding: 0 20px;
+            }
+
+            .import-button,
+            .add-button {
+                justify-content: center;
+                width: 100%;
+            }
+
+            .tabela-container {
+                margin: 20px;
+                padding: 15px;
+            }
+
+            .table-wrapper {
+                overflow-x: auto;
+            }
+
+            .btn-acoes {
+                padding: 6px 10px;
+                font-size: 12px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .main-h2 {
+                font-size: 24px;
+            }
+
+            .main-p {
+                font-size: 14px;
+            }
+
+            thead th,
+            tbody td {
+                padding: 10px 8px;
+                font-size: 13px;
+            }
+
+            .tabela-container h2 {
+                font-size: 20px;
             }
         }
     </style>
 </head>
 <body>
     <aside class="sidebar" id="sidebar">
-        <button class="toggle-btn" onclick="toggleSidebar()" id="toggleBtn">
+        <button class="toggle-btn" id="toggleBtn">
             <i class="fas fa-chevron-left" id="toggleIcon"></i>
         </button>
         
         <div class="sidebar-header">
-            <div class="seice-logo" onclick="toggleSidebar()">
+            <div class="seice-logo">
                 <img src="../img/image.png" alt="Logo SEICE">
+            </div>
+            <div class="logo-text">
+                <h1>SEICE</h1>
+                <p>Sistema Educacional</p>
             </div>
         </div>
 
@@ -642,7 +854,7 @@
 
             <div class="nav-section">
                 <h3>Avaliações</h3>
-                <div class="nav-item expandable" onclick="toggleSubMenu(this)" data-tooltip="Avaliações">
+                <div class="nav-item expandable" data-tooltip="Avaliações">
                     <i class="fas fa-clipboard-list"></i>
                     <span>AVALIAÇÕES</span>
                     <i class="fas fa-chevron-right chevron"></i>
@@ -679,7 +891,7 @@
 
             <div class="nav-section">
                 <h3>Relatórios</h3>
-                <div class="nav-item expandable" onclick="toggleSubMenu(this)" data-tooltip="Resultados">
+                <div class="nav-item expandable" data-tooltip="Resultados">
                     <i class="fas fa-chart-bar"></i>
                     <span>RESULTADOS</span>
                     <i class="fas fa-chevron-right chevron"></i>
@@ -696,7 +908,7 @@
 
             <div class="nav-section">
                 <h3>Configurações</h3>
-                <div class="nav-item expandable" onclick="toggleSubMenu(this)" data-tooltip="Configuração">
+                <div class="nav-item expandable" data-tooltip="Configuração">
                     <i class="fas fa-cog"></i>
                     <span>CONFIGURAÇÃO</span>
                     <i class="fas fa-chevron-right chevron"></i>
@@ -752,368 +964,800 @@
         <section class="content">
             <div class="main-header">
                 <h2 class="main-h2">Alunos</h2>
-                <p class="main-p">Você consegue controlar e analisar o desempenho individual de cada aluno. </p>
+                <p class="main-p">Você consegue controlar e analisar o desempenho individual de cada aluno.</p>
             </div>
             
             <div class="actions-bar">
                 <div class="search-box">
-                    <input type="text" placeholder="Digite algo que deseja encontrar..." id="searchInput" onkeyup="filterReports()">
+                    <input type="text" placeholder="Digite algo que deseja encontrar..." id="searchInput">
                     <i class="fas fa-search"></i>
                 </div>
-            <div class="main-buttons">
-                <a href="../main-painel/importação-alunos.html">
-                    <button class="import-button">
+                
+                <div class="main-buttons">
+                    <a href="../main-painel/importação-alunos.html" class="import-button">
                         <i class="fa-solid fa-file-import"></i>
                         Importação de Alunos
-                    </button>
-                </a> 
-                <a href="adicionar-aluno">
-                    <button class="add-button">
+                    </a>
+                    <a href="adicionar-aluno" class="add-button">
                         <i class="fa-solid fa-plus"></i>
                         Adição de Alunos
-                    </button>
-                </a>
-            </div>
+                    </a>
+                </div>
                 
                 <div class="tabela-container">
-    <h2><i class="fas fa-file-chart-column"></i>Listagem de Alunos</h2>
-    <div class="table-wrapper">
-        <table id="reportsTable">
-            <thead>
-                <tr>
-                    <th>Nome</th>
-                    <th>Matrícula</th>
-                    <th>E-mail</th>
-                    <th>Turma</th>
-                    <th>Ações</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>João Silva</td>
-                    <td>0120154</td>
-                    <td>joaosilva@seice.com.br</td>
-                    <td>6 ANO / 6001</td>
-                    <td><button class="btn-acoes">Ações ▾</button></td>
-                </tr>
-                <tr>
-                    <td>Júlia Tavares</td>
-                    <td>0549117</td>
-                    <td>juliatavares@seice.com.br</td>
-                    <td>9 ANO / 9002</td>
-                    <td><button class="btn-acoes">Ações ▾</button></td>
-                </tr>
-                <tr>
-                    <td>Gabriela Torres</td>
-                    <td>1243698</td>
-                    <td>gabrielatorres@seice.com.br</td>
-                    <td>5 ANO / 5002</td>
-                    <td><button class="btn-acoes">Ações ▾</button></td>
-                </tr>
-                <tr>
-                    <td>Marcos Augusto</td>
-                    <td>6845784</td>
-                    <td>marcosaugusto@seice.com.br</td>
-                    <td>7 ANO / 7003</td>
-                    <td><button class="btn-acoes">Ações ▾</button></td>
-                </tr>
-                <tr>
-                    <td>Jorge Ferreira</td>
-                    <td>1232112</td>
-                    <td>jorgeferreira@seice.com.br</td>
-                    <td>9 ANO / 9001</td>
-                    <td><button class="btn-acoes">Ações ▾</button></td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-</div>
+                    <h2><i class="fas fa-file-chart-column"></i>Listagem de Alunos</h2>
+                    <div class="table-wrapper">
+                        <table id="reportsTable">
+                            <thead>           
+                                <tr>
+                                    <th>Nome</th>
+                                    <th>Matrícula</th>
+                                    <th>E-mail</th>
+                                    <th>Turma</th>
+                                    <th>Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>João Silva</td>
+                                    <td>0120154</td>
+                                    <td>joaosilva@seice.com.br</td>
+                                    <td>6 ANO / 6001</td>
+                                    <td>
+                                        <div class="dropdown">
+                                            <button class="btn-acoes" data-student-id="1">
+                                                Ações <i class="fas fa-chevron-down"></i>
+                                            </button>
+                                            <div class="dropdown-menu">
+                                                <button class="dropdown-item" data-action="edit">
+                                                    <i class="fas fa-edit"></i>
+                                                    Editar
+                                                </button>
+                                                <button class="dropdown-item" data-action="view">
+                                                    <i class="fas fa-eye"></i>
+                                                    Visualizar
+                                                </button>
+                                                <button class="dropdown-item" data-action="reports">
+                                                    <i class="fas fa-chart-line"></i>
+                                                    Relatórios
+                                                </button>
+                                                <button class="dropdown-item danger" data-action="delete">
+                                                    <i class="fas fa-trash"></i>
+                                                    Excluir
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Júlia Tavares</td>
+                                    <td>0549117</td>
+                                    <td>juliatavares@seice.com.br</td>
+                                    <td>9 ANO / 9002</td>
+                                    <td>
+                                        <div class="dropdown">
+                                            <button class="btn-acoes" data-student-id="2">
+                                                Ações <i class="fas fa-chevron-down"></i>
+                                            </button>
+                                            <div class="dropdown-menu">
+                                                <button class="dropdown-item" data-action="edit">
+                                                    <i class="fas fa-edit"></i>
+                                                    Editar
+                                                </button>
+                                                <button class="dropdown-item" data-action="view">
+                                                    <i class="fas fa-eye"></i>
+                                                    Visualizar
+                                                </button>
+                                                <button class="dropdown-item" data-action="reports">
+                                                    <i class="fas fa-chart-line"></i>
+                                                    Relatórios
+                                                </button>
+                                                <button class="dropdown-item danger" data-action="delete">
+                                                    <i class="fas fa-trash"></i>
+                                                    Excluir
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Gabriela Torres</td>
+                                    <td>1243698</td>
+                                    <td>gabrielatorres@seice.com.br</td>
+                                    <td>5 ANO / 5002</td>
+                                    <td>
+                                        <div class="dropdown">
+                                            <button class="btn-acoes" data-student-id="3">
+                                                Ações <i class="fas fa-chevron-down"></i>
+                                            </button>
+                                            <div class="dropdown-menu">
+                                                <button class="dropdown-item" data-action="edit">
+                                                    <i class="fas fa-edit"></i>
+                                                    Editar
+                                                </button>
+                                                <button class="dropdown-item" data-action="view">
+                                                    <i class="fas fa-eye"></i>
+                                                    Visualizar
+                                                </button>
+                                                <button class="dropdown-item" data-action="reports">
+                                                    <i class="fas fa-chart-line"></i>
+                                                    Relatórios
+                                                </button>
+                                                <button class="dropdown-item danger" data-action="delete">
+                                                    <i class="fas fa-trash"></i>
+                                                    Excluir
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Marcos Augusto</td>
+                                    <td>6845784</td>
+                                    <td>marcosaugusto@seice.com.br</td>
+                                    <td>7 ANO / 7003</td>
+                                    <td>
+                                        <div class="dropdown">
+                                            <button class="btn-acoes" data-student-id="4">
+                                                Ações <i class="fas fa-chevron-down"></i>
+                                            </button>
+                                            <div class="dropdown-menu">
+                                                <button class="dropdown-item" data-action="edit">
+                                                    <i class="fas fa-edit"></i>
+                                                    Editar
+                                                </button>
+                                                <button class="dropdown-item" data-action="view">
+                                                    <i class="fas fa-eye"></i>
+                                                    Visualizar
+                                                </button>
+                                                <button class="dropdown-item" data-action="reports">
+                                                    <i class="fas fa-chart-line"></i>
+                                                    Relatórios
+                                                </button>
+                                                <button class="dropdown-item danger" data-action="delete">
+                                                    <i class="fas fa-trash"></i>
+                                                    Excluir
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Jorge Ferreira</td>
+                                    <td>1232112</td>
+                                    <td>jorgeferreira@seice.com.br</td>
+                                    <td>9 ANO / 9001</td>
+                                    <td>
+                                        <div class="dropdown">
+                                            <button class="btn-acoes" data-student-id="5">
+                                                Ações <i class="fas fa-chevron-down"></i>
+                                            </button>
+                                            <div class="dropdown-menu">
+                                                <button class="dropdown-item" data-action="edit">
+                                                    <i class="fas fa-edit"></i>
+                                                    Editar
+                                                </button>
+                                                <button class="dropdown-item" data-action="view">
+                                                    <i class="fas fa-eye"></i>
+                                                    Visualizar
+                                                </button>
+                                                <button class="dropdown-item" data-action="reports">
+                                                    <i class="fas fa-chart-line"></i>
+                                                    Relatórios
+                                                </button>
+                                                <button class="dropdown-item danger" data-action="delete">
+                                                    <i class="fas fa-trash"></i>
+                                                    Excluir
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
         </section>
     </main>
 
     <script>
        
-        function toggleSidebar() {
-            const sidebar = document.getElementById('sidebar');
-            const toggleIcon = document.getElementById('toggleIcon');
-            
-            sidebar.classList.toggle('collapsed');
-            
-            if (sidebar.classList.contains('collapsed')) {
-                toggleIcon.classList.remove('fa-chevron-left');
-                toggleIcon.classList.add('fa-chevron-right');
-            } else {
-                toggleIcon.classList.remove('fa-chevron-right');
-                toggleIcon.classList.add('fa-chevron-left');
+        class SEICEStudentManager {
+            constructor() {
+                this.students = [
+                    { id: 1, name: 'João Silva', registration: '0120154', email: 'joaosilva@seice.com.br', class: '6 ANO / 6001' },
+                    { id: 2, name: 'Júlia Tavares', registration: '0549117', email: 'juliatavares@seice.com.br', class: '9 ANO / 9002' },
+                    { id: 3, name: 'Gabriela Torres', registration: '1243698', email: 'gabrielatorres@seice.com.br', class: '5 ANO / 5002' },
+                    { id: 4, name: 'Marcos Augusto', registration: '6845784', email: 'marcosaugusto@seice.com.br', class: '7 ANO / 7003' },
+                    { id: 5, name: 'Jorge Ferreira', registration: '1232112', email: 'jorgeferreira@seice.com.br', class: '9 ANO / 9001' }
+                ];
+                this.filteredStudents = [...this.students];
+                this.currentDropdown = null;
+                this.searchTimeout = null;
+                this.placeholders = [
+                    'Digite o nome do aluno...',
+                    'Buscar por matrícula...',
+                    'Procurar aluno...',
+                    'Digite algo que deseja encontrar...'
+                ];
+                this.currentPlaceholderIndex = 0;
+                
+                this.init();
             }
-        }
 
-        function toggleSubMenu(element) {
-            const subMenu = element.nextElementSibling;
-            const chevron = element.querySelector('.chevron');
-            
-            
-            const allSubMenus = document.querySelectorAll('.sub-menu');
-            const allExpandableItems = document.querySelectorAll('.expandable');
-            
-            allSubMenus.forEach(menu => {
-                if (menu !== subMenu) {
-                    menu.classList.remove('open');
-                }
-            });
-            
-            allExpandableItems.forEach(item => {
-                if (item !== element) {
-                    item.classList.remove('expanded');
-                }
-            });
-            
-          
-            subMenu.classList.toggle('open');
-            element.classList.toggle('expanded');
-        }
+            init() {
+                this.setupEventListeners();
+                this.setupSidebar();
+                this.setupSearch();
+                this.setupDropdowns();
+                this.setupKeyboardShortcuts();
+                this.startPlaceholderRotation();
+                this.markActiveNavItem();
+            }
 
-        
-        function filterReports() {
-            const input = document.getElementById('searchInput');
-            const filter = input.value.toLowerCase();
-            const table = document.getElementById('reportsTable');
-            const rows = table.getElementsByTagName('tr');
+           
+            setupSidebar() {
+                const toggleBtn = document.getElementById('toggleBtn');
+                const sidebar = document.getElementById('sidebar');
+                const toggleIcon = document.getElementById('toggleIcon');
 
-            for (let i = 1; i < rows.length; i++) {
-                const td = rows[i].getElementsByTagName('td')[0];
-                if (td) {
-                    const txtValue = td.textContent || td.innerText;
-                    if (txtValue.toLowerCase().indexOf(filter) > -1) {
-                        rows[i].style.display = '';
+                toggleBtn?.addEventListener('click', () => {
+                    if (window.innerWidth <= 768) {
+                        sidebar.classList.toggle('mobile-open');
                     } else {
-                        rows[i].style.display = 'none';
+                        this.toggleSidebar();
                     }
+                });
+
+              
+                this.openActiveSubmenu();
+            }
+
+            toggleSidebar() {
+                const sidebar = document.getElementById('sidebar');
+                const toggleIcon = document.getElementById('toggleIcon');
+                
+                sidebar.classList.toggle('collapsed');
+                
+                if (sidebar.classList.contains('collapsed')) {
+                    toggleIcon.classList.remove('fa-chevron-left');
+                    toggleIcon.classList.add('fa-chevron-right');
+                } else {
+                    toggleIcon.classList.remove('fa-chevron-right');
+                    toggleIcon.classList.add('fa-chevron-left');
                 }
             }
-        }
 
-        // executar relatório
-        function executeReport(reportType) {
-            // simulação de execução do relatório
-            const button = event.target.closest('.btn-executar');
-            const originalContent = button.innerHTML;
+            setupSubMenus() {
+                const expandableItems = document.querySelectorAll('.nav-item.expandable');
+                
+                expandableItems.forEach(item => {
+                    item.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        this.toggleSubMenu(item);
+                    });
+                });
+            }
+
+            toggleSubMenu(element) {
+                const subMenu = element.nextElementSibling;
+                const chevron = element.querySelector('.chevron');
+                
+              
+                const allSubMenus = document.querySelectorAll('.sub-menu');
+                const allExpandableItems = document.querySelectorAll('.expandable');
+                
+                allSubMenus.forEach(menu => {
+                    if (menu !== subMenu) {
+                        menu.classList.remove('open');
+                    }
+                });
+                
+                allExpandableItems.forEach(item => {
+                    if (item !== element) {
+                        item.classList.remove('expanded');
+                    }
+                });
+                
+              
+                subMenu.classList.toggle('open');
+                element.classList.toggle('expanded');
+            }
+
+            openActiveSubmenu() {
+                const activeItem = document.querySelector('.nav-item.active');
+                if (activeItem && activeItem.closest('.sub-menu')) {
+                    const parentSubMenu = activeItem.closest('.sub-menu');
+                    const parentExpandable = parentSubMenu.previousElementSibling;
+                    
+                    parentSubMenu.classList.add('open');
+                    parentExpandable.classList.add('expanded');
+                }
+            }
+
+            markActiveNavItem() {
+                const currentPath = window.location.pathname;
+                const navItems = document.querySelectorAll('.nav-item[href]');
+                
+                navItems.forEach(item => {
+                    const href = item.getAttribute('href');
+                    if (href && currentPath.includes(href.split('/').pop())) {
+                        item.classList.add('active');
+                    }
+                });
+            }
+
             
-            button.innerHTML = '<i class="fas fa-spinner fa-spin"></i>Processando...';
-            button.disabled = true;
-            
-            setTimeout(() => {
-                button.innerHTML = '<i class="fas fa-check"></i>Concluído';
-                button.style.background = 'linear-gradient(135deg, #28a745, #20c997)';
+            setupSearch() {
+                const searchInput = document.getElementById('searchInput');
+                
+                searchInput?.addEventListener('input', (e) => {
+                    clearTimeout(this.searchTimeout);
+                    this.searchTimeout = setTimeout(() => {
+                        this.performSearch(e.target.value);
+                    }, 300);
+                });
+
+                searchInput?.addEventListener('keydown', (e) => {
+                    if (e.key === 'Escape') {
+                        this.clearSearch();
+                    }
+                });
+            }
+
+            performSearch(query) {
+                const searchTerm = query.toLowerCase().trim();
+                const tableBody = document.querySelector('#reportsTable tbody');
+                const rows = tableBody.querySelectorAll('tr:not(.no-results)');
+                
+                
+                const existingNoResults = tableBody.querySelector('.no-results');
+                if (existingNoResults) {
+                    existingNoResults.remove();
+                }
+
+                let visibleCount = 0;
+
+                rows.forEach(row => {
+                    const cells = row.querySelectorAll('td');
+                    const text = Array.from(cells).slice(0, -1) 
+                        .map(cell => cell.textContent.toLowerCase())
+                        .join(' ');
+                    
+                    if (searchTerm === '' || text.includes(searchTerm)) {
+                        row.style.display = '';
+                        row.style.animation = 'fadeIn 0.3s ease-out';
+                        visibleCount++;
+                    } else {
+                        row.style.display = 'none';
+                    }
+                });
+
+                if (visibleCount === 0 && searchTerm !== '') {
+                    this.showNoResults(searchTerm);
+                }
+
+               
+                this.updateFilteredStudents(searchTerm);
+            }
+
+            updateFilteredStudents(searchTerm) {
+                if (searchTerm === '') {
+                    this.filteredStudents = [...this.students];
+                } else {
+                    this.filteredStudents = this.students.filter(student => {
+                        const searchString = `${student.name} ${student.registration} ${student.email} ${student.class}`.toLowerCase();
+                        return searchString.includes(searchTerm.toLowerCase());
+                    });
+                }
+            }
+
+            showNoResults(searchTerm) {
+                const tableBody = document.querySelector('#reportsTable tbody');
+                const noResultsRow = document.createElement('tr');
+                noResultsRow.classList.add('no-results');
+                noResultsRow.innerHTML = `
+                    <td colspan="5" class="no-results">
+                        <i class="fas fa-search"></i>
+                        <h3>Nenhum aluno encontrado</h3>
+                        <p>Não encontramos resultados para "<strong>${searchTerm}</strong>"</p>
+                        <small>Tente pesquisar por nome, matrícula, email ou turma</small>
+                    </td>
+                `;
+                tableBody.appendChild(noResultsRow);
+            }
+
+            clearSearch() {
+                const searchInput = document.getElementById('searchInput');
+                if (searchInput) {
+                    searchInput.value = '';
+                    this.performSearch('');
+                    searchInput.blur();
+                }
+            }
+
+            startPlaceholderRotation() {
+                const searchInput = document.getElementById('searchInput');
+                if (!searchInput) return;
+
+                setInterval(() => {
+                    if (!searchInput.value && document.activeElement !== searchInput) {
+                        searchInput.placeholder = this.placeholders[this.currentPlaceholderIndex];
+                        this.currentPlaceholderIndex = (this.currentPlaceholderIndex + 1) % this.placeholders.length;
+                    }
+                }, 3000);
+            }
+
+         
+            setupDropdowns() {
+                const dropdownButtons = document.querySelectorAll('.btn-acoes');
+                
+                dropdownButtons.forEach(button => {
+                    button.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        this.toggleDropdown(button);
+                    });
+                });
+
+                
+                document.addEventListener('click', (e) => {
+                    if (e.target.classList.contains('dropdown-item')) {
+                        const action = e.target.getAttribute('data-action');
+                        const button = e.target.closest('.dropdown').querySelector('.btn-acoes');
+                        const studentId = button.getAttribute('data-student-id');
+                        this.handleDropdownAction(action, studentId, e.target);
+                    }
+                });
+
+                
+                document.addEventListener('click', (e) => {
+                    if (!e.target.closest('.dropdown')) {
+                        this.closeAllDropdowns();
+                    }
+                });
+            }
+
+            toggleDropdown(button) {
+                const dropdown = button.closest('.dropdown');
+                const menu = dropdown.querySelector('.dropdown-menu');
+                
+              
+                this.closeAllDropdowns();
+                
+                
+                menu.classList.toggle('show');
+                this.currentDropdown = menu.classList.contains('show') ? menu : null;
+                
+             
+                const icon = button.querySelector('i');
+                if (menu.classList.contains('show')) {
+                    icon.classList.remove('fa-chevron-down');
+                    icon.classList.add('fa-chevron-up');
+                } else {
+                    icon.classList.remove('fa-chevron-up');
+                    icon.classList.add('fa-chevron-down');
+                }
+            }
+
+            closeAllDropdowns() {
+                const dropdowns = document.querySelectorAll('.dropdown-menu');
+                const buttons = document.querySelectorAll('.btn-acoes');
+                
+                dropdowns.forEach(dropdown => {
+                    dropdown.classList.remove('show');
+                });
+                
+                buttons.forEach(button => {
+                    const icon = button.querySelector('i');
+                    icon.classList.remove('fa-chevron-up');
+                    icon.classList.add('fa-chevron-down');
+                });
+                
+                this.currentDropdown = null;
+            }
+
+            handleDropdownAction(action, studentId, element) {
+                const student = this.students.find(s => s.id == studentId);
+                if (!student) return;
+
+                this.closeAllDropdowns();
+
+                switch (action) {
+                    case 'edit':
+                        this.editStudent(student);
+                        break;
+                    case 'view':
+                        this.viewStudent(student);
+                        break;
+                    case 'reports':
+                        this.viewStudentReports(student);
+                        break;
+                    case 'delete':
+                        this.deleteStudent(student, element);
+                        break;
+                    default:
+                        console.log('Unknown action:', action);
+                }
+            }
+
+          
+            editStudent(student) {
+                this.showNotification(`Editando aluno: ${student.name}`, 'info');
+             
+                setTimeout(() => {
+                    console.log('Redirecting to edit page for student:', student.id);
+                    
+                }, 1000);
+            }
+
+            viewStudent(student) {
+                this.showNotification(`Visualizando perfil de: ${student.name}`, 'info');
+              
+                setTimeout(() => {
+                    console.log('Viewing student profile:', student.id);
+                    // window.location.href = `perfil-aluno.html?id=${student.id}`;
+                }, 1000);
+            }
+
+            viewStudentReports(student) {
+                this.showNotification(`Carregando relatórios de: ${student.name}`, 'info');
+               
+                setTimeout(() => {
+                    console.log('Loading reports for student:', student.id);
+                    // window.location.href = `relatorios-aluno.html?id=${student.id}`;
+                }, 1000);
+            }
+
+            deleteStudent(student, element) {
+                
+                const originalContent = element.innerHTML;
+                element.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Excluindo...';
+                element.disabled = true;
+
+                this.showNotification(`Confirmando exclusão de: ${student.name}`, 'warning');
+                
+               
+                setTimeout(() => {
+                    if (confirm(`Tem certeza que deseja excluir o aluno "${student.name}"?\n\nEsta ação não pode ser desfeita.`)) {
+                      
+                        element.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processando...';
+                        
+                        setTimeout(() => {
+                           
+                            const index = this.students.findIndex(s => s.id === student.id);
+                            if (index > -1) {
+                                this.students.splice(index, 1);
+                            }
+                         
+                            const row = element.closest('tr');
+                            row.style.animation = 'fadeOut 0.3s ease-out';
+                            
+                            setTimeout(() => {
+                                row.remove();
+                                this.showNotification(`Aluno "${student.name}" excluído com sucesso!`, 'success');
+                                this.updateFilteredStudents('');
+                            }, 300);
+                        }, 1500);
+                    } else {
+                        
+                        element.innerHTML = originalContent;
+                        element.disabled = false;
+                        this.showNotification('Exclusão cancelada', 'info');
+                    }
+                }, 500);
+            }
+
+           
+            showNotification(message, type = 'info') {
+             
+                const existingNotifications = document.querySelectorAll('.notification');
+                existingNotifications.forEach(notification => {
+                    notification.remove();
+                });
+
+                const notification = document.createElement('div');
+                notification.className = `notification ${type}`;
+                
+                const icons = {
+                    success: 'fa-check-circle',
+                    error: 'fa-exclamation-circle',
+                    warning: 'fa-exclamation-triangle',
+                    info: 'fa-info-circle'
+                };
+
+                notification.innerHTML = `
+                    <i class="fas ${icons[type] || icons.info}"></i>
+                    <span>${message}</span>
+                `;
+
+                document.body.appendChild(notification);
+
                 
                 setTimeout(() => {
-                    button.innerHTML = originalContent;
-                    button.disabled = false;
-                    button.style.background = 'linear-gradient(135deg, #4a90e2 0%, #357abd 100%)';
+                    notification.classList.add('show');
+                }, 100);
+
+              
+                setTimeout(() => {
+                    notification.classList.remove('show');
+                    setTimeout(() => {
+                        if (notification.parentNode) {
+                            notification.remove();
+                        }
+                    }, 300);
+                }, 4000);
+            }
+
+          
+            setupKeyboardShortcuts() {
+                document.addEventListener('keydown', (e) => {
+                
+                    if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+                        e.preventDefault();
+                        const searchInput = document.getElementById('searchInput');
+                        if (searchInput) {
+                            searchInput.focus();
+                            searchInput.select();
+                        }
+                    }
+
+                  
+                    if (e.key === 'Escape') {
+                        this.clearSearch();
+                        this.closeAllDropdowns();
+                    }
+
                     
-                    // aqui vou adicionar a lógica real para executar o relatório
-                    console.log(`Executando relatório: ${reportType}`);
-                }, 2000);
-            }, 1500);
+                    if ((e.ctrlKey || e.metaKey) && e.key === 'n') {
+                        e.preventDefault();
+                        this.showNotification('Atalho para novo aluno ativado! (Ctrl+N)', 'info');
+                    }
+                });
+            }
+
+           
+            setupEventListeners() {
+               
+                window.addEventListener('resize', () => {
+                    const sidebar = document.getElementById('sidebar');
+                    if (window.innerWidth > 768) {
+                        sidebar.classList.remove('mobile-open');
+                    }
+                });
+
+                
+                this.setupSubMenus();
+
+              
+                this.setupTableEffects();
+            }
+
+            setupTableEffects() {
+                const tableRows = document.querySelectorAll('#reportsTable tbody tr');
+                
+                tableRows.forEach(row => {
+                    row.addEventListener('mouseenter', () => {
+                        row.style.transform = 'translateX(4px)';
+                    });
+                    
+                    row.addEventListener('mouseleave', () => {
+                        row.style.transform = 'translateX(0)';
+                    });
+                });
+            }
+
+         
+            exportStudents(format = 'csv') {
+                const data = this.filteredStudents.map(student => ({
+                    'Nome': student.name,
+                    'Matrícula': student.registration,
+                    'E-mail': student.email,
+                    'Turma': student.class
+                }));
+
+                if (format === 'csv') {
+                    this.exportToCSV(data, 'alunos_seice.csv');
+                } else if (format === 'json') {
+                    this.exportToJSON(data, 'alunos_seice.json');
+                }
+
+                this.showNotification(`Exportação ${format.toUpperCase()} realizada com sucesso!`, 'success');
+            }
+
+            exportToCSV(data, filename) {
+                const headers = Object.keys(data[0]);
+                const csv = [
+                    headers.join(','),
+                    ...data.map(row => headers.map(header => `"${row[header]}"`).join(','))
+                ].join('\n');
+
+                this.downloadFile(csv, filename, 'text/csv');
+            }
+
+            exportToJSON(data, filename) {
+                const json = JSON.stringify(data, null, 2);
+                this.downloadFile(json, filename, 'application/json');
+            }
+
+            downloadFile(content, filename, contentType) {
+                const blob = new Blob([content], { type: contentType });
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = filename;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                window.URL.revokeObjectURL(url);
+            }
+
+          
+            bulkActions() {
+                
+                console.log('Bulk actions feature - to be implemented');
+            }
+
+            filterByClass(className) {
+                const searchInput = document.getElementById('searchInput');
+                if (searchInput) {
+                    searchInput.value = className;
+                    this.performSearch(className);
+                }
+            }
+
+            sortTable(columnIndex, direction = 'asc') {
+                
+                console.log(`Sorting by column ${columnIndex} in ${direction} order`);
+            }
         }
 
        
-        document.addEventListener('DOMContentLoaded', function() {
-            // marcar o item atual como ativo
-            const currentPath = window.location.pathname;
-            const navItems = document.querySelectorAll('.nav-item');
-            
-            navItems.forEach(item => {
-                if (item.getAttribute('href') === currentPath) {
-                    item.classList.add('active');
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes fadeOut {
+                from {
+                    opacity: 1;
+                    transform: translateY(0);
                 }
-            });
-
-            // auto-abrir o submenu que contém o item ativo
-            const activeItem = document.querySelector('.nav-item.active');
-            if (activeItem && activeItem.closest('.sub-menu')) {
-                const parentSubMenu = activeItem.closest('.sub-menu');
-                const parentExpandable = parentSubMenu.previousElementSibling;
-                
-                parentSubMenu.classList.add('open');
-                parentExpandable.classList.add('expanded');
-            }
-
-            // adicionado efeito de digitação no placeholder
-            const searchInput = document.getElementById('searchInput');
-            const placeholders = [
-                'Digite algo que deseja encontrar...',
-                'Buscar por relatório...',
-                'Encontre seu relatório...'
-            ];
-            let placeholderIndex = 0;
-            
-            setInterval(() => {
-                if (!searchInput.value) {
-                    searchInput.placeholder = placeholders[placeholderIndex];
-                    placeholderIndex = (placeholderIndex + 1) % placeholders.length;
-                }
-            }, 3000);
-        });
-
-        // função para fechar sidebar em dispositivos móveis ao clicar fora
-        document.addEventListener('click', function(event) {
-            const sidebar = document.getElementById('sidebar');
-            const toggleBtn = document.getElementById('toggleBtn');
-            
-            if (window.innerWidth <= 768) {
-                if (!sidebar.contains(event.target) && !toggleBtn.contains(event.target)) {
-                    sidebar.classList.remove('mobile-open');
+                to {
+                    opacity: 0;
+                    transform: translateY(-10px);
                 }
             }
-        });
+        `;
+        document.head.appendChild(style);
 
-        // responsividade - ajustar comportamento da sidebar em mobile
-        window.addEventListener('resize', function() {
-            const sidebar = document.getElementById('sidebar');
+    
+        document.addEventListener('DOMContentLoaded', () => {
+            const seiceManager = new SEICEStudentManager();
             
-            if (window.innerWidth > 768) {
-                sidebar.classList.remove('mobile-open');
-            }
-        });
-
-        // função para mobile toggle
-        function mobileToggleSidebar() {
-            if (window.innerWidth <= 768) {
-                const sidebar = document.getElementById('sidebar');
-                sidebar.classList.toggle('mobile-open');
-            } else {
-                toggleSidebar();
-            }
-        }
-
-        // atualiza o evento do botão toggle para funcionar em mobile
-        document.getElementById('toggleBtn').onclick = mobileToggleSidebar;
-
-      
-        document.querySelectorAll('.btn-executar').forEach(button => {
-            button.addEventListener('mouseenter', function() {
-                this.style.transform = 'translateY(-2px) scale(1.02)';
-            });
             
-            button.addEventListener('mouseleave', function() {
-                this.style.transform = 'translateY(0) scale(1)';
-            });
-        });
-
-        // função para mostrar notificação (pode ser usada para feedback do usuário)
-        function showNotification(message, type = 'success') {
-            const notification = document.createElement('div');
-            notification.style.cssText = `
-                position: fixed;
-                top: 20px;
-                right: 20px;
-                padding: 15px 20px;
-                background: ${type === 'success' ? '#28a745' : type === 'error' ? '#dc3545' : '#17a2b8'};
-                color: white;
-                border-radius: 8px;
-                box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-                z-index: 9999;
-                font-size: 14px;
-                font-weight: 500;
-                transform: translateX(400px);
-                transition: transform 0.3s ease;
-            `;
-            notification.textContent = message;
+            window.SEICE = seiceManager;
             
-            document.body.appendChild(notification);
-            
-            setTimeout(() => {
-                notification.style.transform = 'translateX(0)';
-            }, 100);
-            
-            setTimeout(() => {
-                notification.style.transform = 'translateX(400px)';
-                setTimeout(() => {
-                    document.body.removeChild(notification);
-                }, 300);
-            }, 3000);
-        }
-
-        // melhorada a função executeReport com notificações
-        function executeReport(reportType) {
-            const button = event.target.closest('.btn-executar');
-            const originalContent = button.innerHTML;
-            const reportName = button.closest('tr').querySelector('td').textContent;
-            
-            button.innerHTML = '<i class="fas fa-spinner fa-spin"></i>Processando...';
-            button.disabled = true;
-            button.style.background = 'linear-gradient(135deg, #ffc107, #e0a800)';
-            
-            showNotification(`Iniciando processamento: ${reportName}`, 'info');
-            
-            setTimeout(() => {
-                button.innerHTML = '<i class="fas fa-check"></i>Concluído';
-                button.style.background = 'linear-gradient(135deg, #28a745, #20c997)';
-                
-                showNotification(`Relatório "${reportName}" gerado com sucesso!`, 'success');
-                
-                setTimeout(() => {
-                    button.innerHTML = originalContent;
-                    button.disabled = false;
-                    button.style.background = 'linear-gradient(135deg, #4a90e2 0%, #357abd 100%)';
-                }, 2000);
-            }, 1500);
-        }
-
-        // adicionada funcionalidade de busca em tempo real
-        document.getElementById('searchInput').addEventListener('input', function() {
-            filterReports();
-            
-            const table = document.getElementById('reportsTable');
-            const visibleRows = Array.from(table.querySelectorAll('tbody tr')).filter(row => 
-                row.style.display !== 'none'
-            );
-            
-            if (visibleRows.length === 0 && this.value.trim() !== '') {
-                if (!document.getElementById('no-results')) {
-                    const noResultsRow = document.createElement('tr');
-                    noResultsRow.id = 'no-results';
-                    noResultsRow.innerHTML = `
-                        <td colspan="2" style="text-align: center; padding: 30px; color: #666; font-style: italic;">
-                            <i class="fas fa-search" style="font-size: 24px; margin-bottom: 10px; display: block;"></i>
-                            Nenhum relatório encontrado para "${this.value}"
-                        </td>
-                    `;
-                    table.querySelector('tbody').appendChild(noResultsRow);
-                }
-            } else {
-                const noResultsRow = document.getElementById('no-results');
-                if (noResultsRow) {
-                    noResultsRow.remove();
-                }
-            }
-        });
-
-        // Função para limpar busca
-        function clearSearch() {
-            document.getElementById('searchInput').value = '';
-            filterReports();
-            const noResultsRow = document.getElementById('no-results');
-            if (noResultsRow) {
-                noResultsRow.remove();
-            }
-        }
-
-        // Atalhos de teclado
-        document.addEventListener('keydown', function(event) {
            
-            if (event.ctrlKey && event.key === 'k') {
-                event.preventDefault();
-                document.getElementById('searchInput').focus();
-            }
-            
-            
-            if (event.key === 'Escape') {
-                clearSearch();
-                document.getElementById('searchInput').blur();
-            }
+            setTimeout(() => {
+                seiceManager.showNotification('Sistema SEICE carregado com sucesso!', 'success');
+            }, 1000);
         });
+
+       
+        function toggleSidebar() {
+            if (window.SEICE) {
+                window.SEICE.toggleSidebar();
+            }
+        }
+
+        function filterReports() {
+            
+            console.log('filterReports agora é tratado automaticamente pelo sistema de busca');
+        }
+
+        function executeReport(reportType) {
+            if (window.SEICE) {
+                window.SEICE.showNotification(`Executando relatório: ${reportType}`, 'info');
+            }
+        }
     </script>
 </body>
 </html>

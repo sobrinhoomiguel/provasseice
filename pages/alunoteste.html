@@ -19,7 +19,7 @@
             overflow-x: hidden;
         }
 
-        /* Sidebar Styles */
+ 
         .sidebar {
             position: fixed;
             left: 0;
@@ -157,7 +157,7 @@
             transform: scale(1.1);
         }
 
-        /* Main Content */
+         
         .main-content {
             margin-left: 280px;
             transition: margin-left 0.3s ease;
@@ -219,7 +219,6 @@
             text-align: right;
         }
 
-        /* Page Content */
         .page-content {
             padding: 30px;
         }
@@ -258,7 +257,8 @@
             box-shadow: 0 4px 15px rgba(74, 144, 226, 0.4);
         }
 
-        /* Filters */
+    
+    
         .filters {
             background: white;
             padding: 20px;
@@ -317,7 +317,7 @@
             background: #5a6268;
         }
 
-        /* Students Table */
+       
         .students-table {
             background: white;
             border-radius: 12px;
@@ -418,7 +418,7 @@
             letter-spacing: 0.5px;
         }
 
-        /* Status */
+      
         .status-badge {
             padding: 6px 12px;
             border-radius: 20px;
@@ -439,7 +439,7 @@
             color: #721c24;
         }
 
-        /* Action Buttons */
+       
         .actions {
             display: flex;
             gap: 8px;
@@ -488,7 +488,7 @@
             background: #218838;
         }
 
-        /* Modal Styles */
+        
         .modal {
             display: none;
             position: fixed;
@@ -614,7 +614,7 @@
             cursor: pointer;
         }
 
-        /* Empty State */
+       
         .empty-state {
             text-align: center;
             padding: 60px 20px;
@@ -636,7 +636,6 @@
             font-size: 14px;
         }
 
-        /* Pagination */
         .pagination {
             display: flex;
             justify-content: center;
@@ -672,7 +671,7 @@
             cursor: not-allowed;
         }
 
-        /* Responsive */
+      
         @media (max-width: 768px) {
             .sidebar {
                 transform: translateX(-100%);
@@ -710,7 +709,7 @@
             }
         }
 
-        /* Animations */
+        
         @keyframes fadeInUp {
             from {
                 opacity: 0;
@@ -728,7 +727,7 @@
     </style>
 </head>
 <body>
-    <!-- Sidebar -->
+    
     <aside class="sidebar" id="sidebar">
         <button class="toggle-btn" onclick="toggleSidebar()">
             <i class="fas fa-chevron-left" id="toggleIcon"></i>
@@ -826,9 +825,9 @@
         </nav>
     </aside>
 
-    <!-- Main Content -->
+  
     <main class="main-content">
-        <!-- Header -->
+      
         <header class="header">
             <div class="breadcrumb">
                 <i class="fas fa-home"></i>
@@ -844,7 +843,6 @@
             </div>
         </header>
 
-        <!-- Page Content -->
         <div class="page-content">
             <div class="page-title">
                 <h1>Gerenciamento de Alunos</h1>
@@ -854,7 +852,7 @@
                 </button>
             </div>
 
-            <!-- Filters -->
+        
             <div class="filters">
                 <div class="filter-row">
                     <div class="filter-group">
@@ -888,7 +886,7 @@
                 </div>
             </div>
 
-            <!-- Students Table -->
+           
             <div class="students-table">
                 <div class="table-header">
                     <h3>Lista de Alunos</h3>

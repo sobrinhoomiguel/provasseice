@@ -1,6 +1,6 @@
 <?php
 // config.php - configuração do banco de dados e sistema
-
+require_once '../../../backend/config.php';
 
 define('DB_HOST', 'localhost');
 define('DB_NAME', 'seice_simulado');

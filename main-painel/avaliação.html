@@ -1,0 +1,1123 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <title>Criar Avaliação - Provas SEICE</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f8f9fa;
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 280px;
+            height: 100vh;
+            background: linear-gradient(180deg, #1e3a5f 0%, #2c4f73 100%);
+            color: white;
+            transition: all 0.3s ease;
+            z-index: 1000;
+            box-shadow: 4px 0 20px rgba(0,0,0,0.1);
+        }
+
+        .sidebar.collapsed {
+            width: 70px;
+        }
+
+        .sidebar-header {
+            padding: 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            position: relative;
+            min-height: 80px;
+        }
+
+        .seice-logo {
+            width: 40px;
+            height: 40px;
+            background: white;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .seice-logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .sidebar.collapsed .seice-logo {
+            width: 35px;
+            height: 35px;
+        }
+
+        .logo-text {
+            transition: all 0.3s ease;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+
+        .sidebar.collapsed .logo-text {
+            width: 0;
+            opacity: 0;
+        }
+
+        .logo-text h1 {
+            font-size: 20px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            margin-bottom: 2px;
+        }
+
+        .logo-text p {
+            font-size: 11px;
+            opacity: 0.8;
+            font-weight: 400;
+        }
+
+        .nav-menu {
+            padding: 20px 0;
+            overflow: hidden;
+            height: calc(100vh - 120px);
+            overflow-y: auto;
+        }
+
+        .nav-menu::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .nav-menu::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .nav-menu::-webkit-scrollbar-thumb {
+            background: rgba(255,255,255,0.3);
+            border-radius: 2px;
+        }
+
+        .nav-section {
+            margin-bottom: 25px;
+        }
+
+        .nav-section h3 {
+            padding: 0 20px 10px;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            opacity: 0.7;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+
+        .sidebar.collapsed .nav-section h3 {
+            opacity: 0;
+            height: 0;
+            padding: 0;
+            margin: 0;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            background: none;
+            color: white;
+            width: 100%;
+            text-align: left;
+            position: relative;
+            overflow: hidden;
+            text-decoration: none;
+        }
+
+        .nav-item:hover {
+            background: rgba(255,255,255,0.1);
+            color: white;
+            transform: translateX(2px);
+        }
+
+        .nav-item.active {
+            background: rgba(255,255,255,0.15);
+            border-right: 3px solid #4a90e2;
+        }
+
+        .nav-item i {
+            width: 20px;
+            font-size: 16px;
+            margin-right: 15px;
+            flex-shrink: 0;
+            text-align: center;
+        }
+
+        .nav-item span {
+            transition: all 0.3s ease;
+            font-size: 14px;
+            font-weight: 500;
+            overflow: hidden;
+            white-space: nowrap;
+            flex: 1;
+        }
+
+        .sidebar.collapsed .nav-item span {
+            width: 0;
+            opacity: 0;
+        }
+
+        .nav-item .chevron {
+            margin-left: auto;
+            transition: transform 0.3s ease;
+            font-size: 12px;
+            width: 12px;
+        }
+
+        .sidebar.collapsed .nav-item .chevron {
+            opacity: 0;
+            width: 0;
+        }
+
+        .nav-item.expanded .chevron {
+            transform: rotate(90deg);
+        }
+
+        .sub-menu {
+            background: rgba(0,0,0,0.2);
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .sidebar.collapsed .sub-menu {
+            max-height: 0 !important;
+        }
+
+        .sub-menu.open {
+            max-height: 300px;
+        }
+
+        .sub-menu .nav-item {
+            padding-left: 50px;
+            font-size: 13px;
+        }
+
+        .sidebar.collapsed .sub-menu .nav-item {
+            padding-left: 20px;
+        }
+
+        .toggle-btn {
+            position: absolute;
+            top: 80px;
+            right: -12px;
+            width: 24px;
+            height: 24px;
+            background: #4a90e2;
+            border: none;
+            border-radius: 50%;
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            z-index: 1001;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+        }
+
+        .toggle-btn:hover {
+            background: #357abd;
+            transform: scale(1.1);
+        }
+
+        .tooltip {
+            position: absolute;
+            left: 70px;
+            background: rgba(0,0,0,0.8);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 4px;
+            font-size: 12px;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            z-index: 1002;
+        }
+
+        .sidebar.collapsed .nav-item:hover .tooltip {
+            opacity: 1;
+        }
+
+        
+        .main-content {
+            margin-left: 280px;
+            transition: margin-left 0.3s ease;
+            min-height: 100vh;
+        }
+
+        .sidebar.collapsed + .main-content {
+            margin-left: 70px;
+        }
+
+        .header {
+            background: white;
+            padding: 20px 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #e1e5e9;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #666;
+            font-size: 14px;
+        }
+
+        .breadcrumb i {
+            color: #4a90e2;
+        }
+
+        .breadcrumb a {
+            color: #4a90e2;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .breadcrumb a:hover {
+            color: #357abd;
+        }
+
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid #e1e5e9;
+            background: white;
+            border-radius: 12px 12px 0 0;
+            overflow: hidden;
+            padding-top: 30px;
+            margin-bottom: 10px;
+        }
+
+        .tab {
+            padding: 15px 25px; 
+            cursor: pointer;
+            border: none;
+            background: #f8f9fa;
+            color: #6c757d;
+            font-weight: 500;
+            flex: 1;
+            text-align: center;
+            transition: all 0.2s ease;
+        }
+
+        .tab.active {
+            background: #346faa;
+            color: white;
+        }
+
+        .tab:hover:not(.active) {
+            background: #e9ecef;
+            color: #2D4B73;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .form-container {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            border: 1px solid #e1e5e9;
+            margin-bottom: 25px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #133057;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ced4da;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: border-color 0.2s ease;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: #2D4B73;
+            box-shadow: 0 0 0 3px rgba(45,75,115,0.1);
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #294366, rgb(25, 82, 129));
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #315077, rgba(35, 112, 175, 0.808));
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(45,75,115,0.3);
+        }
+
+        .btn-success {
+            background: #14963f;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #0b6429;
+        }
+
+        .btn-secondary {
+            background: #7d7f81;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #5a6268;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            backdrop-filter: blur(5px);
+        }
+
+        .modal.show {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #e1e5e9;
+        }
+
+        .modal-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #2D4B73;
+        }
+
+        .close {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #6c757d;
+            padding: 0;
+        }
+
+        .close:hover {
+            color: #dc3545;
+        }
+
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            font-size: 14px;
+            color: #6c757d;
+        }
+
+        .breadcrumb-item {
+            display: flex;
+            align-items: center;
+        }
+
+        .breadcrumb-item:not(:last-child)::after {
+            content: '>';
+            margin: 0 10px;
+            color: #adb5bd;
+        }
+
+        .breadcrumb-item:last-child {
+            color: #2D4B73;
+            font-weight: 500;
+        }
+
+        .questao-item {
+            background: white;
+            border: 1px solid #e1e5e9;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 15px;
+            transition: box-shadow 0.2s ease;
+        }
+
+        .questao-item:hover {
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .questao-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .questao-tipo {
+            display: inline-block;
+            padding: 4px 12px;
+            background: #e9ecef;
+            color: #495057;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .questao-tipo.objetiva {
+            background: rgba(0, 212, 170, 0.1);
+            color: #00d4aa;
+        }
+
+        .questao-tipo.discursiva {
+            background: rgba(45, 75, 115, 0.1);
+            color: #2D4B73;
+        }
+
+        .questao-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-sm {
+            padding: 6px 12px;
+            font-size: 12px;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #6c757d;
+        }
+
+        .empty-icon {
+            font-size: 64px;
+            margin-bottom: 20px;
+            opacity: 0.3;
+        }
+
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 20px;
+            border-radius: 8px;
+            color: white;
+            z-index: 3000;
+            transform: translateX(400px);
+            transition: transform 0.3s ease;
+            min-width: 300px;
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
+        .notification.success {
+            background: #00d4aa;
+        }
+
+        .notification.error {
+            background: #dc3545;
+        }
+
+        .user-info{
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+    </style>
+</head>
+<body>
+    <aside class="sidebar" id="sidebar">
+        <button class="toggle-btn" onclick="toggleSidebar()" id="toggleBtn">
+            <i class="fas fa-chevron-left" id="toggleIcon"></i>
+        </button>
+        
+        <div class="sidebar-header">
+            <div class="seice-logo" onclick="toggleSidebar()">
+                <img src="../img/image.png" alt="Logo SEICE">
+            </div>
+        </div>
+
+        <nav class="nav-menu">
+            <div class="nav-section">
+                <h3>Principal</h3>
+                <a href="index.html" class="nav-item" data-tooltip="Início">
+                    <i class="fas fa-home"></i>
+                    <span>Início</span>
+                    <div class="tooltip">Início</div>
+                </a>
+            </div>
+
+            <div class="nav-section">
+                <h3>Avaliações</h3>
+                <div class="nav-item expandable" onclick="toggleSubMenu(this)" data-tooltip="Avaliações">
+                    <i class="fas fa-clipboard-list"></i>
+                    <span>AVALIAÇÕES</span>
+                    <i class="fas fa-chevron-right chevron"></i>
+                    <div class="tooltip">Avaliações</div>
+                </div>
+                <div class="sub-menu">
+                    <a href="banco-questoes.html" class="nav-item" data-tooltip="Banco de Questões">
+                        <i class="fas fa-database"></i>
+                        <span>Banco de Questões</span>
+                        <div class="tooltip">Banco de Questões</div>
+                    </a>
+                    <a href="avaliação.html" class="nav-item active" data-tooltip="Avaliação">
+                        <i class="fas fa-edit"></i>
+                        <span>Avaliação</span>
+                        <div class="tooltip">Avaliação</div>
+                    </a>
+                    <a href="aplicação-simulado.html" class="nav-item" data-tooltip="Aplicação">
+                        <i class="fas fa-play"></i>
+                        <span>Aplicação</span>
+                        <div class="tooltip">Aplicação</div>
+                    </a>
+                    <a href="correção.html" class="nav-item" data-tooltip="Correção">
+                        <i class="fas fa-check"></i>
+                        <span>Correção</span>
+                        <div class="tooltip">Correção</div>
+                    </a>
+                    <a href="enviar-imagens.html" class="nav-item" data-tooltip="Enviar Imagens">
+                        <i class="fas fa-images"></i>
+                        <span>Enviar Imagens</span>
+                        <div class="tooltip">Enviar Imagens</div>
+                    </a>
+                </div>
+            </div>
+
+            <div class="nav-section">
+                <h3>Relatórios</h3>
+                <div class="nav-item expandable" onclick="toggleSubMenu(this)" data-tooltip="Resultados">
+                    <i class="fas fa-chart-bar"></i>
+                    <span>RESULTADOS</span>
+                    <i class="fas fa-chevron-right chevron"></i>
+                    <div class="tooltip">Resultados</div>
+                </div>
+                <div class="sub-menu">
+                    <a href="/relatorios-gerais" class="nav-item active" data-tooltip="Relatórios Gerais">
+                        <i class="fas fa-file-alt"></i>
+                        <span>Relatórios Gerais</span>
+                        <div class="tooltip">Relatórios Gerais</div>
+                    </a>
+                </div>
+            </div>
+
+            <div class="nav-section">
+                <h3>Configurações</h3>
+                <div class="nav-item expandable" onclick="toggleSubMenu(this)" data-tooltip="Configuração">
+                    <i class="fas fa-cog"></i>
+                    <span>CONFIGURAÇÃO</span>
+                    <i class="fas fa-chevron-right chevron"></i>
+                    <div class="tooltip">Configuração</div>
+                </div>
+                <div class="sub-menu">
+                    <a href="../main-painel/serie.html" class="nav-item" data-tooltip="Série">
+                        <i class="fas fa-graduation-cap"></i>
+                        <span>Série</span>
+                        <div class="tooltip">Série</div>
+                    </a>
+                    <a href="turmas.html" class="nav-item" data-tooltip="Turma">
+                        <i class="fas fa-users"></i>
+                        <span>Turma</span>
+                        <div class="tooltip">Turma</div>
+                    </a>
+                    <a href="../main-painel/alunos.html" class="nav-item" data-tooltip="Alunos">
+                        <i class="fas fa-user-graduate"></i>
+                        <span>Alunos</span>
+                        <div class="tooltip">Alunos</div>
+                    </a>
+                    <a href="/importar-alunos" class="nav-item" data-tooltip="Importar Alunos">
+                        <i class="fas fa-upload"></i>
+                        <span>Importar Alunos</span>
+                        <div class="tooltip">Importar Alunos</div>
+                    </a>
+                    <a href="../main-painel/importação-alunos.html" class="nav-item" data-tooltip="Usuários">
+                        <i class="fas fa-user-cog"></i>
+                        <span>Usuários</span>
+                        <div class="tooltip">Usuários</div>
+                    </a>
+                </div>
+            </div>
+        </nav>
+    </aside>
+
+    <main class="main-content">
+        <header class="header">
+            <div class="breadcrumb">
+                <i class="fas fa-home"></i>
+                <a href="/inicio">Início</a>
+                <span>/</span>
+                <span>Relatórios Gerais</span>
+            </div>
+            <div class="user-info">
+                <div>
+                    <div class="user-email">joaopedrosantosadmin@gmail.com</div>
+                    <div class="system-subtitle">Sistema de Ensino Integrado de Campos Elíseos</div>
+                </div>
+            </div>
+        </header>
+    <div class="tabs">
+                <button class="tab active" onclick="switchTab('criar-questao')">Criar Questão</button>
+                <button class="tab" onclick="switchTab('criar-prova')">Criar Prova</button>
+            </div>
+
+           
+            <div id="criar-questao" class="tab-content active">
+                <div class="form-container">
+                    <h3 style="margin-bottom: 20px; color: #2D4B73;">Nova Questão</h3>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Tipo de Questão</label>
+                        <select class="form-control" id="tipo-questao" onchange="toggleTipoQuestao()">
+                            <option value="objetiva">Objetiva (Múltipla Escolha)</option>
+                            <option value="discursiva">Discursiva</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Disciplina</label>
+                        <select class="form-control">
+                            <option>Selecione a disciplina</option>
+                            <option>Matemática</option>
+                            <option>Português</option>
+                            <option>História</option>
+                            <option>Geografia</option>
+                            <option>Ciências</option>
+                            <option>Inglês</option>
+                            <option>Física</option>
+                            <option>Química</option>
+                            <option>Biologia</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Nível de Dificuldade</label>
+                        <select class="form-control">
+                            <option>Fácil</option>
+                            <option>Médio</option>
+                            <option>Difícil</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Enunciado da Questão</label>
+                        <textarea class="form-control" rows="6" placeholder="Digite o enunciado da questão..."></textarea>
+                    </div>
+
+                   
+                    <div id="alternativas-section">
+                        <div class="form-group">
+                            <label class="form-label">Alternativas</label>
+                            <div id="alternativas-container">
+                                <div class="alternativa-item" style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+                                    <input type="radio" name="alternativa-correta" value="A">
+                                    <strong>A)</strong>
+                                    <input type="text" class="form-control" placeholder="Digite a alternativa A">
+                                </div>
+                                <div class="alternativa-item" style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+                                    <input type="radio" name="alternativa-correta" value="B">
+                                    <strong>B)</strong>
+                                    <input type="text" class="form-control" placeholder="Digite a alternativa B">
+                                </div>
+                                <div class="alternativa-item" style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+                                    <input type="radio" name="alternativa-correta" value="C">
+                                    <strong>C)</strong>
+                                    <input type="text" class="form-control" placeholder="Digite a alternativa C">
+                                </div>
+                                <div class="alternativa-item" style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+                                    <input type="radio" name="alternativa-correta" value="D">
+                                    <strong>D)</strong>
+                                    <input type="text" class="form-control" placeholder="Digite a alternativa D">
+                                </div>
+                            </div>
+                            <small style="color: #6c757d;">Marque a alternativa correta</small>
+                        </div>
+                    </div>
+
+                   
+                    <div id="discursiva-section" style="display: none;">
+                        <div class="form-group">
+                            <label class="form-label">Resposta Esperada (Gabarito)</label>
+                            <textarea class="form-control" rows="4" placeholder="Digite a resposta esperada ou critérios de correção..."></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Pontuação Máxima</label>
+                            <input type="number" class="form-control" value="10" min="1">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Observações (opcional)</label>
+                        <textarea class="form-control" rows="3" placeholder="Informações adicionais sobre a questão..."></textarea>
+                    </div>
+
+                    <div style="display: flex; gap: 15px;">
+                        <button class="btn btn-primary" onclick="salvarQuestao()">Salvar Questão</button>
+                        <button class="btn btn-secondary" onclick="limparFormulario()">Limpar</button>
+                        <button class="btn btn-success" onclick="salvarECriarNova()">Salvar e Criar Nova</button>
+                    </div>
+                </div>
+            </div>
+
+          
+            <div id="criar-prova" class="tab-content">
+                <div class="form-container">
+                    <h3 style="margin-bottom: 20px; color: #2D4B73;">Nova Prova</h3>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Nome da Prova</label>
+                        <input type="text" class="form-control" placeholder="Ex: Avaliação de Matemática - 1º Bimestre">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Descrição</label>
+                        <textarea class="form-control" rows="3" placeholder="Descrição da prova"></textarea>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                        <div class="form-group">
+                            <label class="form-label">Disciplina</label>
+                            <select class="form-control">
+                                <option>Selecione a disciplina</option>
+                                <option>Matemática</option>
+                                <option>Português</option>
+                                <option>História</option>
+                                <option>Geografia</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Número de Questões</label>
+                            <input type="number" class="form-control" value="20" min="1">
+                        </div>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                        <div class="form-group">
+                            <label class="form-label">Tempo de Duração (minutos)</label>
+                            <input type="number" class="form-control" value="120">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Valor Total da Prova</label>
+                            <input type="number" class="form-control" value="100" step="0.1">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Seleção de Questões</label>
+                        <select class="form-control" onchange="toggleSelecaoQuestoes(this.value)">
+                            <option value="automatica">Automática (por filtros)</option>
+                            <option value="manual">Manual (escolher questões)</option>
+                        </select>
+                    </div>
+
+                    <div id="filtros-automaticos">
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                            <div class="form-group">
+                                <label class="form-label">Nível de Dificuldade</label>
+                                <select class="form-control">
+                                    <option>Misto</option>
+                                    <option>Fácil</option>
+                                    <option>Médio</option>
+                                    <option>Difícil</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Tipo de Questões</label>
+                                <select class="form-control">
+                                    <option>Apenas Objetivas</option>
+                                    <option>Apenas Discursivas</option>
+                                    <option>Mista</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="selecao-manual" style="display: none;">
+                        <div class="form-group">
+                            <label class="form-label">Questões Selecionadas</label>
+                            <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; min-height: 100px;">
+                                <p style="color: #6c757d; text-align: center; margin: 20px 0;">
+                                    Nenhuma questão selecionada
+                                </p>
+                                <button class="btn btn-primary btn-sm" onclick="openModal('selecionar-questoes-modal')">
+                                    Selecionar Questões
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="display: flex; gap: 15px;">
+                        <button class="btn btn-primary" onclick="criarProva()">Criar Prova</button>
+                        <button class="btn btn-secondary" onclick="visualizarPrevia()">Visualizar Prévia</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="stats-section">
+                <div class="stats-card">
+                    <h3 class="stats-title">Novas questões</h3>
+                    <div class="chart-container">
+                        <canvas id="questionsChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="stats-card">
+                    <div class="stats-title">Estatísticas</div>
+                    <div style="display: grid; grid-template-columns: 1fr; gap: 15px;">
+                        <div style="text-align: center; padding: 15px; background: #f8f9fa; border-radius: 8px;">
+                            <div style="font-size: 24px; font-weight: 700; color: #2D4B73;">0</div>
+                            <div style="font-size: 12px; color: #6c757d;">Questões</div>
+                        </div>
+                        <div style="text-align: center; padding: 15px; background: #f8f9fa; border-radius: 8px;">
+                            <div style="font-size: 24px; font-weight: 700; color: #07d400;">0</div>
+                            <div style="font-size: 12px; color: #6c757d;">Provas</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+   
+    <div id="selecionar-questoes-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Selecionar Questões</h3>
+                <button class="close" onclick="closeModal('selecionar-questoes-modal')">&times;</button>
+            </div>
+            <div class="empty-state">
+                <div class="empty-icon"><i class="fa-regular fa-file-lines"></i></div>
+                <h4>Nenhuma questão disponível</h4>
+                <p>Crie questões primeiro para poder selecioná-las.</p>
+            </div>
+        </div>
+    </div>
+
+   
+    <div id="notification" class="notification">
+        <span id="notification-text"></span>
+    </div>
+
+    <script>
+       
+        function switchTab(tabId) {
+          
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            
+          
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+        
+            document.getElementById(tabId).classList.add('active');
+            
+            
+            event.target.classList.add('active');
+        }
+
+        
+        function toggleTipoQuestao() {
+            const tipo = document.getElementById('tipo-questao').value;
+            const alternativasSection = document.getElementById('alternativas-section');
+            const discursivaSection = document.getElementById('discursiva-section');
+            
+            if (tipo === 'objetiva') {
+                alternativasSection.style.display = 'block';
+                discursivaSection.style.display = 'none';
+            } else {
+                alternativasSection.style.display = 'none';
+                discursivaSection.style.display = 'block';
+            }
+        }
+
+      
+        function toggleSelecaoQuestoes(tipo) {
+            const automaticos = document.getElementById('filtros-automaticos');
+            const manual = document.getElementById('selecao-manual');
+            
+            if (tipo === 'automatica') {
+                automaticos.style.display = 'block';
+                manual.style.display = 'none';
+            } else {
+                automaticos.style.display = 'none';
+                manual.style.display = 'block';
+            }
+        }
+
+        
+        function openModal(modalId) {
+            document.getElementById(modalId).classList.add('show');
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('show');
+        }
+
+       
+        function showNotification(message, type = 'success') {
+            const notification = document.getElementById('notification');
+            const text = document.getElementById('notification-text');
+            
+            text.textContent = message;
+            notification.className = `notification ${type}`;
+            notification.classList.add('show');
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+
+     
+        function salvarQuestao() {
+            
+            showNotification('Questão salva com sucesso!', 'success');
+           
+        }
+
+        function salvarECriarNova() {
+          
+            showNotification('Questão salva! Pronto para criar uma nova.', 'success');
+            limparFormulario();
+        }
+
+        function limparFormulario() {
+         
+            document.querySelectorAll('.form-control').forEach(field => {
+                field.value = '';
+            });
+            document.querySelectorAll('input[type="radio"]').forEach(radio => {
+                radio.checked = false;
+            });
+        }
+
+        function criarProva() {
+            showNotification('Prova criada com sucesso!', 'success');
+            
+        }
+
+        function visualizarPrevia() {
+            showNotification('Funcionalidade em desenvolvimento', 'info');
+        }
+
+       
+        const ctx = document.getElementById('questionsChart');
+        if (ctx) {
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun'],
+                    datasets: [{
+                        label: 'Questões',
+                        data: [0, 0, 0, 0, 0, 0],
+                        borderColor: '#2D4B73',
+                        backgroundColor: 'rgba(45, 75, 115, 0.1)',
+                        fill: true,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false }
+                    },
+                    scales: {
+                        y: { beginAtZero: true, max: 10 }
+                    }
+                }
+            });
+        }
+
+       
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.classList.remove('show');
+            }
+        }
+        
+    </script>
+</body>
+</html>

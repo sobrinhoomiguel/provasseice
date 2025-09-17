@@ -35,9 +35,9 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-// ===============================
+
 // classe de conexão com o banco de dados 
-// ===============================
+
 class Database {
     private static $instance = null;
     private $connection;

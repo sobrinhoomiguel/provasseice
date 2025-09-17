@@ -1,156 +1,194 @@
 <?php
-// process_register.php
-header('Content-Type: application/json');
-header('Access-Control-Allow-Origin: *');
-header('Access-Control-Allow-Methods: POST');
-header('Access-Control-Allow-Headers: Content-Type');
+// process_login.php - Processamento do login de usuários
+require_once 'config.php';
 
-require_once '../config/config.php';
-require_once '../config/database.php';
-require_once '../classes/User.php';
+// Definir cabeçalho JSON
+header('Content-Type: application/json; charset=utf-8');
 
-
-
+// Verificar se é uma requisição POST
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     http_response_code(405);
-    echo json_encode(['success' => false, 'message' => 'Método não permitido']);
+    echo json_encode([
+        'success' => false,
+        'message' => 'Método não permitido'
+    ]);
     exit;
 }
 
-$response = ['success' => false, 'message' => '', 'errors' => []];
-
 try {
-   
-    $database = new Database();
-    $db = $database->getConnection();
+    // Obter dados do formulário
+    $email = sanitizeInput($_POST['email'] ?? '');
+    $password = $_POST['password'] ?? '';
     
-    if (!$db) {
-        throw new Exception('Erro de conexão com o banco de dados');
-    }
+    $fieldErrors = [];
     
-   
-    $user = new User($db);
-    
-   
-    $nome = trim($_POST['nome'] ?? '');
-    $email = trim($_POST['email'] ?? '');
-    $telefone = trim($_POST['telefone'] ?? '');
-    $senha = $_POST['senha'] ?? '';
-    $confirmar_senha = $_POST['confirmar_senha'] ?? '';
-    $data_nascimento = $_POST['data_nascimento'] ?? null;
-    
-    
-    $errors = [];
-    
-   
-    if (empty($nome)) {
-        $errors['nome'] = 'Nome é obrigatório';
-    } elseif (strlen($nome) < 2) {
-        $errors['nome'] = 'Nome deve ter pelo menos 2 caracteres';
-    } elseif (strlen($nome) > 100) {
-        $errors['nome'] = 'Nome muito longo (máximo 100 caracteres)';
-    } elseif (!preg_match('/^[a-zA-ZÀ-ÿ\s]+$/', $nome)) {
-        $errors['nome'] = 'Nome deve conter apenas letras e espaços';
-    }
-    
-   
+    // Validação básica
     if (empty($email)) {
-        $errors['email'] = 'Email é obrigatório';
-    } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        $errors['email'] = 'Email inválido';
-    } elseif (strlen($email) > 100) {
-        $errors['email'] = 'Email muito longo';
-    } else {
-        
-        $user->email = $email;
-        if ($user->emailExists()) {
-            $errors['email'] = 'Este email já está cadastrado';
-        }
+        $fieldErrors['email'] = 'Email é obrigatório';
+    } elseif (!validateEmail($email)) {
+        $fieldErrors['email'] = 'Email inválido';
     }
     
-  
-    if (!empty($telefone)) {
-        $telefone_limpo = preg_replace('/\D/', '', $telefone);
-        if (strlen($telefone_limpo) < 10 || strlen($telefone_limpo) > 11) {
-            $errors['telefone'] = 'Telefone inválido';
-        }
+    if (empty($password)) {
+        $fieldErrors['password'] = 'Senha é obrigatória';
     }
     
- 
-    if (empty($senha)) {
-        $errors['senha'] = 'Senha é obrigatória';
-    } elseif (strlen($senha) < PASSWORD_MIN_LENGTH) {
-        $errors['senha'] = 'Senha deve ter pelo menos ' . PASSWORD_MIN_LENGTH . ' caracteres';
-    } elseif (strlen($senha) > 255) {
-        $errors['senha'] = 'Senha muito longa';
-    }
-    
-    
-    if (empty($confirmar_senha)) {
-        $errors['confirmar_senha'] = 'Confirmação de senha é obrigatória';
-    } elseif ($senha !== $confirmar_senha) {
-        $errors['confirmar_senha'] = 'As senhas não coincidem';
-    }
-    
-    
-    if (!empty($data_nascimento)) {
-        $data = DateTime::createFromFormat('Y-m-d', $data_nascimento);
-        if (!$data) {
-            $errors['data'] = 'Data de nascimento inválida';
-        } else {
-            $hoje = new DateTime();
-            $idade = $hoje->diff($data)->y;
-            if ($idade < 13) {
-                $errors['data'] = 'Você deve ter pelo menos 13 anos';
-            } elseif ($idade > 120) {
-                $errors['data'] = 'Data de nascimento inválida';
-            }
-        }
-    }
-    
-    
-    if (!empty($errors)) {
-        $response['errors'] = $errors;
-        $response['message'] = 'Dados inválidos';
-        echo json_encode($response);
+    // Se houver erros de validação, retornar
+    if (!empty($fieldErrors)) {
+        echo json_encode([
+            'success' => false,
+            'message' => 'Dados inválidos',
+            'field_errors' => $fieldErrors
+        ]);
         exit;
     }
     
-  
-    $user->nome = sanitizeInput($nome);
-    $user->email = sanitizeInput($email);
-    $user->senha = $senha;
-    $user->telefone = sanitizeInput($telefone);
-    $user->data_nascimento = !empty($data_nascimento) ? $data_nascimento : null;
+    // Conectar ao banco de dados
+    $db = Database::getInstance()->getConnection();
     
+    // Buscar usuário por email
+    $stmt = $db->prepare("SELECT id, nome, email, senha, ativo, tentativas_login, bloqueado_ate 
+                          FROM usuarios WHERE email = ?");
+    $stmt->execute([$email]);
+    $usuario = $stmt->fetch();
     
-    if ($user->register()) {
-        $response['success'] = true;
-        $response['message'] = 'Cadastro realizado com sucesso! Redirecionando...';
+    if (!$usuario) {
+        // Log da tentativa de login com email inexistente
+        logActivity(null, 'LOGIN_FALHOU', "Tentativa de login com email inexistente: $email");
         
-        
-        error_log("Novo usuário cadastrado: " . $user->email . " (ID: " . $user->id . ")");
-        
-    } else {
-        throw new Exception('Erro ao processar cadastro. Tente novamente.');
+        echo json_encode([
+            'success' => false,
+            'message' => 'Email ou senha incorretos'
+        ]);
+        exit;
     }
+    
+    // Verificar se a conta está ativa
+    if (!$usuario['ativo']) {
+        logActivity($usuario['id'], 'LOGIN_FALHOU', 'Tentativa de login em conta inativa');
+        
+        echo json_encode([
+            'success' => false,
+            'message' => 'Conta inativa. Entre em contato com o suporte.'
+        ]);
+        exit;
+    }
+    
+    // Verificar se a conta está bloqueada
+    if ($usuario['bloqueado_ate'] && new DateTime() < new DateTime($usuario['bloqueado_ate'])) {
+        $bloqueadoAte = new DateTime($usuario['bloqueado_ate']);
+        $agora = new DateTime();
+        $diff = $agora->diff($bloqueadoAte);
+        $minutosRestantes = $diff->i + ($diff->h * 60);
+        
+        logActivity($usuario['id'], 'LOGIN_BLOQUEADO', 'Tentativa de login em conta bloqueada');
+        
+        echo json_encode([
+            'success' => false,
+            'message' => "Conta temporariamente bloqueada. Tente novamente em {$minutosRestantes} minutos."
+        ]);
+        exit;
+    }
+    
+    // Verificar a senha
+    if (!verifyPassword($password, $usuario['senha'])) {
+        // Incrementar tentativas de login
+        $novasTentativas = $usuario['tentativas_login'] + 1;
+        $bloqueadoAte = null;
+        
+        // Bloquear conta após muitas tentativas
+        if ($novasTentativas >= MAX_LOGIN_ATTEMPTS) {
+            $bloqueadoAte = date('Y-m-d H:i:s', time() + LOCKOUT_TIME);
+        }
+        
+        // Atualizar tentativas no banco
+        $updateStmt = $db->prepare("UPDATE usuarios SET tentativas_login = ?, bloqueado_ate = ? WHERE id = ?");
+        $updateStmt->execute([$novasTentativas, $bloqueadoAte, $usuario['id']]);
+        
+        logActivity($usuario['id'], 'LOGIN_FALHOU', "Senha incorreta - Tentativa {$novasTentativas}");
+        
+        $message = 'Email ou senha incorretos';
+        if ($novasTentativas >= MAX_LOGIN_ATTEMPTS) {
+            $message .= '. Conta bloqueada temporariamente devido a muitas tentativas.';
+        } elseif ($novasTentativas >= 3) {
+            $tentativasRestantes = MAX_LOGIN_ATTEMPTS - $novasTentativas;
+            $message .= " ({$tentativasRestantes} tentativas restantes)";
+        }
+        
+        echo json_encode([
+            'success' => false,
+            'message' => $message
+        ]);
+        exit;
+    }
+    
+    // Login bem-sucedido - limpar tentativas e bloqueios
+    $stmt = $db->prepare("UPDATE usuarios SET tentativas_login = 0, bloqueado_ate = NULL, ultimo_login = NOW() WHERE id = ?");
+    $stmt->execute([$usuario['id']]);
+    
+    // Criar sessão
+    $sessionId = generateSecureToken(64);
+    $expirationTime = date('Y-m-d H:i:s', time() + SESSION_LIFETIME);
+    
+    // Salvar sessão no banco
+    $sessionStmt = $db->prepare("INSERT INTO sessoes (id, usuario_id, ip_address, user_agent, data_expiracao) 
+                                 VALUES (?, ?, ?, ?, ?)");
+    $sessionStmt->execute([
+        $sessionId,
+        $usuario['id'],
+        getUserIP(),
+        getUserAgent(),
+        $expirationTime
+    ]);
+    
+    // Definir variáveis de sessão
+    $_SESSION['user_id'] = $usuario['id'];
+    $_SESSION['session_id'] = $sessionId;
+    $_SESSION['user_name'] = $usuario['nome'];
+    $_SESSION['user_email'] = $usuario['email'];
+    $_SESSION['login_time'] = time();
+    
+    // Log do login bem-sucedido
+    logActivity($usuario['id'], 'LOGIN_SUCESSO', 'Login realizado com sucesso');
+    
+    // Limpar sessões antigas do usuário (manter apenas as 5 mais recentes)
+    $cleanupStmt = $db->prepare("DELETE FROM sessoes 
+                                 WHERE usuario_id = ? AND id != ? AND id NOT IN (
+                                     SELECT t.id FROM (
+                                         SELECT id FROM sessoes 
+                                         WHERE usuario_id = ? 
+                                         ORDER BY data_criacao DESC 
+                                         LIMIT 5
+                                     ) as t
+                                 )");
+    $cleanupStmt->execute([$usuario['id'], $sessionId, $usuario['id']]);
+    
+    // Resposta de sucesso
+    echo json_encode([
+        'success' => true,
+        'message' => 'Login realizado com sucesso!',
+        'redirect' => 'index.html',
+        'user' => [
+            'id' => $usuario['id'],
+            'name' => $usuario['nome'],
+            'email' => $usuario['email']
+        ]
+    ]);
     
 } catch (PDOException $e) {
-    error_log("Erro de banco de dados no cadastro: " . $e->getMessage());
+    error_log("Erro PDO no login: " . $e->getMessage());
     
-    
-    if ($e->getCode() == 23000 && strpos($e->getMessage(), 'email') !== false) {
-        $response['errors']['email'] = 'Este email já está cadastrado';
-        $response['message'] = 'Email já cadastrado';
-    } else {
-        $response['message'] = 'Erro interno do servidor. Tente novamente.';
-    }
+    echo json_encode([
+        'success' => false,
+        'message' => 'Erro de banco de dados. Verifique a conexão.'
+    ]);
     
 } catch (Exception $e) {
-    error_log("Erro no cadastro: " . $e->getMessage());
-    $response['message'] = $e->getMessage();
+    error_log("Erro no login: " . $e->getMessage());
     
-} finally {
-    echo json_encode($response);
+    echo json_encode([
+        'success' => false,
+        'message' => 'Erro interno do servidor. Tente novamente.'
+    ]);
 }
 ?>

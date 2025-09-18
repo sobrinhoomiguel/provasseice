@@ -1,6 +1,6 @@
 <?php
 // test_connection.php - Script para testar a conexão com o banco
-require_once 'config.php';
+require_once __DIR__ . '/config.php';
 
 echo "<h2>Teste de Conexão - SEICE</h2>";
 

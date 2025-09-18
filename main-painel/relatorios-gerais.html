@@ -741,7 +741,7 @@
                         <tr data-category="Banco de Questões">
                             <td><i class="fas fa-database" style="color: #4a90e2;"></i></td>
                             <td>Banco de Questões</td>
-                            <td><span class="category-badge category-banco">Banco de Questões</span></td>
+                            <td><span class="category-badge category-banco" style="text-transform: none;">Banco de Questões</span></td>
                             <td><span class="format-badge format-excel"><i class="fas fa-file-excel"></i> EXCEL</span></td>
                             <td>Inventário completo das questões cadastradas por matéria e dificuldade</td>
                             <td><button class="btn-execute" onclick="executeReport('banco-questoes')"><i class="fas fa-play"></i>Executar</button></td>
@@ -871,7 +871,11 @@
         function executeReport(reportType) {
             const button = event.target.closest('.btn-execute');
             const originalContent = button.innerHTML;
-            const reportName = button.closest('tr').getElementsByTagName('td')[1].textContent;
+            const row = button.closest('tr');
+            const reportName = row.getElementsByTagName('td')[1].textContent;
+            const formatBadge = row.querySelector('.format-badge');
+            const isExcel = formatBadge.classList.contains('format-excel');
+            const isPdf = formatBadge.classList.contains('format-pdf');
             
             button.innerHTML = '<i class="fas fa-spinner fa-spin"></i>Processando...';
             button.disabled = true;
@@ -883,6 +887,13 @@
                 button.innerHTML = '<i class="fas fa-check"></i>Concluído';
                 button.style.background = 'linear-gradient(135deg, #28a745, #20c997)';
                 
+                // Gerar e baixar arquivo baseado no formato
+                if (isExcel) {
+                    generateExcelReport(reportType, reportName);
+                } else if (isPdf) {
+                    generatePdfReport(reportType, reportName);
+                }
+                
                 showNotification(`Relatório "${reportName}" gerado com sucesso!`, 'success');
                 
                 setTimeout(() => {
@@ -891,6 +902,221 @@
                     button.style.background = 'linear-gradient(135deg, #4a90e2 0%, #357abd 100%)';
                 }, 2000);
             }, 1500);
+        }
+
+        function generateExcelReport(reportType, reportName) {
+            // Criar dados de exemplo baseados no tipo de relatório
+            let data = [];
+            let headers = [];
+            
+            switch(reportType) {
+                case 'banco-questoes':
+                    headers = ['ID', 'Matéria', 'Questão', 'Dificuldade', 'Tipo', 'Data Criação'];
+                    data = [
+                        ['001', 'Matemática', 'Qual é o resultado de 2+2?', 'Fácil', 'Múltipla Escolha', '2024-01-15'],
+                        ['002', 'Português', 'Complete a frase: O menino _____ à escola.', 'Médio', 'Lacuna', '2024-01-16'],
+                        ['003', 'História', 'Em que ano foi descoberto o Brasil?', 'Médio', 'Múltipla Escolha', '2024-01-17'],
+                        ['004', 'Geografia', 'Qual é a capital do Brasil?', 'Fácil', 'Múltipla Escolha', '2024-01-18'],
+                        ['005', 'Ciências', 'Qual é a fórmula da água?', 'Fácil', 'Discursiva', '2024-01-19']
+                    ];
+                    break;
+                case 'dados-aplicacao':
+                    headers = ['Aluno', 'Turma', 'Avaliação', 'Data', 'Nota', 'Status'];
+                    data = [
+                        ['João Silva', '9º A', 'Prova de Matemática', '2024-03-15', '8.5', 'Aprovado'],
+                        ['Maria Santos', '9º A', 'Prova de Matemática', '2024-03-15', '7.2', 'Aprovado'],
+                        ['Pedro Costa', '9º B', 'Prova de Matemática', '2024-03-15', '6.8', 'Aprovado'],
+                        ['Ana Oliveira', '9º A', 'Prova de Matemática', '2024-03-15', '9.1', 'Aprovado'],
+                        ['Carlos Lima', '9º B', 'Prova de Matemática', '2024-03-15', '5.5', 'Recuperação']
+                    ];
+                    break;
+                case 'turmas-alunos':
+                    headers = ['Turma', 'Aluno', 'Matrícula', 'Data Nascimento', 'Responsável', 'Telefone'];
+                    data = [
+                        ['9º A', 'João Silva', '2024001', '15/03/2009', 'Maria Silva', '(21) 99999-1111'],
+                        ['9º A', 'Ana Oliveira', '2024002', '22/05/2009', 'José Oliveira', '(21) 99999-2222'],
+                        ['9º B', 'Pedro Costa', '2024003', '10/08/2009', 'Lucia Costa', '(21) 99999-3333'],
+                        ['9º B', 'Carlos Lima', '2024004', '30/11/2009', 'Roberto Lima', '(21) 99999-4444'],
+                        ['8º A', 'Fernanda Souza', '2024005', '18/01/2010', 'Sandra Souza', '(21) 99999-5555']
+                    ];
+                    break;
+                default:
+                    headers = ['Dados', 'Valor', 'Observação'];
+                    data = [
+                        ['Total de registros', '150', 'Processados com sucesso'],
+                        ['Erros encontrados', '0', 'Nenhum erro detectado'],
+                        ['Data do relatório', new Date().toLocaleDateString('pt-BR'), 'Gerado automaticamente']
+                    ];
+            }
+            
+            // Criar conteúdo CSV
+            const csvContent = [headers, ...data]
+                .map(row => row.map(cell => `"${cell}"`).join(','))
+                .join('\n');
+            
+            // Criar e baixar arquivo
+            const blob = new Blob(['\ufeff' + csvContent], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            const url = URL.createObjectURL(blob);
+            link.setAttribute('href', url);
+            link.setAttribute('download', `${reportName.replace(/\s+/g, '_')}_${new Date().toISOString().split('T')[0]}.csv`);
+            link.style.visibility = 'hidden';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        function generatePdfReport(reportType, reportName) {
+            // Simular geração de PDF com conteúdo HTML
+            let htmlContent = '';
+            
+            switch(reportType) {
+                case 'auditoria-facial':
+                    htmlContent = `
+                        <h1>Relatório de Auditoria - Reconhecimento Facial</h1>
+                        <h2>Sistema SEICE - ${new Date().toLocaleDateString('pt-BR')}</h2>
+                        
+                        <h3>Resumo Executivo</h3>
+                        <p>Este relatório apresenta os resultados da auditoria de reconhecimento facial realizada durante as avaliações.</p>
+                        
+                        <h3>Estatísticas</h3>
+                        <ul>
+                            <li>Total de tentativas de reconhecimento: 250</li>
+                            <li>Reconhecimentos bem-sucedidos: 245 (98%)</li>
+                            <li>Falhas no reconhecimento: 5 (2%)</li>
+                            <li>Tentativas suspeitas bloqueadas: 3</li>
+                        </ul>
+                        
+                        <h3>Análise por Período</h3>
+                        <p>Manhã (08:00-12:00): 120 tentativas - 98.3% sucesso</p>
+                        <p>Tarde (13:00-17:00): 130 tentativas - 97.7% sucesso</p>
+                        
+                        <h3>Recomendações</h3>
+                        <p>1. Melhorar iluminação na sala 3 para reduzir falhas</p>
+                        <p>2. Atualizar base de dados de reconhecimento</p>
+                        <p>3. Implementar backup manual para casos de falha</p>
+                    `;
+                    break;
+                case 'correcao-avaliacao':
+                    htmlContent = `
+                        <h1>Relatório de Correção de Avaliação</h1>
+                        <h2>Sistema SEICE - ${new Date().toLocaleDateString('pt-BR')}</h2>
+                        
+                        <h3>Informações Gerais</h3>
+                        <p>Avaliação: Prova Mensal de Matemática - 9º Ano</p>
+                        <p>Data da Aplicação: 15/03/2024</p>
+                        <p>Data da Correção: 16/03/2024</p>
+                        
+                        <h3>Estatísticas de Correção</h3>
+                        <ul>
+                            <li>Total de provas corrigidas: 85</li>
+                            <li>Correção automática: 78 (91.8%)</li>
+                            <li>Correção manual necessária: 7 (8.2%)</li>
+                            <li>Tempo médio de correção: 2.3 segundos/prova</li>
+                        </ul>
+                        
+                        <h3>Distribuição de Notas</h3>
+                        <p>0-3: 5 alunos (5.9%)</p>
+                        <p>4-6: 15 alunos (17.6%)</p>
+                        <p>7-8: 35 alunos (41.2%)</p>
+                        <p>9-10: 30 alunos (35.3%)</p>
+                        
+                        <h3>Questões com Maior Índice de Erro</h3>
+                        <p>Questão 7: 65% de erro - Revisão de conteúdo recomendada</p>
+                        <p>Questão 12: 48% de erro - Dificuldade de interpretação</p>
+                    `;
+                    break;
+                case 'relatorio-professor':
+                    htmlContent = `
+                        <h1>Relatório do Professor</h1>
+                        <h2>Sistema SEICE - ${new Date().toLocaleDateString('pt-BR')}</h2>
+                        
+                        <h3>Professor: João Pedro Santos</h3>
+                        <p>Matéria: Matemática</p>
+                        <p>Turmas: 9º A, 9º B</p>
+                        <p>Período: Março/2024</p>
+                        
+                        <h3>Performance das Turmas</h3>
+                        <h4>9º Ano A (28 alunos)</h4>
+                        <ul>
+                            <li>Média da turma: 7.8</li>
+                            <li>Maior nota: 9.5</li>
+                            <li>Menor nota: 4.2</li>
+                            <li>Aprovação: 89%</li>
+                        </ul>
+                        
+                        <h4>9º Ano B (25 alunos)</h4>
+                        <ul>
+                            <li>Média da turma: 7.2</li>
+                            <li>Maior nota: 9.8</li>
+                            <li>Menor nota: 3.8</li>
+                            <li>Aprovação: 84%</li>
+                        </ul>
+                        
+                        <h3>Análise Pedagógica</h3>
+                        <p>Conteúdos com melhor assimilação: Equações do 1º grau, Geometria básica</p>
+                        <p>Conteúdos que necessitam reforço: Função quadrática, Teorema de Pitágoras</p>
+                        
+                        <h3>Recomendações</h3>
+                        <p>1. Intensificar exercícios práticos de função quadrática</p>
+                        <p>2. Utilizar recursos visuais para geometria</p>
+                        <p>3. Acompanhamento individualizado para 8 alunos</p>
+                    `;
+                    break;
+                default:
+                    htmlContent = `
+                        <h1>${reportName}</h1>
+                        <h2>Sistema SEICE - ${new Date().toLocaleDateString('pt-BR')}</h2>
+                        <p>Este é um relatório gerado automaticamente pelo sistema SEICE.</p>
+                        <p>Data de geração: ${new Date().toLocaleDateString('pt-BR')} às ${new Date().toLocaleTimeString('pt-BR')}</p>
+                    `;
+            }
+            
+            // Criar HTML completo para PDF
+            const fullHtml = `
+                <!DOCTYPE html>
+                <html>
+                <head>
+                    <meta charset="UTF-8">
+                    <title>${reportName}</title>
+                    <style>
+                        body { font-family: Arial, sans-serif; margin: 40px; line-height: 1.6; color: #333; }
+                        h1 { color: #1e3a5f; border-bottom: 3px solid #4a90e2; padding-bottom: 10px; }
+                        h2 { color: #4a90e2; margin-top: 30px; }
+                        h3 { color: #2c4f73; margin-top: 25px; }
+                        h4 { color: #555; }
+                        ul, ol { margin-left: 20px; }
+                        li { margin-bottom: 5px; }
+                        p { margin-bottom: 10px; text-align: justify; }
+                        .header { text-align: center; margin-bottom: 40px; }
+                        .footer { margin-top: 50px; text-align: center; font-size: 12px; color: #666; }
+                    </style>
+                </head>
+                <body>
+                    ${htmlContent}
+                    <div class="footer">
+                        <p>Sistema de Ensino Integrado de Campos Elíseos - SEICE</p>
+                        <p>Relatório gerado automaticamente em ${new Date().toLocaleString('pt-BR')}</p>
+                    </div>
+                </body>
+                </html>
+            `;
+            
+            // Criar e baixar arquivo HTML (que pode ser salvo como PDF pelo usuário)
+            const blob = new Blob([fullHtml], { type: 'text/html;charset=utf-8;' });
+            const link = document.createElement('a');
+            const url = URL.createObjectURL(blob);
+            link.setAttribute('href', url);
+            link.setAttribute('download', `${reportName.replace(/\s+/g, '_')}_${new Date().toISOString().split('T')[0]}.html`);
+            link.style.visibility = 'hidden';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            
+            // Mostrar instrução para converter para PDF
+            setTimeout(() => {
+                showNotification('Para converter em PDF, abra o arquivo baixado no navegador e use Ctrl+P > Salvar como PDF', 'info');
+            }, 2000);
         }
 
         function showNotification(message, type = 'success') {
@@ -1000,7 +1226,7 @@
             }
         });
 
-     
+        
         document.querySelectorAll('.reports-table tbody tr').forEach(row => {
             row.addEventListener('mouseenter', function() {
                 this.style.transform = 'translateX(3px)';
@@ -1011,7 +1237,7 @@
             });
         });
 
-  
+     
         document.addEventListener('DOMContentLoaded', function() {
             const resultadosMenu = document.querySelector('.nav-item.expandable:nth-of-type(1)');
             if (resultadosMenu) {

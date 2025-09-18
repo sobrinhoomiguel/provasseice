@@ -1030,7 +1030,7 @@
                 
                 fileMeta.innerHTML = `${fileItem.size} • ${getAvaliacaoLabel(fileItem.avaliacao)} • <span class="status-${statusClass}">${statusText}</span>`;
                 
-                // Add status indicator
+               
                 if (fileItem.status === 'processed') {
                     fileElement.style.borderLeft = '4px solid #10b981';
                 } else {
@@ -1059,7 +1059,7 @@
             document.getElementById('processingImages').textContent = stats.processing;
             document.getElementById('errorImages').textContent = stats.error;
             
-            // Update files header count
+          
             const filesTitle = document.querySelector('.files-title span');
             filesTitle.textContent = `Imagens Enviadas (${stats.total})`;
         }
@@ -1172,24 +1172,24 @@
             }, 3000);
         }
 
-        // Toggle sidebar for mobile
+     
         function toggleSidebar() {
             const sidebar = document.getElementById('sidebar');
             sidebar.classList.toggle('mobile-open');
         }
 
-        // Add mobile menu button if needed
+        
         window.addEventListener('resize', function() {
             if (window.innerWidth <= 768) {
-                // Mobile responsive adjustments
+      
                 const sidebar = document.getElementById('sidebar');
                 if (!sidebar.querySelector('.mobile-toggle')) {
-                    // Could add mobile toggle button here if needed
+                 
                 }
             }
         });
 
-        // Additional CSS for status indicators
+       
         const additionalCSS = `
             .status-success {
                 color: #10b981;

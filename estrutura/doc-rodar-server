@@ -1,0 +1,28 @@
+
+## Como rodar o servidor PHP localmente e acessar a página de teste
+
+1. Abra o terminal e navegue até a pasta `backend` do seu projeto:
+
+```bash
+cd backend
+```
+
+2. Inicie o servidor PHP integrado na porta 8000:
+
+```bash
+php -S localhost:8000
+```
+
+3. No seu navegador, acesse a URL para testar a conexão com o banco:
+
+```
+http://localhost:8000/config/test_connection.php
+```
+
+---
+
+Se quiser acessar outra página PHP, basta alterar o caminho depois do `localhost:8000/` conforme a estrutura do projeto.
+
+---
+
+

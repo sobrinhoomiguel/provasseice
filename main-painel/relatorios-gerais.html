@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <title>Relatórios Gerais - Provas SEICE</title>
+    <title>Sistema SEICE - Relatórios</title>
     <style>
         * {
             margin: 0;
@@ -19,7 +19,6 @@
             overflow-x: hidden;
         }
 
-        
         .sidebar {
             position: fixed;
             left: 0;
@@ -58,17 +57,15 @@
             flex-shrink: 0;
             overflow: hidden;
             transition: all 0.3s ease;
-        }
-
-        .seice-logo img {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
+            font-weight: bold;
+            color: #1e3a5f;
+            font-size: 16px;
         }
 
         .sidebar.collapsed .seice-logo {
             width: 35px;
             height: 35px;
+            font-size: 14px;
         }
 
         .logo-text {
@@ -83,14 +80,14 @@
         }
 
         .logo-text h1 {
-            font-size: 20px;
+            font-size: 16px;
             font-weight: 700;
             letter-spacing: 1px;
             margin-bottom: 2px;
         }
 
         .logo-text p {
-            font-size: 11px;
+            font-size: 10px;
             opacity: 0.8;
             font-weight: 400;
         }
@@ -116,12 +113,12 @@
         }
 
         .nav-section {
-            margin-bottom: 25px;
+            margin-bottom: 20px;
         }
 
         .nav-section h3 {
             padding: 0 20px 10px;
-            font-size: 11px;
+            font-size: 10px;
             text-transform: uppercase;
             letter-spacing: 1px;
             opacity: 0.7;
@@ -141,7 +138,7 @@
         .nav-item {
             display: flex;
             align-items: center;
-            padding: 12px 20px;
+            padding: 10px 20px;
             cursor: pointer;
             transition: all 0.3s ease;
             border: none;
@@ -152,6 +149,7 @@
             position: relative;
             overflow: hidden;
             text-decoration: none;
+            font-size: 13px;
         }
 
         .nav-item:hover {
@@ -166,16 +164,15 @@
         }
 
         .nav-item i {
-            width: 20px;
-            font-size: 16px;
-            margin-right: 15px;
+            width: 18px;
+            font-size: 14px;
+            margin-right: 12px;
             flex-shrink: 0;
             text-align: center;
         }
 
         .nav-item span {
             transition: all 0.3s ease;
-            font-size: 14px;
             font-weight: 500;
             overflow: hidden;
             white-space: nowrap;
@@ -190,8 +187,8 @@
         .nav-item .chevron {
             margin-left: auto;
             transition: transform 0.3s ease;
-            font-size: 12px;
-            width: 12px;
+            font-size: 10px;
+            width: 10px;
         }
 
         .sidebar.collapsed .nav-item .chevron {
@@ -219,8 +216,8 @@
         }
 
         .sub-menu .nav-item {
-            padding-left: 50px;
-            font-size: 13px;
+            padding-left: 45px;
+            font-size: 12px;
         }
 
         .sidebar.collapsed .sub-menu .nav-item {
@@ -251,30 +248,11 @@
             transform: scale(1.1);
         }
 
-        .tooltip {
-            position: absolute;
-            left: 70px;
-            background: rgba(0,0,0,0.8);
-            color: white;
-            padding: 8px 12px;
-            border-radius: 4px;
-            font-size: 12px;
-            white-space: nowrap;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.3s ease;
-            z-index: 1002;
-        }
-
-        .sidebar.collapsed .nav-item:hover .tooltip {
-            opacity: 1;
-        }
-
-        
         .main-content {
             margin-left: 280px;
             transition: margin-left 0.3s ease;
             min-height: 100vh;
+            background: #f8f9fa;
         }
 
         .sidebar.collapsed + .main-content {
@@ -283,7 +261,7 @@
 
         .header {
             background: white;
-            padding: 20px 30px;
+            padding: 15px 30px;
             box-shadow: 0 2px 10px rgba(0,0,0,0.05);
             display: flex;
             justify-content: space-between;
@@ -294,26 +272,21 @@
             z-index: 100;
         }
 
-        .breadcrumb {
+        .header-left {
             display: flex;
             align-items: center;
-            gap: 8px;
-            color: #666;
-            font-size: 14px;
+            gap: 15px;
         }
 
-        .breadcrumb i {
+        .header-icon {
             color: #4a90e2;
+            font-size: 18px;
         }
 
-        .breadcrumb a {
-            color: #4a90e2;
-            text-decoration: none;
-            transition: color 0.3s ease;
-        }
-
-        .breadcrumb a:hover {
-            color: #357abd;
+        .header-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
         }
 
         .user-info {
@@ -323,166 +296,227 @@
         }
 
         .user-email {
-            font-size: 14px;
+            font-size: 12px;
             color: #666;
             font-weight: 500;
             text-align: right;
         }
 
         .system-subtitle {
-            font-size: 12px;
+            font-size: 10px;
             color: #999;
             text-align: right;
         }
 
-        .main-header{
+        .content-wrapper {
             padding: 30px;
-            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
         }
 
-        .main-h2 {
-            font-size: 32px;
+        .filters-section {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            margin-bottom: 30px;
+            border: 1px solid #e1e5e9;
+        }
+
+        .filters-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .filters-title {
+            font-size: 18px;
+            font-weight: 600;
             color: #333;
-            margin-bottom: 10px;
-            padding-top: 10px;
-            font-weight: 700;
         }
 
-        .main-p {
-            font-size: 16px;
+        .filters-subtitle {
+            font-size: 14px;
             color: #666;
-            line-height: 1.6;
-            margin-bottom: 10px;
+            margin-bottom: 20px;
         }
 
-        .search-box {
-            position: relative;
-            width: 100%;
-            max-width: 400px;
-            margin: 20px auto;
-            padding: 0 30px;
+        .filters-row {
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 20px;
+            align-items: end;
         }
 
-        .search-box input {
-            width: 100%;
-            padding: 12px 45px 12px 15px;
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .form-label {
+            font-size: 14px;
+            font-weight: 500;
+            color: #333;
+        }
+
+        .form-input {
+            padding: 10px 15px;
             border: 2px solid #e1e5e9;
-            border-radius: 25px;
+            border-radius: 8px;
             font-size: 14px;
             transition: all 0.3s ease;
             background: white;
         }
 
-        .search-box input:focus {
+        .form-input:focus {
             border-color: #4a90e2;
             box-shadow: 0 0 0 3px rgba(74,144,226,0.1);
             outline: none;
         }
 
-        .search-box i {
-            position: absolute;
-            right: 45px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #999;
-            font-size: 16px;
-            transition: color 0.3s ease;
-        }
-
-        .search-box input:focus + i {
-            color: #4a90e2;
-        }
-
-        .actions-bar {
-            display: block;
-            padding: 0 30px 20px;
-        }
-        
-        .tabela-container{
+        .form-select {
+            padding: 10px 15px;
+            border: 2px solid #e1e5e9;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: all 0.3s ease;
             background: white;
-            margin: 20px auto;
+            cursor: pointer;
+        }
+
+        .form-select:focus {
+            border-color: #4a90e2;
+            box-shadow: 0 0 0 3px rgba(74,144,226,0.1);
+            outline: none;
+        }
+
+        .reports-section {
+            background: white;
             padding: 25px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
             border-radius: 12px;
-            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
             border: 1px solid #e1e5e9;
         }
 
-        .tabela-container h2 {
-            margin-bottom: 25px;
-            color: #333;
-            font-size: 24px;
-            font-weight: 600;
+        .reports-header {
             display: flex;
             align-items: center;
             gap: 10px;
+            margin-bottom: 15px;
         }
 
-        .tabela-container h2 i {
-            color: #4a90e2;
+        .reports-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
         }
 
-        .table-wrapper {
-            overflow-x: auto;
-            border-radius: 8px;
-            border: 1px solid #e1e5e9;
+        .reports-subtitle {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 25px;
         }
 
-        .tabela-container table {
+        .reports-table {
             width: 100%;
             border-collapse: collapse;
             background: white;
         }
 
-        thead th {
+        .reports-table thead th {
             background: linear-gradient(135deg, #4a90e2 0%, #357abd 100%);
             color: white;
             font-weight: 600;
             padding: 15px 12px;
             text-align: left;
-            font-size: 14px;
+            font-size: 13px;
             letter-spacing: 0.5px;
             border: none;
         }
 
-        tbody td {
+        .reports-table tbody td {
             padding: 15px 12px;
             border-bottom: 1px solid #e1e5e9;
-            font-size: 14px;
+            font-size: 13px;
             color: #555;
         }
 
-        tbody tr {
+        .reports-table tbody tr {
             transition: all 0.3s ease;
         }
 
-        tbody tr:hover {
-            background-color: #f8f9fa;
-            transform: translateX(2px);
-        }
-
-        tbody tr:nth-child(even) {
-            background-color: #fbfbfb;
-        }
-
-        tbody tr:nth-child(even):hover {
+        .reports-table tbody tr:hover {
             background-color: #f8f9fa;
         }
 
-        th:nth-child(2),
-        td:nth-child(2) {
-            text-align: center;
-            width: 120px;
+        .category-badge {
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
-        .btn-executar{
+        .category-auditoria {
+            background: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeaa7;
+        }
+
+        .category-banco {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+
+        .category-aplicacao {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .category-gestao {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .category-correcao {
+            background: #ffeaa7;
+            color: #533f03;
+            border: 1px solid #fdd835;
+        }
+
+        .format-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 500;
+            text-transform: uppercase;
+        }
+
+        .format-pdf {
+            background: #ff7675;
+            color: white;
+        }
+
+        .format-excel {
+            background: #00b894;
+            color: white;
+        }
+
+        .btn-execute {
             background: linear-gradient(135deg, #4a90e2 0%, #357abd 100%);
             padding: 8px 16px;
             border: none;
             color: white;
             border-radius: 6px;
             cursor: pointer;
-            font-size: 13px;
+            font-size: 12px;
             font-weight: 500;
             transition: all 0.3s ease;
             box-shadow: 0 2px 4px rgba(74,144,226,0.2);
@@ -491,41 +525,23 @@
             gap: 6px;
         }
 
-        .btn-executar:hover {
+        .btn-execute:hover {
             background: linear-gradient(135deg, #357abd 0%, #2968a3 100%);
             transform: translateY(-1px);
             box-shadow: 0 4px 8px rgba(74,144,226,0.3);
         }
 
-        .btn-executar:active {
+        .btn-execute:active {
             transform: translateY(0);
         }
 
-        .a-style{
-            text-decoration: none;
-            color: white;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        /* Animações */
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
+        @media (max-width: 1024px) {
+            .filters-row {
+                grid-template-columns: 1fr;
+                gap: 15px;
             }
         }
 
-        .tabela-container {
-            animation: fadeIn 0.5s ease-out;
-        }
-
-        
         @media (max-width: 768px) {
             .sidebar {
                 width: 100%;
@@ -549,16 +565,17 @@
                 padding: 15px 20px;
             }
 
-            .main-header {
+            .content-wrapper {
                 padding: 20px;
             }
 
-            .actions-bar {
-                padding: 0 20px 20px;
+            .reports-table {
+                font-size: 12px;
             }
 
-            .search-box {
-                padding: 0;
+            .reports-table thead th,
+            .reports-table tbody td {
+                padding: 10px 8px;
             }
         }
     </style>
@@ -570,109 +587,84 @@
         </button>
         
         <div class="sidebar-header">
-            <div class="seice-logo" onclick="toggleSidebar()">
-                <img src="../img/image.png" alt="Logo SEICE">
+            <div class="seice-logo">S</div>
+            <div class="logo-text">
+                <h1>SEICE</h1>
+                <p>Sistema de Ensino Integrado</p>
             </div>
         </div>
 
         <nav class="nav-menu">
             <div class="nav-section">
                 <h3>Principal</h3>
-                <a href="index.html" class="nav-item" data-tooltip="Início">
+                <div class="nav-item">
                     <i class="fas fa-home"></i>
                     <span>Início</span>
-                    <div class="tooltip">Início</div>
-                </a>
+                </div>
             </div>
 
             <div class="nav-section">
                 <h3>Avaliações</h3>
-                <div class="nav-item expandable" onclick="toggleSubMenu(this)" data-tooltip="Avaliações">
+                <div class="nav-item expandable" onclick="toggleSubMenu(this)">
                     <i class="fas fa-clipboard-list"></i>
                     <span>AVALIAÇÕES</span>
                     <i class="fas fa-chevron-right chevron"></i>
-                    <div class="tooltip">Avaliações</div>
                 </div>
                 <div class="sub-menu">
-                    <a href="/banco-questoes" class="nav-item" data-tooltip="Banco de Questões">
+                    <div class="nav-item">
                         <i class="fas fa-database"></i>
                         <span>Banco de Questões</span>
-                        <div class="tooltip">Banco de Questões</div>
-                    </a>
-                    <a href="/avaliacao" class="nav-item" data-tooltip="Avaliação">
+                    </div>
+                    <div class="nav-item">
                         <i class="fas fa-edit"></i>
                         <span>Avaliação</span>
-                        <div class="tooltip">Avaliação</div>
-                    </a>
-                    <a href="/aplicacao" class="nav-item" data-tooltip="Aplicação">
+                    </div>
+                    <div class="nav-item">
                         <i class="fas fa-play"></i>
                         <span>Aplicação</span>
-                        <div class="tooltip">Aplicação</div>
-                    </a>
-                    <a href="/correcao" class="nav-item" data-tooltip="Correção">
+                    </div>
+                    <div class="nav-item">
                         <i class="fas fa-check"></i>
                         <span>Correção</span>
-                        <div class="tooltip">Correção</div>
-                    </a>
-                    <a href="enviar-imagens.html" class="nav-item" data-tooltip="Enviar Imagens">
-                        <i class="fas fa-images"></i>
-                        <span>Enviar Imagens</span>
-                        <div class="tooltip">Enviar Imagens</div>
-                    </a>
+                    </div>
                 </div>
             </div>
 
             <div class="nav-section">
                 <h3>Relatórios</h3>
-                <div class="nav-item expandable" onclick="toggleSubMenu(this)" data-tooltip="Resultados">
+                <div class="nav-item expandable" onclick="toggleSubMenu(this)">
                     <i class="fas fa-chart-bar"></i>
                     <span>RESULTADOS</span>
                     <i class="fas fa-chevron-right chevron"></i>
-                    <div class="tooltip">Resultados</div>
                 </div>
-                <div class="sub-menu">
-                    <a href="/relatorios-gerais" class="nav-item active" data-tooltip="Relatórios Gerais">
+                <div class="sub-menu open">
+                    <div class="nav-item active">
                         <i class="fas fa-file-alt"></i>
                         <span>Relatórios Gerais</span>
-                        <div class="tooltip">Relatórios Gerais</div>
-                    </a>
+                    </div>
                 </div>
             </div>
 
             <div class="nav-section">
                 <h3>Configurações</h3>
-                <div class="nav-item expandable" onclick="toggleSubMenu(this)" data-tooltip="Configuração">
+                <div class="nav-item expandable" onclick="toggleSubMenu(this)">
                     <i class="fas fa-cog"></i>
                     <span>CONFIGURAÇÃO</span>
                     <i class="fas fa-chevron-right chevron"></i>
-                    <div class="tooltip">Configuração</div>
                 </div>
                 <div class="sub-menu">
-                    <a href="../main-painel/serie.html" class="nav-item" data-tooltip="Série">
-                        <i class="fas fa-graduation-cap"></i>
-                        <span>Série</span>
-                        <div class="tooltip">Série</div>
-                    </a>
-                    <a href="turmas.html" class="nav-item" data-tooltip="Turma">
+                    <div class="nav-item">
                         <i class="fas fa-users"></i>
                         <span>Turma</span>
-                        <div class="tooltip">Turma</div>
-                    </a>
-                    <a href="../main-painel/alunos.html" class="nav-item" data-tooltip="Alunos">
+                    </div>
+                    <div class="nav-item">
                         <i class="fas fa-user-graduate"></i>
                         <span>Alunos</span>
-                        <div class="tooltip">Alunos</div>
-                    </a>
-                    <a href="/importar-alunos" class="nav-item" data-tooltip="Importar Alunos">
-                        <i class="fas fa-upload"></i>
-                        <span>Importar Alunos</span>
-                        <div class="tooltip">Importar Alunos</div>
-                    </a>
-                    <a href="../main-painel/importação-alunos.html" class="nav-item" data-tooltip="Usuários">
+                    </div>
+                    <div class="nav-item">
                         <i class="fas fa-user-cog"></i>
                         <span>Usuários</span>
-                        <div class="tooltip">Usuários</div>
-                    </a>
+                    </div>
                 </div>
             </div>
         </nav>
@@ -680,89 +672,143 @@
 
     <main class="main-content">
         <header class="header">
-            <div class="breadcrumb">
-                <i class="fas fa-home"></i>
-                <a href="/inicio">Início</a>
-                <span>/</span>
-                <span>Relatórios Gerais</span>
+            <div class="header-left">
+                <i class="fas fa-home header-icon"></i>
+                <span class="header-title">Início</span>
             </div>
             <div class="user-info">
                 <div>
-                    <div class="user-email">joaopedrosantosadmin@gmail.com</div>
+                    <div class="user-email">joaopedrosantosesiva13@gmail.com</div>
                     <div class="system-subtitle">Sistema de Ensino Integrado de Campos Elíseos</div>
                 </div>
             </div>
         </header>
         
-        <section class="content">
-            <div class="main-header">
-                <h2 class="main-h2">Relatórios Gerais</h2>
-                <p class="main-p">Aqui você pode acessar e gerar relatórios detalhados sobre as avaliações aplicadas, dados dos alunos e análises do sistema.</p>
-            </div>
-            
-            <div class="actions-bar">
-                <div class="search-box">
-                    <input type="text" placeholder="Digite algo que deseja encontrar..." id="searchInput" onkeyup="filterReports()">
-                    <i class="fas fa-search"></i>
+        <div class="content-wrapper">
+            <div class="filters-section">
+                <div class="filters-header">
+                    <i class="fas fa-filter" style="color: #4a90e2;"></i>
+                    <h2 class="filters-title">Filtros e Busca</h2>
                 </div>
+                <p class="filters-subtitle">Encontre rapidamente os relatórios que você precisa</p>
                 
-                <div class="tabela-container">
-                    <h2><i class="fas fa-file-chart-column"></i>Relatórios Disponíveis</h2>
-                    <div class="table-wrapper">
-                        <table id="reportsTable">
-                            <thead>
-                                <tr>
-                                    <th>Nome do Relatório</th>
-                                    <th>Ação</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>Auditoria Reconhecimento Facial</td>
-                                    <td><button class="btn-executar" onclick="executeReport('auditoria-facial')"><i class="fas fa-play"></i>Executar</button></td>
-                                </tr>
-                                <tr>
-                                    <td>Banco de Questões</td>
-                                    <td><button class="btn-executar" onclick="executeReport('banco-questoes')"><i class="fas fa-play"></i>Executar</button></td>
-                                </tr>
-                                <tr>
-                                    <td>Dados da Aplicação e Notas</td>
-                                    <td><button class="btn-executar" onclick="executeReport('dados-aplicacao')"><i class="fas fa-play"></i>Executar</button></td>
-                                </tr>
-                                <tr>
-                                    <td>Dados da Aplicação e Notas por Questão</td>
-                                    <td><button class="btn-executar" onclick="executeReport('dados-questao')"><i class="fas fa-play"></i>Executar</button></td>
-                                </tr>
-                                <tr>
-                                    <td>Turmas e Alunos</td>
-                                    <td><button class="btn-executar" onclick="executeReport('turmas-alunos')"><i class="fas fa-play"></i>Executar</button></td>
-                                </tr>
-                                <tr>
-                                    <td>Relatório - Correção de Avaliação</td>
-                                    <td><button class="btn-executar" onclick="executeReport('correcao-avaliacao')"><i class="fas fa-play"></i>Executar</button></td>
-                                </tr>
-                                <tr>
-                                    <td>Relatório de Marcação (Prova Online)</td>
-                                    <td><button class="btn-executar" onclick="executeReport('marcacao-online')"><i class="fas fa-play"></i>Executar</button></td>
-                                </tr>
-                                <tr>
-                                    <td>Relatório de Marcações (Prova Impressa)</td>
-                                    <td><button class="btn-executar" onclick="executeReport('marcacao-impressa')"><i class="fas fa-play"></i>Executar</button></td>
-                                </tr>
-                                <tr>
-                                    <td>Relatório do Professor</td>
-                                    <td><button class="btn-executar" onclick="executeReport('relatorio-professor')"><i class="fas fa-play"></i>Executar</button></td>
-                                </tr>
-                            </tbody>
-                        </table>
+                <div class="filters-row">
+                    <div class="form-group">
+                        <label class="form-label">Buscar Relatório</label>
+                        <input type="text" class="form-input" placeholder="Digite o nome do relatório..." id="searchInput" onkeyup="filterReports()">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Categoria</label>
+                        <select class="form-select" id="categoryFilter" onchange="filterReports()">
+                            <option value="">Todas as Categorias</option>
+                            <option value="Auditoria">Auditoria</option>
+                            <option value="Banco de Questões">Banco de Questões</option>
+                            <option value="Aplicação">Aplicação</option>
+                            <option value="Gestão">Gestão</option>
+                            <option value="Correção">Correção</option>
+                        </select>
                     </div>
                 </div>
             </div>
-        </section>
+
+            <div class="reports-section">
+                <div class="reports-header">
+                    <i class="fas fa-chart-line" style="color: #4a90e2;"></i>
+                    <h2 class="reports-title">Relatórios Disponíveis</h2>
+                </div>
+                <p class="reports-subtitle">Clique em "Executar" para gerar e baixar cada relatório</p>
+                
+                <table class="reports-table" id="reportsTable">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Nome do Relatório</th>
+                            <th>Categoria</th>
+                            <th>Formato</th>
+                            <th>Descrição</th>
+                            <th>Ação</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr data-category="Auditoria">
+                            <td><i class="fas fa-user-shield" style="color: #4a90e2;"></i></td>
+                            <td>Auditoria Reconhecimento Facial</td>
+                            <td><span class="category-badge category-auditoria">Auditoria</span></td>
+                            <td><span class="format-badge format-pdf"><i class="fas fa-file-pdf"></i> PDF</span></td>
+                            <td>Relatório de verificação de identidade e reconhecimento facial durante as avaliações</td>
+                            <td><button class="btn-execute" onclick="executeReport('auditoria-facial')"><i class="fas fa-play"></i>Executar</button></td>
+                        </tr>
+                        <tr data-category="Banco de Questões">
+                            <td><i class="fas fa-database" style="color: #4a90e2;"></i></td>
+                            <td>Banco de Questões</td>
+                            <td><span class="category-badge category-banco">Banco de Questões</span></td>
+                            <td><span class="format-badge format-excel"><i class="fas fa-file-excel"></i> EXCEL</span></td>
+                            <td>Inventário completo das questões cadastradas por matéria e dificuldade</td>
+                            <td><button class="btn-execute" onclick="executeReport('banco-questoes')"><i class="fas fa-play"></i>Executar</button></td>
+                        </tr>
+                        <tr data-category="Aplicação">
+                            <td><i class="fas fa-clipboard-check" style="color: #4a90e2;"></i></td>
+                            <td>Dados da Aplicação e Notas</td>
+                            <td><span class="category-badge category-aplicacao">Aplicação</span></td>
+                            <td><span class="format-badge format-excel"><i class="fas fa-file-excel"></i> EXCEL</span></td>
+                            <td>Relatório consolidado com dados de aplicação e notas dos alunos</td>
+                            <td><button class="btn-execute" onclick="executeReport('dados-aplicacao')"><i class="fas fa-play"></i>Executar</button></td>
+                        </tr>
+                        <tr data-category="Aplicação">
+                            <td><i class="fas fa-bullseye" style="color: #4a90e2;"></i></td>
+                            <td>Dados da Aplicação e Notas por Questão</td>
+                            <td><span class="category-badge category-aplicacao">Aplicação</span></td>
+                            <td><span class="format-badge format-excel"><i class="fas fa-file-excel"></i> EXCEL</span></td>
+                            <td>Análise detalhada das respostas e performance por questão específica</td>
+                            <td><button class="btn-execute" onclick="executeReport('dados-questao')"><i class="fas fa-play"></i>Executar</button></td>
+                        </tr>
+                        <tr data-category="Gestão">
+                            <td><i class="fas fa-school" style="color: #4a90e2;"></i></td>
+                            <td>Turmas e Alunos</td>
+                            <td><span class="category-badge category-gestao">Gestão</span></td>
+                            <td><span class="format-badge format-excel"><i class="fas fa-file-excel"></i> EXCEL</span></td>
+                            <td>Listagem de turmas cadastradas e alunos matriculados por classe</td>
+                            <td><button class="btn-execute" onclick="executeReport('turmas-alunos')"><i class="fas fa-play"></i>Executar</button></td>
+                        </tr>
+                        <tr data-category="Correção">
+                            <td><i class="fas fa-check-double" style="color: #4a90e2;"></i></td>
+                            <td>Relatório - Correção de Avaliação</td>
+                            <td><span class="category-badge category-correcao">Correção</span></td>
+                            <td><span class="format-badge format-pdf"><i class="fas fa-file-pdf"></i> PDF</span></td>
+                            <td>Relatório do processo de correção automática e manual das avaliações</td>
+                            <td><button class="btn-execute" onclick="executeReport('correcao-avaliacao')"><i class="fas fa-play"></i>Executar</button></td>
+                        </tr>
+                        <tr data-category="Aplicação">
+                            <td><i class="fas fa-mouse-pointer" style="color: #4a90e2;"></i></td>
+                            <td>Relatório de Marcação (Prova Online)</td>
+                            <td><span class="category-badge category-aplicacao">Aplicação</span></td>
+                            <td><span class="format-badge format-excel"><i class="fas fa-file-excel"></i> EXCEL</span></td>
+                            <td>Relatório das marcações e respostas de provas realizadas online</td>
+                            <td><button class="btn-execute" onclick="executeReport('marcacao-online')"><i class="fas fa-play"></i>Executar</button></td>
+                        </tr>
+                        <tr data-category="Aplicação">
+                            <td><i class="fas fa-print" style="color: #4a90e2;"></i></td>
+                            <td>Relatório de Marcações (Prova Impressa)</td>
+                            <td><span class="category-badge category-aplicacao">Aplicação</span></td>
+                            <td><span class="format-badge format-excel"><i class="fas fa-file-excel"></i> EXCEL</span></td>
+                            <td>Relatório das marcações de provas impressas digitalizadas</td>
+                            <td><button class="btn-execute" onclick="executeReport('marcacao-impressa')"><i class="fas fa-play"></i>Executar</button></td>
+                        </tr>
+                        <tr data-category="Gestão">
+                            <td><i class="fas fa-chalkboard-teacher" style="color: #4a90e2;"></i></td>
+                            <td>Relatório do Professor</td>
+                            <td><span class="category-badge category-gestao">Gestão</span></td>
+                            <td><span class="format-badge format-pdf"><i class="fas fa-file-pdf"></i> PDF</span></td>
+                            <td>Relatório consolidado para professores com estatísticas e análise da turma</td>
+                            <td><button class="btn-execute" onclick="executeReport('relatorio-professor')"><i class="fas fa-play"></i>Executar</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </main>
 
     <script>
-       
         function toggleSidebar() {
             const sidebar = document.getElementById('sidebar');
             const toggleIcon = document.getElementById('toggleIcon');
@@ -782,7 +828,6 @@
             const subMenu = element.nextElementSibling;
             const chevron = element.querySelector('.chevron');
             
-            
             const allSubMenus = document.querySelectorAll('.sub-menu');
             const allExpandableItems = document.querySelectorAll('.expandable');
             
@@ -798,140 +843,56 @@
                 }
             });
             
-          
             subMenu.classList.toggle('open');
             element.classList.toggle('expanded');
         }
 
-        
         function filterReports() {
-            const input = document.getElementById('searchInput');
-            const filter = input.value.toLowerCase();
+            const searchInput = document.getElementById('searchInput').value.toLowerCase();
+            const categoryFilter = document.getElementById('categoryFilter').value;
             const table = document.getElementById('reportsTable');
-            const rows = table.getElementsByTagName('tr');
+            const rows = table.getElementsByTagName('tbody')[0].getElementsByTagName('tr');
 
-            for (let i = 1; i < rows.length; i++) {
-                const td = rows[i].getElementsByTagName('td')[0];
-                if (td) {
-                    const txtValue = td.textContent || td.innerText;
-                    if (txtValue.toLowerCase().indexOf(filter) > -1) {
-                        rows[i].style.display = '';
-                    } else {
-                        rows[i].style.display = 'none';
-                    }
+            for (let i = 0; i < rows.length; i++) {
+                const reportName = rows[i].getElementsByTagName('td')[1].textContent.toLowerCase();
+                const reportCategory = rows[i].getAttribute('data-category');
+                
+                const matchesSearch = reportName.includes(searchInput);
+                const matchesCategory = categoryFilter === '' || reportCategory === categoryFilter;
+                
+                if (matchesSearch && matchesCategory) {
+                    rows[i].style.display = '';
+                } else {
+                    rows[i].style.display = 'none';
                 }
             }
         }
 
-        // executar relatório
         function executeReport(reportType) {
-            // simulação de execução do relatório
-            const button = event.target.closest('.btn-executar');
+            const button = event.target.closest('.btn-execute');
             const originalContent = button.innerHTML;
+            const reportName = button.closest('tr').getElementsByTagName('td')[1].textContent;
             
             button.innerHTML = '<i class="fas fa-spinner fa-spin"></i>Processando...';
             button.disabled = true;
+            button.style.background = 'linear-gradient(135deg, #ffc107, #e0a800)';
+            
+            showNotification(`Iniciando processamento: ${reportName}`, 'info');
             
             setTimeout(() => {
                 button.innerHTML = '<i class="fas fa-check"></i>Concluído';
                 button.style.background = 'linear-gradient(135deg, #28a745, #20c997)';
                 
+                showNotification(`Relatório "${reportName}" gerado com sucesso!`, 'success');
+                
                 setTimeout(() => {
                     button.innerHTML = originalContent;
                     button.disabled = false;
                     button.style.background = 'linear-gradient(135deg, #4a90e2 0%, #357abd 100%)';
-                    
-                    // aqui vou adicionar a lógica real para executar o relatório
-                    console.log(`Executando relatório: ${reportType}`);
                 }, 2000);
             }, 1500);
         }
 
-       
-        document.addEventListener('DOMContentLoaded', function() {
-            // marcar o item atual como ativo
-            const currentPath = window.location.pathname;
-            const navItems = document.querySelectorAll('.nav-item');
-            
-            navItems.forEach(item => {
-                if (item.getAttribute('href') === currentPath) {
-                    item.classList.add('active');
-                }
-            });
-
-            // auto-abrir o submenu que contém o item ativo
-            const activeItem = document.querySelector('.nav-item.active');
-            if (activeItem && activeItem.closest('.sub-menu')) {
-                const parentSubMenu = activeItem.closest('.sub-menu');
-                const parentExpandable = parentSubMenu.previousElementSibling;
-                
-                parentSubMenu.classList.add('open');
-                parentExpandable.classList.add('expanded');
-            }
-
-            // adicionado efeito de digitação no placeholder
-            const searchInput = document.getElementById('searchInput');
-            const placeholders = [
-                'Digite algo que deseja encontrar...',
-                'Buscar por relatório...',
-                'Encontre seu relatório...'
-            ];
-            let placeholderIndex = 0;
-            
-            setInterval(() => {
-                if (!searchInput.value) {
-                    searchInput.placeholder = placeholders[placeholderIndex];
-                    placeholderIndex = (placeholderIndex + 1) % placeholders.length;
-                }
-            }, 3000);
-        });
-
-        // função para fechar sidebar em dispositivos móveis ao clicar fora
-        document.addEventListener('click', function(event) {
-            const sidebar = document.getElementById('sidebar');
-            const toggleBtn = document.getElementById('toggleBtn');
-            
-            if (window.innerWidth <= 768) {
-                if (!sidebar.contains(event.target) && !toggleBtn.contains(event.target)) {
-                    sidebar.classList.remove('mobile-open');
-                }
-            }
-        });
-
-        // responsividade - ajustar comportamento da sidebar em mobile
-        window.addEventListener('resize', function() {
-            const sidebar = document.getElementById('sidebar');
-            
-            if (window.innerWidth > 768) {
-                sidebar.classList.remove('mobile-open');
-            }
-        });
-
-        // função para mobile toggle
-        function mobileToggleSidebar() {
-            if (window.innerWidth <= 768) {
-                const sidebar = document.getElementById('sidebar');
-                sidebar.classList.toggle('mobile-open');
-            } else {
-                toggleSidebar();
-            }
-        }
-
-        // atualiza o evento do botão toggle para funcionar em mobile
-        document.getElementById('toggleBtn').onclick = mobileToggleSidebar;
-
-      
-        document.querySelectorAll('.btn-executar').forEach(button => {
-            button.addEventListener('mouseenter', function() {
-                this.style.transform = 'translateY(-2px) scale(1.02)';
-            });
-            
-            button.addEventListener('mouseleave', function() {
-                this.style.transform = 'translateY(0) scale(1)';
-            });
-        });
-
-        // função para mostrar notificação (pode ser usada para feedback do usuário)
         function showNotification(message, type = 'success') {
             const notification = document.createElement('div');
             notification.style.cssText = `
@@ -965,83 +926,100 @@
             }, 3000);
         }
 
-        // melhorada a função executeReport com notificações
-        function executeReport(reportType) {
-            const button = event.target.closest('.btn-executar');
-            const originalContent = button.innerHTML;
-            const reportName = button.closest('tr').querySelector('td').textContent;
+        document.addEventListener('DOMContentLoaded', function() {
+            const currentPath = window.location.pathname;
+            const navItems = document.querySelectorAll('.nav-item');
             
-            button.innerHTML = '<i class="fas fa-spinner fa-spin"></i>Processando...';
-            button.disabled = true;
-            button.style.background = 'linear-gradient(135deg, #ffc107, #e0a800)';
-            
-            showNotification(`Iniciando processamento: ${reportName}`, 'info');
-            
-            setTimeout(() => {
-                button.innerHTML = '<i class="fas fa-check"></i>Concluído';
-                button.style.background = 'linear-gradient(135deg, #28a745, #20c997)';
-                
-                showNotification(`Relatório "${reportName}" gerado com sucesso!`, 'success');
-                
-                setTimeout(() => {
-                    button.innerHTML = originalContent;
-                    button.disabled = false;
-                    button.style.background = 'linear-gradient(135deg, #4a90e2 0%, #357abd 100%)';
-                }, 2000);
-            }, 1500);
-        }
-
-        // adicionada funcionalidade de busca em tempo real
-        document.getElementById('searchInput').addEventListener('input', function() {
-            filterReports();
-            
-            const table = document.getElementById('reportsTable');
-            const visibleRows = Array.from(table.querySelectorAll('tbody tr')).filter(row => 
-                row.style.display !== 'none'
-            );
-            
-            if (visibleRows.length === 0 && this.value.trim() !== '') {
-                if (!document.getElementById('no-results')) {
-                    const noResultsRow = document.createElement('tr');
-                    noResultsRow.id = 'no-results';
-                    noResultsRow.innerHTML = `
-                        <td colspan="2" style="text-align: center; padding: 30px; color: #666; font-style: italic;">
-                            <i class="fas fa-search" style="font-size: 24px; margin-bottom: 10px; display: block;"></i>
-                            Nenhum relatório encontrado para "${this.value}"
-                        </td>
-                    `;
-                    table.querySelector('tbody').appendChild(noResultsRow);
+            navItems.forEach(item => {
+                if (item.getAttribute('href') === currentPath) {
+                    item.classList.add('active');
                 }
-            } else {
-                const noResultsRow = document.getElementById('no-results');
-                if (noResultsRow) {
-                    noResultsRow.remove();
+            });
+
+            const activeItem = document.querySelector('.nav-item.active');
+            if (activeItem && activeItem.closest('.sub-menu')) {
+                const parentSubMenu = activeItem.closest('.sub-menu');
+                const parentExpandable = parentSubMenu.previousElementSibling;
+                
+                parentSubMenu.classList.add('open');
+                parentExpandable.classList.add('expanded');
+            }
+        });
+
+        document.addEventListener('click', function(event) {
+            const sidebar = document.getElementById('sidebar');
+            const toggleBtn = document.getElementById('toggleBtn');
+            
+            if (window.innerWidth <= 768) {
+                if (!sidebar.contains(event.target) && !toggleBtn.contains(event.target)) {
+                    sidebar.classList.remove('mobile-open');
                 }
             }
         });
 
-        // Função para limpar busca
-        function clearSearch() {
-            document.getElementById('searchInput').value = '';
-            filterReports();
-            const noResultsRow = document.getElementById('no-results');
-            if (noResultsRow) {
-                noResultsRow.remove();
+        window.addEventListener('resize', function() {
+            const sidebar = document.getElementById('sidebar');
+            
+            if (window.innerWidth > 768) {
+                sidebar.classList.remove('mobile-open');
+            }
+        });
+
+        function mobileToggleSidebar() {
+            if (window.innerWidth <= 768) {
+                const sidebar = document.getElementById('sidebar');
+                sidebar.classList.toggle('mobile-open');
+            } else {
+                toggleSidebar();
             }
         }
 
-        // Atalhos de teclado
+        document.getElementById('toggleBtn').onclick = mobileToggleSidebar;
+
+        document.querySelectorAll('.btn-execute').forEach(button => {
+            button.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-2px) scale(1.02)';
+            });
+            
+            button.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0) scale(1)';
+            });
+        });
+
         document.addEventListener('keydown', function(event) {
-           
             if (event.ctrlKey && event.key === 'k') {
                 event.preventDefault();
                 document.getElementById('searchInput').focus();
             }
             
-            
             if (event.key === 'Escape') {
-                clearSearch();
+                document.getElementById('searchInput').value = '';
+                document.getElementById('categoryFilter').value = '';
+                filterReports();
                 document.getElementById('searchInput').blur();
+            }
+        });
+
+     
+        document.querySelectorAll('.reports-table tbody tr').forEach(row => {
+            row.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateX(3px)';
+            });
+            
+            row.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateX(0)';
+            });
+        });
+
+  
+        document.addEventListener('DOMContentLoaded', function() {
+            const resultadosMenu = document.querySelector('.nav-item.expandable:nth-of-type(1)');
+            if (resultadosMenu) {
+                resultadosMenu.classList.add('expanded');
+                const subMenu = resultadosMenu.nextElementSibling;
+                if (subMenu) {
+                    subMenu.classList.add('open');
+                }
             }
         });
     </script>

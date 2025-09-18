@@ -1,6 +1,5 @@
 <?php
 // config.php - configuração do banco de dados e sistema
-require_once '../../../backend/config.php';
 
 define('DB_HOST', 'localhost');
 define('DB_NAME', 'seice_simulado');
@@ -8,22 +7,17 @@ define('DB_USER', 'root');         // altere se necessário
 define('DB_PASS', '');             // altere se a senha não for vazia
 define('DB_CHARSET', 'utf8mb4');
 
-
 // configurações de segurança
-define('SECRET_KEY', '41b474d2c28d6646687d7307db16036c6e03c9f39d89ebeebc423d9fbf2ddf5e'); //chave secreta
-define('SESSION_LIFETIME', 7200);  // 2 horas
+define('SECRET_KEY', '41b474d2c28d6646687d7307db16036c6e03c9f39d89ebeebc423d9fbf2ddf5e');
+define('SESSION_LIFETIME', 7200);
 define('MAX_LOGIN_ATTEMPTS', 5);
-define('LOCKOUT_TIME', 900);       // 15 minutos
-
+define('LOCKOUT_TIME', 900);
 
 // configurações do sistema
-define('SITE_URL', 'http://localhost/seice'); // altere conforme o ambiente
+define('SITE_URL', 'http://localhost/seice');
 define('SITE_NAME', 'SEICE - Sistema de Ensino Integrado de Campos Elíseos');
 
-
-
 date_default_timezone_set('America/Sao_Paulo');
-
 
 // iniciar sessão
 if (session_status() === PHP_SESSION_NONE) {
@@ -35,9 +29,7 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-
-// classe de conexão com o banco de dados 
-
+// classe de conexão com o banco de dados
 class Database {
     private static $instance = null;
     private $connection;
@@ -70,7 +62,6 @@ class Database {
         return $this->connection;
     }
 }
-
 
 function sanitizeInput($data) {
     if (is_null($data)) return null;
@@ -180,9 +171,7 @@ function logout() {
     session_destroy();
 }
 
-// ===============================
 // logs e debug
-// ===============================
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 ini_set('log_errors', 1);

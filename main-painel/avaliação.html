@@ -2009,7 +2009,7 @@
             }
         });
 
-        // Função para debugging (remover em produção)
+        
         function debugInfo() {
             console.log('=== DEBUG INFO - Sistema SEICE ===');
             console.log('Questões criadas:', AppState.questoesCriadas.length);
@@ -2018,10 +2018,10 @@
             console.log('Estado completo:', AppState);
         }
 
-        // Disponibilizar função debug no console
+       
         window.seiceDebug = debugInfo;
 
-        // Toast personalizado para feedback visual
+        
         function showToast(message, type = 'info', duration = 3000) {
             const toast = document.createElement('div');
             toast.className = `toast toast-${type}`;

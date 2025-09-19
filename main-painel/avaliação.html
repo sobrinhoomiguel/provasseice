@@ -20,7 +20,6 @@
             overflow-x: hidden;
         }
 
-        
         .sidebar {
             position: fixed;
             left: 0;
@@ -59,12 +58,14 @@
             flex-shrink: 0;
             overflow: hidden;
             transition: all 0.3s ease;
+            cursor: pointer;
         }
 
-        .seice-logo img {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
+        .seice-logo::after {
+            content: 'SEICE';
+            font-weight: bold;
+            font-size: 12px;
+            color: #2c4f73;
         }
 
         .sidebar.collapsed .seice-logo {
@@ -271,7 +272,6 @@
             opacity: 1;
         }
 
-        
         .main-content {
             margin-left: 280px;
             transition: margin-left 0.3s ease;
@@ -431,6 +431,11 @@
             background: #5a6268;
         }
 
+        .btn-sm {
+            padding: 6px 12px;
+            font-size: 12px;
+        }
+
         .modal {
             display: none;
             position: fixed;
@@ -458,6 +463,18 @@
             max-height: 80vh;
             overflow-y: auto;
             box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            animation: modalSlideIn 0.3s ease-out;
+        }
+
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px) scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
         }
 
         .modal-header {
@@ -482,84 +499,11 @@
             cursor: pointer;
             color: #6c757d;
             padding: 0;
+            transition: color 0.3s ease;
         }
 
         .close:hover {
             color: #dc3545;
-        }
-
-        .breadcrumb {
-            display: flex;
-            align-items: center;
-            margin-bottom: 20px;
-            font-size: 14px;
-            color: #6c757d;
-        }
-
-        .breadcrumb-item {
-            display: flex;
-            align-items: center;
-        }
-
-        .breadcrumb-item:not(:last-child)::after {
-            content: '>';
-            margin: 0 10px;
-            color: #adb5bd;
-        }
-
-        .breadcrumb-item:last-child {
-            color: #2D4B73;
-            font-weight: 500;
-        }
-
-        .questao-item {
-            background: white;
-            border: 1px solid #e1e5e9;
-            border-radius: 8px;
-            padding: 20px;
-            margin-bottom: 15px;
-            transition: box-shadow 0.2s ease;
-        }
-
-        .questao-item:hover {
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-        }
-
-        .questao-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-
-        .questao-tipo {
-            display: inline-block;
-            padding: 4px 12px;
-            background: #e9ecef;
-            color: #495057;
-            border-radius: 12px;
-            font-size: 12px;
-            font-weight: 500;
-        }
-
-        .questao-tipo.objetiva {
-            background: rgba(0, 212, 170, 0.1);
-            color: #00d4aa;
-        }
-
-        .questao-tipo.discursiva {
-            background: rgba(45, 75, 115, 0.1);
-            color: #2D4B73;
-        }
-
-        .questao-actions {
-            display: flex;
-            gap: 10px;
-        }
-
-        .btn-sm {
-            padding: 6px 12px;
-            font-size: 12px;
         }
 
         .empty-state {
@@ -599,10 +543,112 @@
             background: #dc3545;
         }
 
-        .user-info{
+        .notification.info {
+            background: #17a2b8;
+        }
+
+        .user-info {
             display: flex;
             align-items: center;
             gap: 15px;
+        }
+
+        .user-email {
+            font-size: 14px;
+            font-weight: 600;
+            color: #2D4B73;
+        }
+
+        .system-subtitle {
+            font-size: 12px;
+            color: #6c757d;
+        }
+
+        .alternativa-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+            padding: 10px;
+            border-radius: 6px;
+            transition: background-color 0.2s ease;
+        }
+
+        .alternativa-item:hover {
+            background-color: #f8f9fa;
+        }
+
+        .stats-section {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 20px;
+            margin-top: 30px;
+            padding: 0 30px;
+        }
+
+        .stats-card {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            border: 1px solid #e1e5e9;
+        }
+
+        .stats-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #2D4B73;
+            margin-bottom: 20px;
+        }
+
+        .chart-container {
+            height: 200px;
+            position: relative;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 280px;
+                transform: translateX(-100%);
+            }
+
+            .sidebar.open {
+                transform: translateX(0);
+            }
+
+            .sidebar.collapsed {
+                width: 280px;
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+
+            .sidebar.collapsed + .main-content {
+                margin-left: 0;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-section {
+                grid-template-columns: 1fr;
+                padding: 0 15px;
+            }
         }
     </style>
 </head>
@@ -613,15 +659,17 @@
         </button>
         
         <div class="sidebar-header">
-            <div class="seice-logo" onclick="toggleSidebar()">
-                <img src="../img/image.png" alt="Logo SEICE">
+            <div class="seice-logo" onclick="toggleSidebar()"></div>
+            <div class="logo-text">
+                <h1>SEICE</h1>
+                <p>Sistema Educacional</p>
             </div>
         </div>
 
         <nav class="nav-menu">
             <div class="nav-section">
                 <h3>Principal</h3>
-                <a href="index.html" class="nav-item" data-tooltip="Início">
+                <a href="index.html" class="nav-item" data-tooltip="Início" onclick="navigateToPage('inicio')">
                     <i class="fas fa-home"></i>
                     <span>Início</span>
                     <div class="tooltip">Início</div>
@@ -637,27 +685,27 @@
                     <div class="tooltip">Avaliações</div>
                 </div>
                 <div class="sub-menu">
-                    <a href="banco-questoes.html" class="nav-item" data-tooltip="Banco de Questões">
+                    <a href="banco-questoes.html" class="nav-item" data-tooltip="Banco de Questões" onclick="navigateToPage('banco-questoes')">
                         <i class="fas fa-database"></i>
                         <span>Banco de Questões</span>
                         <div class="tooltip">Banco de Questões</div>
                     </a>
-                    <a href="avaliação.html" class="nav-item active" data-tooltip="Avaliação">
+                    <a href="avaliação.html" class="nav-item active" data-tooltip="Avaliação" onclick="navigateToPage('avaliacao')">
                         <i class="fas fa-edit"></i>
                         <span>Avaliação</span>
                         <div class="tooltip">Avaliação</div>
                     </a>
-                    <a href="aplicação-simulado.html" class="nav-item" data-tooltip="Aplicação">
+                    <a href="aplicação-simulado.html" class="nav-item" data-tooltip="Aplicação" onclick="navigateToPage('aplicacao')">
                         <i class="fas fa-play"></i>
                         <span>Aplicação</span>
                         <div class="tooltip">Aplicação</div>
                     </a>
-                    <a href="correção.html" class="nav-item" data-tooltip="Correção">
+                    <a href="correção.html" class="nav-item" data-tooltip="Correção" onclick="navigateToPage('correcao')">
                         <i class="fas fa-check"></i>
                         <span>Correção</span>
                         <div class="tooltip">Correção</div>
                     </a>
-                    <a href="enviar-imagens.html" class="nav-item" data-tooltip="Enviar Imagens">
+                    <a href="enviar-imagens.html" class="nav-item" data-tooltip="Enviar Imagens"   onclick="navigateToPage('imagens')">
                         <i class="fas fa-images"></i>
                         <span>Enviar Imagens</span>
                         <div class="tooltip">Enviar Imagens</div>
@@ -674,7 +722,7 @@
                     <div class="tooltip">Resultados</div>
                 </div>
                 <div class="sub-menu">
-                    <a href="/relatorios-gerais" class="nav-item active" data-tooltip="Relatórios Gerais">
+                    <a href="relatorios-gerais.html" class="nav-item" data-tooltip="Relatórios Gerais" onclick="navigateToPage('relatorios')">
                         <i class="fas fa-file-alt"></i>
                         <span>Relatórios Gerais</span>
                         <div class="tooltip">Relatórios Gerais</div>
@@ -691,27 +739,27 @@
                     <div class="tooltip">Configuração</div>
                 </div>
                 <div class="sub-menu">
-                    <a href="../main-painel/serie.html" class="nav-item" data-tooltip="Série">
+                    <a href="serie.html" class="nav-item" data-tooltip="Série" onclick="navigateToPage('serie')">
                         <i class="fas fa-graduation-cap"></i>
                         <span>Série</span>
                         <div class="tooltip">Série</div>
                     </a>
-                    <a href="turmas.html" class="nav-item" data-tooltip="Turma">
+                    <a href="turmas.html" class="nav-item" data-tooltip="Turma" onclick="navigateToPage('turma')">
                         <i class="fas fa-users"></i>
                         <span>Turma</span>
                         <div class="tooltip">Turma</div>
                     </a>
-                    <a href="../main-painel/alunos.html" class="nav-item" data-tooltip="Alunos">
+                    <a href="alunos.html" class="nav-item" data-tooltip="Alunos" onclick="navigateToPage('alunos')">
                         <i class="fas fa-user-graduate"></i>
                         <span>Alunos</span>
                         <div class="tooltip">Alunos</div>
                     </a>
-                    <a href="/importar-alunos" class="nav-item" data-tooltip="Importar Alunos">
+                    <a href="importação-alunos.html" class="nav-item" data-tooltip="Importar Alunos" onclick="navigateToPage('importar-alunos')">
                         <i class="fas fa-upload"></i>
                         <span>Importar Alunos</span>
                         <div class="tooltip">Importar Alunos</div>
                     </a>
-                    <a href="../main-painel/importação-alunos.html" class="nav-item" data-tooltip="Usuários">
+                    <a href="usuarios.html" class="nav-item" data-tooltip="Usuários" onclick="navigateToPage('usuarios')">
                         <i class="fas fa-user-cog"></i>
                         <span>Usuários</span>
                         <div class="tooltip">Usuários</div>
@@ -725,9 +773,9 @@
         <header class="header">
             <div class="breadcrumb">
                 <i class="fas fa-home"></i>
-                <a href="/inicio">Início</a>
+                <a href="#" onclick="navigateToPage('inicio')">Início</a>
                 <span>/</span>
-                <span>Relatórios Gerais</span>
+                <span>Criação de Avaliações</span>
             </div>
             <div class="user-info">
                 <div>
@@ -736,221 +784,247 @@
                 </div>
             </div>
         </header>
-    <div class="tabs">
+
+        <div style="padding: 30px;">
+            <div class="tabs">
                 <button class="tab active" onclick="switchTab('criar-questao')">Criar Questão</button>
                 <button class="tab" onclick="switchTab('criar-prova')">Criar Prova</button>
             </div>
 
-           
             <div id="criar-questao" class="tab-content active">
                 <div class="form-container">
                     <h3 style="margin-bottom: 20px; color: #2D4B73;">Nova Questão</h3>
                     
-                    <div class="form-group">
-                        <label class="form-label">Tipo de Questão</label>
-                        <select class="form-control" id="tipo-questao" onchange="toggleTipoQuestao()">
-                            <option value="objetiva">Objetiva (Múltipla Escolha)</option>
-                            <option value="discursiva">Discursiva</option>
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="form-label">Disciplina</label>
-                        <select class="form-control">
-                            <option>Selecione a disciplina</option>
-                            <option>Matemática</option>
-                            <option>Português</option>
-                            <option>História</option>
-                            <option>Geografia</option>
-                            <option>Ciências</option>
-                            <option>Inglês</option>
-                            <option>Física</option>
-                            <option>Química</option>
-                            <option>Biologia</option>
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="form-label">Nível de Dificuldade</label>
-                        <select class="form-control">
-                            <option>Fácil</option>
-                            <option>Médio</option>
-                            <option>Difícil</option>
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="form-label">Enunciado da Questão</label>
-                        <textarea class="form-control" rows="6" placeholder="Digite o enunciado da questão..."></textarea>
-                    </div>
-
-                   
-                    <div id="alternativas-section">
+                    <form id="questao-form">
                         <div class="form-group">
-                            <label class="form-label">Alternativas</label>
-                            <div id="alternativas-container">
-                                <div class="alternativa-item" style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
-                                    <input type="radio" name="alternativa-correta" value="A">
-                                    <strong>A)</strong>
-                                    <input type="text" class="form-control" placeholder="Digite a alternativa A">
-                                </div>
-                                <div class="alternativa-item" style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
-                                    <input type="radio" name="alternativa-correta" value="B">
-                                    <strong>B)</strong>
-                                    <input type="text" class="form-control" placeholder="Digite a alternativa B">
-                                </div>
-                                <div class="alternativa-item" style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
-                                    <input type="radio" name="alternativa-correta" value="C">
-                                    <strong>C)</strong>
-                                    <input type="text" class="form-control" placeholder="Digite a alternativa C">
-                                </div>
-                                <div class="alternativa-item" style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
-                                    <input type="radio" name="alternativa-correta" value="D">
-                                    <strong>D)</strong>
-                                    <input type="text" class="form-control" placeholder="Digite a alternativa D">
-                                </div>
+                            <label class="form-label">Tipo de Questão</label>
+                            <select class="form-control" id="tipo-questao" onchange="toggleTipoQuestao()">
+                                <option value="objetiva">Objetiva (Múltipla Escolha)</option>
+                                <option value="discursiva">Discursiva</option>
+                            </select>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">Disciplina</label>
+                                <select class="form-control" id="disciplina" required>
+                                    <option value="">Selecione a disciplina</option>
+                                    <option value="matematica">Matemática</option>
+                                    <option value="portugues">Português</option>
+                                    <option value="historia">História</option>
+                                    <option value="geografia">Geografia</option>
+                                    <option value="ciencias">Ciências</option>
+                                    <option value="ingles">Inglês</option>
+                                    <option value="fisica">Física</option>
+                                    <option value="quimica">Química</option>
+                                    <option value="biologia">Biologia</option>
+                                </select>
                             </div>
-                            <small style="color: #6c757d;">Marque a alternativa correta</small>
-                        </div>
-                    </div>
 
-                   
-                    <div id="discursiva-section" style="display: none;">
+                            <div class="form-group">
+                                <label class="form-label">Nível de Dificuldade</label>
+                                <select class="form-control" id="dificuldade" required>
+                                    <option value="facil">Fácil</option>
+                                    <option value="medio">Médio</option>
+                                    <option value="dificil">Difícil</option>
+                                </select>
+                            </div>
+                        </div>
+
                         <div class="form-group">
-                            <label class="form-label">Resposta Esperada (Gabarito)</label>
-                            <textarea class="form-control" rows="4" placeholder="Digite a resposta esperada ou critérios de correção..."></textarea>
+                            <label class="form-label">Enunciado da Questão</label>
+                            <textarea class="form-control" id="enunciado" rows="6" placeholder="Digite o enunciado da questão..." required></textarea>
                         </div>
+
+                        <div id="alternativas-section">
+                            <div class="form-group">
+                                <label class="form-label">Alternativas</label>
+                                <div id="alternativas-container">
+                                    <div class="alternativa-item">
+                                        <input type="radio" name="alternativa-correta" value="A" id="alt-a">
+                                        <strong>A)</strong>
+                                        <input type="text" class="form-control" id="alternativa-a" placeholder="Digite a alternativa A" required>
+                                    </div>
+                                    <div class="alternativa-item">
+                                        <input type="radio" name="alternativa-correta" value="B" id="alt-b">
+                                        <strong>B)</strong>
+                                        <input type="text" class="form-control" id="alternativa-b" placeholder="Digite a alternativa B" required>
+                                    </div>
+                                    <div class="alternativa-item">
+                                        <input type="radio" name="alternativa-correta" value="C" id="alt-c">
+                                        <strong>C)</strong>
+                                        <input type="text" class="form-control" id="alternativa-c" placeholder="Digite a alternativa C" required>
+                                    </div>
+                                    <div class="alternativa-item">
+                                        <input type="radio" name="alternativa-correta" value="D" id="alt-d">
+                                        <strong>D)</strong>
+                                        <input type="text" class="form-control" id="alternativa-d" placeholder="Digite a alternativa D" required>
+                                    </div>
+                                </div>
+                                <small style="color: #6c757d;">Marque a alternativa correta</small>
+                            </div>
+                        </div>
+
+                        <div id="discursiva-section" style="display: none;">
+                            <div class="form-group">
+                                <label class="form-label">Resposta Esperada (Gabarito)</label>
+                                <textarea class="form-control" id="resposta-esperada" rows="4" placeholder="Digite a resposta esperada ou critérios de correção..."></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Pontuação Máxima</label>
+                                <input type="number" class="form-control" id="pontuacao-maxima" value="10" min="1">
+                            </div>
+                        </div>
+
                         <div class="form-group">
-                            <label class="form-label">Pontuação Máxima</label>
-                            <input type="number" class="form-control" value="10" min="1">
+                            <label class="form-label">Observações (opcional)</label>
+                            <textarea class="form-control" id="observacoes" rows="3" placeholder="Informações adicionais sobre a questão..."></textarea>
                         </div>
-                    </div>
 
-                    <div class="form-group">
-                        <label class="form-label">Observações (opcional)</label>
-                        <textarea class="form-control" rows="3" placeholder="Informações adicionais sobre a questão..."></textarea>
-                    </div>
-
-                    <div style="display: flex; gap: 15px;">
-                        <button class="btn btn-primary" onclick="salvarQuestao()">Salvar Questão</button>
-                        <button class="btn btn-secondary" onclick="limparFormulario()">Limpar</button>
-                        <button class="btn btn-success" onclick="salvarECriarNova()">Salvar e Criar Nova</button>
-                    </div>
+                        <div class="form-actions">
+                            <button type="button" class="btn btn-primary" onclick="salvarQuestao()">
+                                <i class="fas fa-save"></i> Salvar Questão
+                            </button>
+                            <button type="button" class="btn btn-secondary" onclick="limparFormulario()">
+                                <i class="fas fa-eraser"></i> Limpar
+                            </button>
+                            <button type="button" class="btn btn-success" onclick="salvarECriarNova()">
+                                <i class="fas fa-plus"></i> Salvar e Criar Nova
+                            </button>
+                        </div>
+                    </form>
                 </div>
             </div>
 
-          
             <div id="criar-prova" class="tab-content">
                 <div class="form-container">
                     <h3 style="margin-bottom: 20px; color: #2D4B73;">Nova Prova</h3>
                     
-                    <div class="form-group">
-                        <label class="form-label">Nome da Prova</label>
-                        <input type="text" class="form-control" placeholder="Ex: Avaliação de Matemática - 1º Bimestre">
-                    </div>
-
-                    <div class="form-group">
-                        <label class="form-label">Descrição</label>
-                        <textarea class="form-control" rows="3" placeholder="Descrição da prova"></textarea>
-                    </div>
-
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                    <form id="prova-form">
                         <div class="form-group">
-                            <label class="form-label">Disciplina</label>
-                            <select class="form-control">
-                                <option>Selecione a disciplina</option>
-                                <option>Matemática</option>
-                                <option>Português</option>
-                                <option>História</option>
-                                <option>Geografia</option>
+                            <label class="form-label">Nome da Prova</label>
+                            <input type="text" class="form-control" id="nome-prova" placeholder="Ex: Avaliação de Matemática - 1º Bimestre" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Descrição</label>
+                            <textarea class="form-control" id="descricao-prova" rows="3" placeholder="Descrição da prova" required></textarea>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">Disciplina</label>
+                                <select class="form-control" id="disciplina-prova" required>
+                                    <option value="">Selecione a disciplina</option>
+                                    <option value="matematica">Matemática</option>
+                                    <option value="portugues">Português</option>
+                                    <option value="historia">História</option>
+                                    <option value="geografia">Geografia</option>
+                                    <option value="ciencias">Ciências</option>
+                                    <option value="ingles">Inglês</option>
+                                    <option value="fisica">Física</option>
+                                    <option value="quimica">Química</option>
+                                    <option value="biologia">Biologia</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Número de Questões</label>
+                                <input type="number" class="form-control" id="num-questoes" value="20" min="1" max="100" required>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">Tempo de Duração (minutos)</label>
+                                <input type="number" class="form-control" id="tempo-duracao" value="120" min="30" max="480" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Valor Total da Prova</label>
+                                <input type="number" class="form-control" id="valor-total" value="100" step="0.1" min="1" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Seleção de Questões</label>
+                            <select class="form-control" id="tipo-selecao" onchange="toggleSelecaoQuestoes(this.value)">
+                                <option value="automatica">Automática (por filtros)</option>
+                                <option value="manual">Manual (escolher questões)</option>
                             </select>
                         </div>
-                        <div class="form-group">
-                            <label class="form-label">Número de Questões</label>
-                            <input type="number" class="form-control" value="20" min="1">
-                        </div>
-                    </div>
 
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
-                        <div class="form-group">
-                            <label class="form-label">Tempo de Duração (minutos)</label>
-                            <input type="number" class="form-control" value="120">
+                        <div id="filtros-automaticos">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label">Nível de Dificuldade</label>
+                                    <select class="form-control" id="dificuldade-prova">
+                                        <option value="misto">Misto</option>
+                                        <option value="facil">Fácil</option>
+                                        <option value="medio">Médio</option>
+                                        <option value="dificil">Difícil</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Tipo de Questões</label>
+                                    <select class="form-control" id="tipo-questoes-prova">
+                                        <option value="objetivas">Apenas Objetivas</option>
+                                        <option value="discursivas">Apenas Discursivas</option>
+                                        <option value="mista">Mista</option>
+                                    </select>
+                                </div>
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label class="form-label">Valor Total da Prova</label>
-                            <input type="number" class="form-control" value="100" step="0.1">
-                        </div>
-                    </div>
 
-                    <div class="form-group">
-                        <label class="form-label">Seleção de Questões</label>
-                        <select class="form-control" onchange="toggleSelecaoQuestoes(this.value)">
-                            <option value="automatica">Automática (por filtros)</option>
-                            <option value="manual">Manual (escolher questões)</option>
-                        </select>
-                    </div>
-
-                    <div id="filtros-automaticos">
-                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                        <div id="selecao-manual" style="display: none;">
                             <div class="form-group">
-                                <label class="form-label">Nível de Dificuldade</label>
-                                <select class="form-control">
-                                    <option>Misto</option>
-                                    <option>Fácil</option>
-                                    <option>Médio</option>
-                                    <option>Difícil</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">Tipo de Questões</label>
-                                <select class="form-control">
-                                    <option>Apenas Objetivas</option>
-                                    <option>Apenas Discursivas</option>
-                                    <option>Mista</option>
-                                </select>
+                                <label class="form-label">Questões Selecionadas</label>
+                                <div id="questoes-selecionadas" style="background: #f8f9fa; padding: 15px; border-radius: 8px; min-height: 100px;">
+                                    <p style="color: #6c757d; text-align: center; margin: 20px 0;">
+                                        <i class="fas fa-info-circle"></i> Nenhuma questão selecionada
+                                    </p>
+                                    <button type="button" class="btn btn-primary btn-sm" onclick="openModal('selecionar-questoes-modal')">
+                                        <i class="fas fa-search"></i> Selecionar Questões
+                                    </button>
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    <div id="selecao-manual" style="display: none;">
-                        <div class="form-group">
-                            <label class="form-label">Questões Selecionadas</label>
-                            <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; min-height: 100px;">
-                                <p style="color: #6c757d; text-align: center; margin: 20px 0;">
-                                    Nenhuma questão selecionada
-                                </p>
-                                <button class="btn btn-primary btn-sm" onclick="openModal('selecionar-questoes-modal')">
-                                    Selecionar Questões
-                                </button>
-                            </div>
+                        <div class="form-actions">
+                            <button type="button" class="btn btn-primary" onclick="criarProva()">
+                                <i class="fas fa-file-alt"></i> Criar Prova
+                            </button>
+                            <button type="button" class="btn btn-secondary" onclick="visualizarPrevia()">
+                                <i class="fas fa-eye"></i> Visualizar Prévia
+                            </button>
+                            <button type="button" class="btn btn-secondary" onclick="limparFormularioProva()">
+                                <i class="fas fa-eraser"></i> Limpar
+                            </button>
                         </div>
-                    </div>
-
-                    <div style="display: flex; gap: 15px;">
-                        <button class="btn btn-primary" onclick="criarProva()">Criar Prova</button>
-                        <button class="btn btn-secondary" onclick="visualizarPrevia()">Visualizar Prévia</button>
-                    </div>
+                    </form>
                 </div>
             </div>
 
             <div class="stats-section">
                 <div class="stats-card">
-                    <h3 class="stats-title">Novas questões</h3>
+                    <h3 class="stats-title">Novas questões criadas</h3>
                     <div class="chart-container">
                         <canvas id="questionsChart"></canvas>
                     </div>
                 </div>
 
                 <div class="stats-card">
-                    <div class="stats-title">Estatísticas</div>
+                    <div class="stats-title">Estatísticas do Sistema</div>
                     <div style="display: grid; grid-template-columns: 1fr; gap: 15px;">
                         <div style="text-align: center; padding: 15px; background: #f8f9fa; border-radius: 8px;">
-                            <div style="font-size: 24px; font-weight: 700; color: #2D4B73;">0</div>
-                            <div style="font-size: 12px; color: #6c757d;">Questões</div>
+                            <div style="font-size: 24px; font-weight: 700; color: #2D4B73;" id="total-questoes">0</div>
+                            <div style="font-size: 12px; color: #6c757d;">Total de Questões</div>
                         </div>
                         <div style="text-align: center; padding: 15px; background: #f8f9fa; border-radius: 8px;">
-                            <div style="font-size: 24px; font-weight: 700; color: #07d400;">0</div>
-                            <div style="font-size: 12px; color: #6c757d;">Provas</div>
+                            <div style="font-size: 24px; font-weight: 700; color: #07d400;" id="total-provas">0</div>
+                            <div style="font-size: 12px; color: #6c757d;">Total de Provas</div>
+                        </div>
+                        <div style="text-align: center; padding: 15px; background: #f8f9fa; border-radius: 8px;">
+                            <div style="font-size: 24px; font-weight: 700; color: #ff6b35;" id="questoes-hoje">0</div>
+                            <div style="font-size: 12px; color: #6c757d;">Questões Hoje</div>
                         </div>
                     </div>
                 </div>
@@ -958,47 +1032,184 @@
         </div>
     </main>
 
-   
+
     <div id="selecionar-questoes-modal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
-                <h3 class="modal-title">Selecionar Questões</h3>
+                <h3 class="modal-title">Selecionar Questões do Banco</h3>
                 <button class="close" onclick="closeModal('selecionar-questoes-modal')">&times;</button>
             </div>
-            <div class="empty-state">
-                <div class="empty-icon"><i class="fa-regular fa-file-lines"></i></div>
-                <h4>Nenhuma questão disponível</h4>
-                <p>Crie questões primeiro para poder selecioná-las.</p>
+            <div id="questoes-banco-lista">
+                <div class="empty-state">
+                    <div class="empty-icon"><i class="fa-regular fa-file-lines"></i></div>
+                    <h4>Nenhuma questão disponível</h4>
+                    <p>Crie questões primeiro para poder selecioná-las na criação de provas.</p>
+                    <button class="btn btn-primary" onclick="closeModal('selecionar-questoes-modal'); switchTab('criar-questao')">
+                        <i class="fas fa-plus"></i> Criar Nova Questão
+                    </button>
+                </div>
             </div>
         </div>
     </div>
 
-   
+    
+    <div id="confirmacao-modal" class="modal">
+        <div class="modal-content" style="max-width: 400px;">
+            <div class="modal-header">
+                <h3 class="modal-title" id="confirmacao-titulo">Confirmar Ação</h3>
+                <button class="close" onclick="closeModal('confirmacao-modal')">&times;</button>
+            </div>
+            <div id="confirmacao-conteudo">
+                <p id="confirmacao-texto"></p>
+                <div class="form-actions" style="justify-content: flex-end; margin-top: 20px;">
+                    <button class="btn btn-secondary" onclick="closeModal('confirmacao-modal')">Cancelar</button>
+                    <button class="btn btn-primary" id="confirmacao-btn-ok" onclick="">Confirmar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
     <div id="notification" class="notification">
         <span id="notification-text"></span>
     </div>
 
     <script>
+        // Estado da aplicação
+        const AppState = {
+            questoesCriadas: [],
+            provasCriadas: [],
+            sidebarCollapsed: false,
+            questaoAtual: null
+        };
+
        
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeApp();
+            loadData();
+            initializeChart();
+            setupEventListeners();
+        });
+
+        function initializeApp() {
+            console.log('Inicializando Sistema SEICE...');
+            updateStats();
+            
+           
+            const avaliacoesMenu = document.querySelector('.nav-item.expandable');
+            if (avaliacoesMenu) {
+                toggleSubMenu(avaliacoesMenu);
+            }
+        }
+
+        function setupEventListeners() {
+     
+            document.getElementById('questao-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                salvarQuestao();
+            });
+
+            document.getElementById('prova-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                criarProva();
+            });
+
+         
+            window.addEventListener('click', function(event) {
+                if (event.target.classList.contains('modal')) {
+                    event.target.classList.remove('show');
+                }
+            });
+
+           
+            document.addEventListener('keydown', function(e) {
+                if (e.ctrlKey && e.key === 's') {
+                    e.preventDefault();
+                    const activeTab = document.querySelector('.tab-content.active');
+                    if (activeTab && activeTab.id === 'criar-questao') {
+                        salvarQuestao();
+                    } else if (activeTab && activeTab.id === 'criar-prova') {
+                        criarProva();
+                    }
+                }
+                
+                if (e.key === 'Escape') {
+                    document.querySelectorAll('.modal.show').forEach(modal => {
+                        modal.classList.remove('show');
+                    });
+                }
+            });
+
+            // Auto-save (salvar rascunho)
+            setInterval(autoSave, 30000); // A cada 30 segundos
+        }
+
+        // Funções da Sidebar
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const toggleIcon = document.getElementById('toggleIcon');
+            
+            sidebar.classList.toggle('collapsed');
+            AppState.sidebarCollapsed = !AppState.sidebarCollapsed;
+            
+            if (AppState.sidebarCollapsed) {
+                toggleIcon.className = 'fas fa-chevron-right';
+            } else {
+                toggleIcon.className = 'fas fa-chevron-left';
+            }
+            
+            // Salvar preferência no localStorage
+            localStorage.setItem('sidebarCollapsed', AppState.sidebarCollapsed);
+        }
+
+        function toggleSubMenu(element) {
+            const chevron = element.querySelector('.chevron');
+            const subMenu = element.nextElementSibling;
+            
+            element.classList.toggle('expanded');
+            
+            if (subMenu && subMenu.classList.contains('sub-menu')) {
+                subMenu.classList.toggle('open');
+            }
+        }
+
+        function navigateToPage(page) {
+            // Atualizar item ativo na sidebar
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            
+            event.target.closest('.nav-item').classList.add('active');
+            
+            // Simular navegação (substituir por roteamento real)
+            showNotification(`Navegando para: ${page}`, 'info');
+        }
+
+    
         function switchTab(tabId) {
-          
+        
             document.querySelectorAll('.tab-content').forEach(content => {
                 content.classList.remove('active');
             });
             
-          
             document.querySelectorAll('.tab').forEach(tab => {
                 tab.classList.remove('active');
             });
             
-        
+          
             document.getElementById(tabId).classList.add('active');
-            
-            
             event.target.classList.add('active');
+            
+           
+            const breadcrumbSpan = document.querySelector('.breadcrumb span:last-child');
+            if (tabId === 'criar-questao') {
+                breadcrumbSpan.textContent = 'Criar Questão';
+            } else if (tabId === 'criar-prova') {
+                breadcrumbSpan.textContent = 'Criar Prova';
+            }
         }
 
-        
+      
         function toggleTipoQuestao() {
             const tipo = document.getElementById('tipo-questao').value;
             const alternativasSection = document.getElementById('alternativas-section');
@@ -1007,13 +1218,151 @@
             if (tipo === 'objetiva') {
                 alternativasSection.style.display = 'block';
                 discursivaSection.style.display = 'none';
+                
+                // Tornar alternativas obrigatórias
+                document.querySelectorAll('#alternativas-container input[type="text"]').forEach(input => {
+                    input.required = true;
+                });
+                document.getElementById('resposta-esperada').required = false;
             } else {
                 alternativasSection.style.display = 'none';
                 discursivaSection.style.display = 'block';
+                
+                // Remover obrigatoriedade das alternativas
+                document.querySelectorAll('#alternativas-container input[type="text"]').forEach(input => {
+                    input.required = false;
+                });
+                document.getElementById('resposta-esperada').required = true;
             }
         }
 
-      
+        function salvarQuestao() {
+            const form = document.getElementById('questao-form');
+            
+            if (!validarFormularioQuestao()) {
+                return;
+            }
+            
+            const questao = coletarDadosQuestao();
+            
+            // Salvar questão
+            AppState.questoesCriadas.push(questao);
+            saveData();
+            updateStats();
+            
+            showNotification('Questão salva com sucesso!', 'success');
+            
+            // Atualizar gráfico
+            updateChart();
+        }
+
+        function salvarECriarNova() {
+            salvarQuestao();
+            setTimeout(() => {
+                limparFormulario();
+                document.getElementById('enunciado').focus();
+            }, 500);
+        }
+
+        function validarFormularioQuestao() {
+            const tipo = document.getElementById('tipo-questao').value;
+            const disciplina = document.getElementById('disciplina').value;
+            const enunciado = document.getElementById('enunciado').value.trim();
+            
+            if (!disciplina) {
+                showNotification('Por favor, selecione uma disciplina.', 'error');
+                document.getElementById('disciplina').focus();
+                return false;
+            }
+            
+            if (!enunciado) {
+                showNotification('Por favor, digite o enunciado da questão.', 'error');
+                document.getElementById('enunciado').focus();
+                return false;
+            }
+            
+            if (tipo === 'objetiva') {
+                const alternativasPreenchidas = [];
+                let alternativaCorreta = false;
+                
+                ['a', 'b', 'c', 'd'].forEach(letra => {
+                    const input = document.getElementById(`alternativa-${letra}`);
+                    if (input && input.value.trim()) {
+                        alternativasPreenchidas.push(letra);
+                    }
+                });
+                
+                const radioSelecionado = document.querySelector('input[name="alternativa-correta"]:checked');
+                if (radioSelecionado) {
+                    alternativaCorreta = true;
+                }
+                
+                if (alternativasPreenchidas.length < 2) {
+                    showNotification('Preencha pelo menos 2 alternativas.', 'error');
+                    return false;
+                }
+                
+                if (!alternativaCorreta) {
+                    showNotification('Selecione a alternativa correta.', 'error');
+                    return false;
+                }
+            } else {
+                const respostaEsperada = document.getElementById('resposta-esperada').value.trim();
+                if (!respostaEsperada) {
+                    showNotification('Digite a resposta esperada para a questão discursiva.', 'error');
+                    document.getElementById('resposta-esperada').focus();
+                    return false;
+                }
+            }
+            
+            return true;
+        }
+
+        function coletarDadosQuestao() {
+            const tipo = document.getElementById('tipo-questao').value;
+            const questao = {
+                id: Date.now(),
+                tipo: tipo,
+                disciplina: document.getElementById('disciplina').value,
+                dificuldade: document.getElementById('dificuldade').value,
+                enunciado: document.getElementById('enunciado').value.trim(),
+                observacoes: document.getElementById('observacoes').value.trim(),
+                criadaEm: new Date().toISOString()
+            };
+            
+            if (tipo === 'objetiva') {
+                questao.alternativas = {
+                    a: document.getElementById('alternativa-a').value.trim(),
+                    b: document.getElementById('alternativa-b').value.trim(),
+                    c: document.getElementById('alternativa-c').value.trim(),
+                    d: document.getElementById('alternativa-d').value.trim()
+                };
+                
+                const radioSelecionado = document.querySelector('input[name="alternativa-correta"]:checked');
+                questao.alternativaCorreta = radioSelecionado ? radioSelecionado.value : null;
+            } else {
+                questao.respostaEsperada = document.getElementById('resposta-esperada').value.trim();
+                questao.pontuacaoMaxima = parseInt(document.getElementById('pontuacao-maxima').value) || 10;
+            }
+            
+            return questao;
+        }
+
+        function limparFormulario() {
+            const form = document.getElementById('questao-form');
+            form.reset();
+            
+            // Resetar tipo de questão para objetiva
+            document.getElementById('tipo-questao').value = 'objetiva';
+            toggleTipoQuestao();
+            
+            // Limpar seleção de alternativa correta
+            document.querySelectorAll('input[name="alternativa-correta"]').forEach(radio => {
+                radio.checked = false;
+            });
+        }
+
+        // Funções de Provas
         function toggleSelecaoQuestoes(tipo) {
             const automaticos = document.getElementById('filtros-automaticos');
             const manual = document.getElementById('selecao-manual');
@@ -1027,97 +1376,704 @@
             }
         }
 
-        
+        function criarProva() {
+            const form = document.getElementById('prova-form');
+            
+            if (!validarFormularioProva()) {
+                return;
+            }
+            
+            const prova = coletarDadosProva();
+            
+            // Salvar prova
+            AppState.provasCriadas.push(prova);
+            saveData();
+            updateStats();
+            
+            showNotification('Prova criada com sucesso!', 'success');
+            
+            // Perguntar se quer limpar o formulário
+            setTimeout(() => {
+                if (confirm('Deseja criar uma nova prova?')) {
+                    limparFormularioProva();
+                }
+            }, 1000);
+        }
+
+        function validarFormularioProva() {
+            const nome = document.getElementById('nome-prova').value.trim();
+            const disciplina = document.getElementById('disciplina-prova').value;
+            const numQuestoes = parseInt(document.getElementById('num-questoes').value);
+            
+            if (!nome) {
+                showNotification('Digite o nome da prova.', 'error');
+                document.getElementById('nome-prova').focus();
+                return false;
+            }
+            
+            if (!disciplina) {
+                showNotification('Selecione a disciplina.', 'error');
+                document.getElementById('disciplina-prova').focus();
+                return false;
+            }
+            
+            if (numQuestoes < 1) {
+                showNotification('O número de questões deve ser maior que zero.', 'error');
+                document.getElementById('num-questoes').focus();
+                return false;
+            }
+            
+            const tipoSelecao = document.getElementById('tipo-selecao').value;
+            if (tipoSelecao === 'manual') {
+                // Verificar se questões foram selecionadas
+                const questoesSelecionadas = document.querySelectorAll('#questoes-selecionadas .questao-selecionada');
+                if (questoesSelecionadas.length === 0) {
+                    showNotification('Selecione pelo menos uma questão.', 'error');
+                    return false;
+                }
+            }
+            
+            return true;
+        }
+
+        function coletarDadosProva() {
+            return {
+                id: Date.now(),
+                nome: document.getElementById('nome-prova').value.trim(),
+                descricao: document.getElementById('descricao-prova').value.trim(),
+                disciplina: document.getElementById('disciplina-prova').value,
+                numeroQuestoes: parseInt(document.getElementById('num-questoes').value),
+                tempoDuracao: parseInt(document.getElementById('tempo-duracao').value),
+                valorTotal: parseFloat(document.getElementById('valor-total').value),
+                tipoSelecao: document.getElementById('tipo-selecao').value,
+                dificuldade: document.getElementById('dificuldade-prova').value,
+                tipoQuestoes: document.getElementById('tipo-questoes-prova').value,
+                criadaEm: new Date().toISOString()
+            };
+        }
+
+        function limparFormularioProva() {
+            const form = document.getElementById('prova-form');
+            form.reset();
+            
+            // Resetar valores padrão
+            document.getElementById('num-questoes').value = '20';
+            document.getElementById('tempo-duracao').value = '120';
+            document.getElementById('valor-total').value = '100';
+            document.getElementById('tipo-selecao').value = 'automatica';
+            document.getElementById('dificuldade-prova').value = 'misto';
+            document.getElementById('tipo-questoes-prova').value = 'objetivas';
+            
+            // Resetar seção de seleção
+            toggleSelecaoQuestoes('automatica');
+        }
+
+        function visualizarPrevia() {
+            showNotification('Funcionalidade de prévia em desenvolvimento.', 'info');
+        }
+
+        // Funções de Modais
         function openModal(modalId) {
-            document.getElementById(modalId).classList.add('show');
+            const modal = document.getElementById(modalId);
+            modal.classList.add('show');
+            
+            // Se for modal de seleção de questões, carregar questões
+            if (modalId === 'selecionar-questoes-modal') {
+                carregarQuestoesBanco();
+            }
         }
 
         function closeModal(modalId) {
-            document.getElementById(modalId).classList.remove('show');
+            const modal = document.getElementById(modalId);
+            modal.classList.remove('show');
         }
 
-       
+        function carregarQuestoesBanco() {
+            const container = document.getElementById('questoes-banco-lista');
+            
+            if (AppState.questoesCriadas.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-icon"><i class="fa-regular fa-file-lines"></i></div>
+                        <h4>Nenhuma questão disponível</h4>
+                        <p>Crie questões primeiro para poder selecioná-las na criação de provas.</p>
+                        <button class="btn btn-primary" onclick="closeModal('selecionar-questoes-modal'); switchTab('criar-questao')">
+                            <i class="fas fa-plus"></i> Criar Nova Questão
+                        </button>
+                    </div>
+                `;
+                return;
+            }
+            
+            // Construir lista de questões
+            let html = '<div style="max-height: 400px; overflow-y: auto;">';
+            
+            AppState.questoesCriadas.forEach(questao => {
+                html += `
+                    <div class="questao-item" style="margin-bottom: 15px; padding: 15px; border: 1px solid #e1e5e9; border-radius: 8px;">
+                        <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 10px;">
+                            <div>
+                                <span class="questao-tipo ${questao.tipo}">${questao.tipo.toUpperCase()}</span>
+                                <strong style="margin-left: 10px;">${questao.disciplina}</strong>
+                                <span style="margin-left: 10px; color: #6c757d; font-size: 12px;">${questao.dificuldade}</span>
+                            </div>
+                            <input type="checkbox" name="questao-selecionada" value="${questao.id}" style="transform: scale(1.2);">
+                        </div>
+                        <p style="margin: 0; color: #495057; font-size: 14px;">${questao.enunciado.substring(0, 100)}${questao.enunciado.length > 100 ? '...' : ''}</p>
+                    </div>
+                `;
+            });
+            
+            html += '</div>';
+            html += `
+                <div style="margin-top: 20px; text-align: right;">
+                    <button class="btn btn-secondary" onclick="closeModal('selecionar-questoes-modal')">Cancelar</button>
+                    <button class="btn btn-primary" onclick="confirmarSelecaoQuestoes()" style="margin-left: 10px;">Confirmar Seleção</button>
+                </div>
+            `;
+            
+            container.innerHTML = html;
+        }
+
+        function confirmarSelecaoQuestoes() {
+            const checkboxes = document.querySelectorAll('input[name="questao-selecionada"]:checked');
+            const questoesSelecionadas = Array.from(checkboxes).map(cb => parseInt(cb.value));
+            
+            if (questoesSelecionadas.length === 0) {
+                showNotification('Selecione pelo menos uma questão.', 'error');
+                return;
+            }
+            
+            // Atualizar interface de questões selecionadas
+            const container = document.getElementById('questoes-selecionadas');
+            let html = `<p style="margin-bottom: 15px; color: #2D4B73; font-weight: 600;"><i class="fas fa-check-circle"></i> ${questoesSelecionadas.length} questões selecionadas:</p>`;
+            
+            questoesSelecionadas.forEach(id => {
+                const questao = AppState.questoesCriadas.find(q => q.id === id);
+                if (questao) {
+                    html += `   
+                        <div class="questao-selecionada" style="background: white; padding: 10px; margin-bottom: 8px; border-radius: 6px; border-left: 3px solid #4a90e2;">
+                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                                <div>
+                                    <span class="questao-tipo ${questao.tipo}" style="font-size: 10px; padding: 2px 6px;">${questao.tipo.toUpperCase()}</span>
+                                    <span style="margin-left: 8px; font-size: 13px;">${questao.enunciado.substring(0, 60)}...</span>
+                                </div>
+                                <button class="btn btn-sm" style="padding: 2px 6px; font-size: 10px; background: #dc3545; color: white;" onclick="removerQuestaoSelecionada(${id})">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                        </div>   
+                    `;
+                }
+            });
+            
+            html += `<button class="btn btn-primary btn-sm" onclick="openModal('selecionar-questoes-modal')" style="margin-top: 10px;">
+                        <i class="fas fa-plus"></i> Adicionar Mais
+                     </button>`;
+            
+            container.innerHTML = html;
+            
+            // Atualizar número de questões
+            document.getElementById('num-questoes').value = questoesSelecionadas.length;
+            
+            closeModal('selecionar-questoes-modal');
+            showNotification(`${questoesSelecionadas.length} questões selecionadas com sucesso!`, 'success');
+        }
+   
+        function removerQuestaoSelecionada(id) {
+            const questaoDiv = event.target.closest('.questao-selecionada');
+            questaoDiv.remove();
+            
+            // Recontar questões
+            const remaining = document.querySelectorAll('#questoes-selecionadas .questao-selecionada').length;
+            document.getElementById('num-questoes').value = remaining;
+            
+            if (remaining === 0) {
+                document.getElementById('questoes-selecionadas').innerHTML = `
+                    <p style="color: #6c757d; text-align: center; margin: 20px 0;">
+                        <i class="fas fa-info-circle"></i> Nenhuma questão selecionada
+                    </p>
+                    <button type="button" class="btn btn-primary btn-sm" onclick="openModal('selecionar-questoes-modal')">
+                        <i class="fas fa-search"></i> Selecionar Questões
+                    </button>
+                `;
+            }
+        }
+
+        // Sistema de Notificações
         function showNotification(message, type = 'success') {
             const notification = document.getElementById('notification');
             const text = document.getElementById('notification-text');
             
-            text.textContent = message;
+            text.innerHTML = `<i class="fas fa-${getNotificationIcon(type)}"></i> ${message}`;
             notification.className = `notification ${type}`;
             notification.classList.add('show');
             
+            // Auto-hide após 4 segundos
             setTimeout(() => {
                 notification.classList.remove('show');
-            }, 3000);
+            }, 4000);
         }
 
+        function getNotificationIcon(type) {
+            const icons = {
+                'success': 'check-circle',
+                'error': 'exclamation-circle',
+                'info': 'info-circle',
+                'warning': 'exclamation-triangle'
+            };
+            return icons[type] || 'info-circle';
+        }
+
+        // Funções de dados e estatísticas
+        function loadData() {
+            try {
+                const questoes = localStorage.getItem('seice_questoes');
+                const provas = localStorage.getItem('seice_provas');
+                const sidebarCollapsed = localStorage.getItem('sidebarCollapsed');
+                
+                if (questoes) {
+                    AppState.questoesCriadas = JSON.parse(questoes);
+                }
+                
+                if (provas) {
+                    AppState.provasCriadas = JSON.parse(provas);
+                }
+                
+                if (sidebarCollapsed === 'true') {
+                    document.getElementById('sidebar').classList.add('collapsed');
+                    document.getElementById('toggleIcon').className = 'fas fa-chevron-right';
+                    AppState.sidebarCollapsed = true;
+                }
+            } catch (error) {
+                console.error('Erro ao carregar dados:', error);
+            }
+        }
      
-        function salvarQuestao() {
+        function saveData() {
+            try {
+                localStorage.setItem('seice_questoes', JSON.stringify(AppState.questoesCriadas));
+                localStorage.setItem('seice_provas', JSON.stringify(AppState.provasCriadas));
+            } catch (error) {
+                console.error('Erro ao salvar dados:', error);
+                showNotification('Erro ao salvar dados. Verifique o espaço de armazenamento.', 'error');
+            }
+        }
+     
+        function updateStats() {
+            const totalQuestoes = AppState.questoesCriadas.length;
+            const totalProvas = AppState.provasCriadas.length;
             
-            showNotification('Questão salva com sucesso!', 'success');
-           
-        }
-
-        function salvarECriarNova() {
-          
-            showNotification('Questão salva! Pronto para criar uma nova.', 'success');
-            limparFormulario();
-        }
-
-        function limparFormulario() {
-         
-            document.querySelectorAll('.form-control').forEach(field => {
-                field.value = '';
-            });
-            document.querySelectorAll('input[type="radio"]').forEach(radio => {
-                radio.checked = false;
-            });
-        }
-
-        function criarProva() {
-            showNotification('Prova criada com sucesso!', 'success');
+            // Questões criadas hoje
+            const hoje = new Date().toDateString();
+            const questoesHoje = AppState.questoesCriadas.filter(q => {
+                return new Date(q.criadaEm).toDateString() === hoje;
+            }).length;
             
+            document.getElementById('total-questoes').textContent = totalQuestoes;
+            document.getElementById('total-provas').textContent = totalProvas;
+            document.getElementById('questoes-hoje').textContent = questoesHoje;
         }
 
-        function visualizarPrevia() {
-            showNotification('Funcionalidade em desenvolvimento', 'info');
+        function autoSave() {
+            // Auto-save dos dados em rascunho
+            const questaoForm = document.getElementById('questao-form');
+            const provaForm = document.getElementById('prova-form');
+            
+            if (questaoForm && document.getElementById('enunciado').value.trim()) {
+                const rascunhoQuestao = coletarDadosFormulario(questaoForm);
+                localStorage.setItem('seice_rascunho_questao', JSON.stringify({
+                    ...rascunhoQuestao,
+                    savedAt: new Date().toISOString()
+                }));
+            }
+            
+            if (provaForm && document.getElementById('nome-prova').value.trim()) {
+                const rascunhoProva = coletarDadosFormulario(provaForm);
+                localStorage.setItem('seice_rascunho_prova', JSON.stringify({
+                    ...rascunhoProva,
+                    savedAt: new Date().toISOString()
+                }));
+            }
         }
 
-       
-        const ctx = document.getElementById('questionsChart');
-        if (ctx) {
-            new Chart(ctx, {
+        function coletarDadosFormulario(form) {
+            const dados = {};
+            const formData = new FormData(form);
+            
+            for (let [key, value] of formData.entries()) {
+                dados[key] = value;
+            }
+            
+            // Adicionar campos específicos
+            form.querySelectorAll('input, select, textarea').forEach(field => {
+                if (field.type === 'checkbox' || field.type === 'radio') {
+                    dados[field.id || field.name] = field.checked;
+                } else {
+                    dados[field.id || field.name] = field.value;
+                }
+            });
+            
+            return dados;
+        }
+
+        // Gráfico de estatísticas
+        let questionsChart = null;
+
+        function initializeChart() {
+            const ctx = document.getElementById('questionsChart');
+            if (!ctx) return;
+
+            // Dados dos últimos 6 meses
+            const meses = [];
+            const questoesPorMes = [];
+            const agora = new Date();
+            
+            for (let i = 5; i >= 0; i--) {
+                const data = new Date(agora.getFullYear(), agora.getMonth() - i, 1);
+                const nomesMeses = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'];
+                meses.push(nomesMeses[data.getMonth()]);
+                
+                // Contar questões do mês
+                const questoesDoMes = AppState.questoesCriadas.filter(q => {
+                    const questaoData = new Date(q.criadaEm);
+                    return questaoData.getFullYear() === data.getFullYear() && 
+                           questaoData.getMonth() === data.getMonth();
+                }).length;
+                
+                questoesPorMes.push(questoesDoMes);
+            }
+
+            questionsChart = new Chart(ctx, {
                 type: 'line',
                 data: {
-                    labels: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun'],
+                    labels: meses,
                     datasets: [{
-                        label: 'Questões',
-                        data: [0, 0, 0, 0, 0, 0],
+                        label: 'Questões Criadas',
+                        data: questoesPorMes,
                         borderColor: '#2D4B73',
                         backgroundColor: 'rgba(45, 75, 115, 0.1)',
                         fill: true,
-                        tension: 0.4
+                        tension: 0.4,
+                        pointBackgroundColor: '#2D4B73',
+                        pointBorderColor: '#ffffff',
+                        pointBorderWidth: 2,
+                        pointRadius: 5
                     }]
                 },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
                     plugins: {
-                        legend: { display: false }
+                        legend: { 
+                            display: false 
+                        }
                     },
                     scales: {
-                        y: { beginAtZero: true, max: 10 }
+                        y: { 
+                            beginAtZero: true,
+                            grid: {
+                                color: 'rgba(0,0,0,0.1)'
+                            },
+                            ticks: {
+                                color: '#6c757d',
+                                font: {
+                                    size: 12
+                                }
+                            }
+                        },
+                        x: {
+                            grid: {
+                                color: 'rgba(0,0,0,0.1)'
+                            },
+                            ticks: {
+                                color: '#6c757d',
+                                font: {
+                                    size: 12
+                                }
+                            }
+                        }
+                    },
+                    elements: {
+                        point: {
+                            hoverRadius: 8
+                        }
                     }
                 }
             });
         }
 
-       
-        window.onclick = function(event) {
-            if (event.target.classList.contains('modal')) {
-                event.target.classList.remove('show');
+        function updateChart() {
+            if (!questionsChart) return;
+            
+            const agora = new Date();
+            const questoesPorMes = [];
+            
+            for (let i = 5; i >= 0; i--) {
+                const data = new Date(agora.getFullYear(), agora.getMonth() - i, 1);
+                const questoesDoMes = AppState.questoesCriadas.filter(q => {
+                    const questaoData = new Date(q.criadaEm);
+                    return questaoData.getFullYear() === data.getFullYear() && 
+                           questaoData.getMonth() === data.getMonth();
+                }).length;
+                
+                questoesPorMes.push(questoesDoMes);
+            }
+            
+            questionsChart.data.datasets[0].data = questoesPorMes;
+            questionsChart.update('none'); // Animação suave
+        }
+
+        // Funcionalidades extras
+        function exportarQuestoes() {
+            if (AppState.questoesCriadas.length === 0) {
+                showNotification('Não há questões para exportar.', 'warning');
+                return;
+            }
+            
+            const dataStr = JSON.stringify(AppState.questoesCriadas, null, 2);
+            const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
+            
+            const exportFileDefaultName = `questoes_seice_${new Date().toISOString().split('T')[0]}.json`;
+            
+            const linkElement = document.createElement('a');
+            linkElement.setAttribute('href', dataUri);
+            linkElement.setAttribute('download', exportFileDefaultName);
+            linkElement.click();
+            
+            showNotification('Questões exportadas com sucesso!', 'success');
+        }
+
+        function importarQuestoes() {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = '.json';
+            
+            input.onchange = function(e) {
+                const file = e.target.files[0];
+                if (!file) return;
+                
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    try {
+                        const questoes = JSON.parse(e.target.result);
+                        if (Array.isArray(questoes)) {
+                            AppState.questoesCriadas.push(...questoes);
+                            saveData();
+                            updateStats();
+                            updateChart();
+                            showNotification(`${questoes.length} questões importadas com sucesso!`, 'success');
+                        } else {
+                            throw new Error('Formato inválido');
+                        }
+                    } catch (error) {
+                        showNotification('Erro ao importar questões. Verifique o formato do arquivo.', 'error');
+                    }
+                };
+                reader.readAsText(file);
+            };
+            
+            input.click();
+        }
+
+        // Busca e filtros
+        function buscarQuestoes(termo) {
+            if (!termo.trim()) return AppState.questoesCriadas;
+            
+            const termoBusca = termo.toLowerCase();
+            return AppState.questoesCriadas.filter(questao => 
+                questao.enunciado.toLowerCase().includes(termoBusca) ||
+                questao.disciplina.toLowerCase().includes(termoBusca) ||
+                questao.dificuldade.toLowerCase().includes(termoBusca)
+            );
+        }
+
+        function filtrarQuestoes(filtros) {
+            let questoesFiltradas = [...AppState.questoesCriadas];
+            
+            if (filtros.disciplina) {
+                questoesFiltradas = questoesFiltradas.filter(q => q.disciplina === filtros.disciplina);
+            }
+            
+            if (filtros.dificuldade) {
+                questoesFiltradas = questoesFiltradas.filter(q => q.dificuldade === filtros.dificuldade);
+            }
+            
+            if (filtros.tipo) {
+                questoesFiltradas = questoesFiltradas.filter(q => q.tipo === filtros.tipo);
+            }
+            
+            return questoesFiltradas;
+        }
+
+        // Validações avançadas
+        function validarEnunciado(texto) {
+            const minCaracteres = 10;
+            const maxCaracteres = 2000;
+            
+            if (texto.length < minCaracteres) {
+                return `O enunciado deve ter pelo menos ${minCaracteres} caracteres.`;
+            }
+            
+            if (texto.length > maxCaracteres) {
+                return `O enunciado não pode exceder ${maxCaracteres} caracteres.`;
+            }
+            
+            return null;
+        }
+
+        function validarAlternativas(alternativas) {
+            const alternativasPreenchidas = Object.values(alternativas).filter(alt => alt && alt.trim());
+            
+            if (alternativasPreenchidas.length < 2) {
+                return 'É necessário preencher pelo menos 2 alternativas.';
+            }
+            
+            // Verificar se há alternativas duplicadas
+            const alternativasUnicas = new Set(alternativasPreenchidas.map(alt => alt.trim().toLowerCase()));
+            if (alternativasUnicas.size !== alternativasPreenchidas.length) {
+                return 'Não é possível ter alternativas duplicadas.';
+            }
+            
+            return null;
+        }
+
+        // Teclado e acessibilidade
+        function setupKeyboardShortcuts() {
+            document.addEventListener('keydown', function(e) {
+                // Ctrl+N - Nova questão
+                if (e.ctrlKey && e.key === 'n') {
+                    e.preventDefault();
+                    switchTab('criar-questao');
+                    limparFormulario();
+                    document.getElementById('enunciado').focus();
+                }
+                
+                // Ctrl+Shift+N - Nova prova
+                if (e.ctrlKey && e.shiftKey && e.key === 'N') {
+                    e.preventDefault();
+                    switchTab('criar-prova');
+                    limparFormularioProva();
+                    document.getElementById('nome-prova').focus();
+                }
+                
+                // Alt+1, Alt+2 - Alternar abas
+                if (e.altKey && e.key === '1') {
+                    e.preventDefault();
+                    switchTab('criar-questao');
+                }
+                
+                if (e.altKey && e.key === '2') {
+                    e.preventDefault();
+                    switchTab('criar-prova');
+                }
+            });
+        }
+
+        // Tema escuro (funcionalidade futura)
+        function toggleTheme() {
+            document.body.classList.toggle('dark-theme');
+            const isDark = document.body.classList.contains('dark-theme');
+            localStorage.setItem('seice_theme', isDark ? 'dark' : 'light');
+        }
+
+        function loadTheme() {
+            const savedTheme = localStorage.getItem('seice_theme');
+            if (savedTheme === 'dark') {
+                document.body.classList.add('dark-theme');
             }
         }
+
+        // Inicializar atalhos de teclado
+        setupKeyboardShortcuts();
         
+        // Adicionar listener para carregamento completo
+        window.addEventListener('load', function() {
+            // Verificar se há rascunhos salvos
+            const rascunhoQuestao = localStorage.getItem('seice_rascunho_questao');
+            const rascunhoProva = localStorage.getItem('seice_rascunho_prova');
+            
+            if (rascunhoQuestao || rascunhoProva) {
+                setTimeout(() => {
+                    if (confirm('Foram encontrados rascunhos salvos. Deseja recuperá-los?')) {
+                        if (rascunhoQuestao) {
+                            // Implementar recuperação de rascunho de questão
+                            showNotification('Rascunho de questão recuperado.', 'info');
+                        }
+                        if (rascunhoProva) {
+                            // Implementar recuperação de rascunho de prova
+                            showNotification('Rascunho de prova recuperado.', 'info');
+                        }
+                    }
+                }, 1000);
+            }
+        });
+
+        // Função para debugging (remover em produção)
+        function debugInfo() {
+            console.log('=== DEBUG INFO - Sistema SEICE ===');
+            console.log('Questões criadas:', AppState.questoesCriadas.length);
+            console.log('Provas criadas:', AppState.provasCriadas.length);
+            console.log('Sidebar collapsed:', AppState.sidebarCollapsed);
+            console.log('Estado completo:', AppState);
+        }
+
+        // Disponibilizar função debug no console
+        window.seiceDebug = debugInfo;
+
+        // Toast personalizado para feedback visual
+        function showToast(message, type = 'info', duration = 3000) {
+            const toast = document.createElement('div');
+            toast.className = `toast toast-${type}`;
+            toast.innerHTML = `
+                <i class="fas fa-${getNotificationIcon(type)}"></i>
+                <span>${message}</span>
+            `;
+            
+            toast.style.cssText = `
+                position: fixed;
+                bottom: 20px;
+                right: 20px;
+                background: ${type === 'success' ? '#00d4aa' : type === 'error' ? '#dc3545' : '#17a2b8'};
+                color: white;
+                padding: 12px 20px;
+                border-radius: 6px;
+                z-index: 4000;
+                transform: translateX(400px);
+                transition: transform 0.3s ease;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            `;
+            
+            document.body.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.style.transform = 'translateX(0)';
+            }, 100);
+            
+            setTimeout(() => {
+                toast.style.transform = 'translateX(400px)';
+                setTimeout(() => {
+                    document.body.removeChild(toast);
+                }, 300);
+            }, duration);
+        }
+
+        // Backup automático (opcional)
+        function backupData() {
+            const backup = {
+                questoes: AppState.questoesCriadas,
+                provas: AppState.provasCriadas,
+                timestamp: new Date().toISOString()
+            };
+            
+            localStorage.setItem('seice_backup', JSON.stringify(backup));
+            console.log('Backup realizado automaticamente');
+        }
+
+        // Executar backup a cada 10 minutos
+        setInterval(backupData, 10 * 60 * 1000);
+
+        console.log('Sistema SEICE carregado com sucesso!');
     </script>
 </body>
 </html>

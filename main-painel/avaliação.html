@@ -1984,12 +1984,12 @@
             }
         }
 
-        // Inicializar atalhos de teclado
+       
         setupKeyboardShortcuts();
         
-        // Adicionar listener para carregamento completo
+       
         window.addEventListener('load', function() {
-            // Verificar se há rascunhos salvos
+           
             const rascunhoQuestao = localStorage.getItem('seice_rascunho_questao');
             const rascunhoProva = localStorage.getItem('seice_rascunho_prova');
             
@@ -1997,11 +1997,11 @@
                 setTimeout(() => {
                     if (confirm('Foram encontrados rascunhos salvos. Deseja recuperá-los?')) {
                         if (rascunhoQuestao) {
-                            // Implementar recuperação de rascunho de questão
+                          
                             showNotification('Rascunho de questão recuperado.', 'info');
                         }
                         if (rascunhoProva) {
-                            // Implementar recuperação de rascunho de prova
+                           
                             showNotification('Rascunho de prova recuperado.', 'info');
                         }
                     }

@@ -1,6 +1,6 @@
 
 CREATE DATABASE IF NOT EXISTS seice_db CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-USE seice_db;
+USE seice_simulado;
 
 
 CREATE TABLE IF NOT EXISTS usuarios (

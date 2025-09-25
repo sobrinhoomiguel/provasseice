@@ -1,4 +1,5 @@
 // pages/api/questions/import.php
+<?php
 session_start();
 require_once '../../../backend/config.php';
 require_once '../../../backend/classes/Question.php';
